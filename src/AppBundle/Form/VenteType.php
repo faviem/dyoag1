@@ -11,8 +11,6 @@ use AppBundle\Form\ProductType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
-use AppBundle\Form\EventListener\AddCityFieldSubscriber;
-use AppBundle\Form\EventListener\AddProvinceFieldSubscriber;
 class VenteType extends AbstractType
 {
     /**
@@ -21,13 +19,6 @@ class VenteType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $propertyPathToCity = 'city';
-
-        $builder
-            ->addEventSubscriber(new AddProvinceFieldSubscriber($propertyPathToCity))
-            ->addEventSubscriber(new AddCityFieldSubscriber($propertyPathToCity))
-
-        ;
         
         $builder
             ->add('product', ProductType::class)   
@@ -37,7 +28,15 @@ class VenteType extends AbstractType
 //                'choice_name'  => 'name',
 //                'placeholder' => 'Choisissez votre produit',
 //                'required' => true
-//            ))
+//            )) 
+            ->add('district', EntityType::class, array(
+                'class'     => 'AppBundle:District',
+                'group_by'  => 'ProvinceCitydata',
+                'choice_name'  => 'name',
+                'placeholder' => 'Choisissez votre arrondissement',
+                'required' => true
+            ))
+                
             ->add('lieu')
             ->add('quantite')
             ->add('uniteMesure', ChoiceType::class, array(

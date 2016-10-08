@@ -17,32 +17,35 @@
 
 define(
     [
-    'jquery'
+    'jquery',
+    'chosen'
 ],
     function($) {
         'use strict';
 
         $(function(){
 
-            $("#vente_province").change(function(){
-                var data = {
-                    province_id: $(this).val()
-                };
-
-                $.ajax({
-                    type: 'post',
-                    url: Routing.generate('vente_select_cities'),
-                    data: data,
-                    success: function(data) {
-                        var $city_selector = $('#vente_city');
-                        $city_selector.html('<option>Ville</option>');
-
-                        for (var i=0, total = data.length; i < total; i++) {
-                            $city_selector.append('<option value="' + data[i].id + '">' + data[i].name + '</option>');
-                        }
-                    }
-                });
-            });
+$('select').chosen();
+$('.chosen-results li').css('text-align','left');
+//            $("#vente_province").change(function(){
+//                var data = {
+//                    province_id: $(this).val()
+//                };
+//
+//                $.ajax({
+//                    type: 'post',
+//                    url: Routing.generate('vente_select_cities'),
+//                    data: data,
+//                    success: function(data) {
+//                        var $city_selector = $('#vente_city');
+//                        $city_selector.html('<option>Ville</option>');
+//
+//                        for (var i=0, total = data.length; i < total; i++) {
+//                            $city_selector.append('<option value="' + data[i].id + '">' + data[i].name + '</option>');
+//                        }
+//                    }
+//                });
+//            });
         });
     }
 );
