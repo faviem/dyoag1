@@ -23,7 +23,8 @@ requirejs.config({
         'backbone.localStorage': '/assets/js/backbone.localStorage',
         'twig': 'vendor/twig',
         'backbone.nested': '/assets/js/backbone-nested',
-        'backbone.associations': '/assets/js/backbone-associations'
+        'backbone.associations': '/assets/js/backbone-associations',
+        'chosen': '/assets/js/chosen'
     },
     
     shim: {
@@ -44,6 +45,10 @@ requirejs.config({
         
         'backbone.nested':{
             deps:    ['backbone', 'backbone.associations']
+        },
+        
+          'chosen': {
+            deps:    ['jquery'],
         }
     }
 });

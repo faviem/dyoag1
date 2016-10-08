@@ -19,6 +19,7 @@ module.exports = function (grunt) {
                     'js/backbone.localStorage.js': 'backbone.localStorage/backbone.localStorage-min.js',
                     'js/backbone-nested.js': 'backbone-nested-model/backbone-nested.js',
                     'js/backbone-associations.js': 'backbone-associations/backbone-associations-min.js',
+                    'js/chosen.js': 'chosen-bower/chosen.jquery.min.js',
                     
                 }
             },

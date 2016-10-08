@@ -44,6 +44,11 @@ class City
      * @ORM\JoinColumn(name="province_id", referencedColumnName="id")
      */
     protected $province;
+    
+     /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\District", mappedBy="city")
+     */
+    protected $districts;
 
     /**
      * Get id
@@ -128,4 +133,46 @@ class City
     {
         return $this->name;
     }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->districts = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add district
+     *
+     * @param \AppBundle\Entity\District $district
+     *
+     * @return City
+     */
+    public function addDistrict(\AppBundle\Entity\District $district)
+    {
+        $this->districts[] = $district;
+
+        return $this;
+    }
+
+    /**
+     * Remove district
+     *
+     * @param \AppBundle\Entity\District $district
+     */
+    public function removeDistrict(\AppBundle\Entity\District $district)
+    {
+        $this->districts->removeElement($district);
+    }
+
+    /**
+     * Get districts
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getDistricts()
+    {
+        return $this->districts;
+    }
+    
 }

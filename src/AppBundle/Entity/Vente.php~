@@ -101,12 +101,12 @@ class Vente
     private $user;
     
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\City")
-     * @ORM\JoinColumn(name="city_id", referencedColumnName="id")
-     * @Assert\Type("AppBundle\Entity\City")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\District")
+     * @ORM\JoinColumn(name="district_id", referencedColumnName="id")
+     * @Assert\Type("AppBundle\Entity\District")
      * @Assert\NotNull()
      */
-    protected $city;
+    protected $district;
     
     
 
@@ -448,27 +448,27 @@ class Vente
     }
 
     /**
-     * Set city
+     * Set district
      *
-     * @param \AppBundle\Entity\City $city
+     * @param \AppBundle\Entity\District $district
      *
      * @return Vente
      */
-    public function setCity(\AppBundle\Entity\City $city = null)
+    public function setDistrict(\AppBundle\Entity\District $district = null)
     {
-        $this->city = $city;
+        $this->district = $district;
 
         return $this;
     }
 
     /**
-     * Get city
+     * Get district
      *
-     * @return \AppBundle\Entity\City
+     * @return \AppBundle\Entity\District
      */
-    public function getCity()
+    public function getDistrict()
     {
-        return $this->city;
+        return $this->district;
     }
     
     static public function getLuceneIndex()
