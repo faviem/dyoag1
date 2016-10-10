@@ -10,7 +10,11 @@ app_commande:
 app_vente:
     resource: "@AppBundle/Controller/VenteController.php"
     type:     annotation
-
+    
+app_dashboard:
+    resource: "@AppBundle/Controller/DashboardController.php"
+    type:     annotation
+    
 ben_agro:
     resource: "@BenUserBundle/Resources/config/routing.yml"
     prefix:   /user

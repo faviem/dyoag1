@@ -12,18 +12,10 @@ requirejs.config({
     
     baseUrl: '/js/app',
     paths: {
-        'jquery': '/assets/js/jquery',
+      
         'jquery.ui': '/assets/js/jquery-ui',
-        'bootstrap': '/assets/js/bootstrap',
-        'underscore': '/assets/js/underscore',
-        'backbone': '/assets/js/backbone',
-        'gridster': '/assets/js/gridster',
-        'image.picker': '/assets/js/image-picker',
-        'template_selector_group': 'view/templateselector/TemplateSelectorGroup',
-        'backbone.localStorage': '/assets/js/backbone.localStorage',
-        'twig': 'vendor/twig',
-        'backbone.nested': '/assets/js/backbone-nested',
-        'backbone.associations': '/assets/js/backbone-associations',
+         'bootstrap.dashboard': '/assets/js/bootstrap',
+   
         'chosen': '/assets/js/chosen',
         //dashboard
         'jquery-1.10.2': '/assets/js/jquery-1.10.2',
@@ -42,13 +34,7 @@ requirejs.config({
     },
     
     shim: {
-        'underscore': {
-            exports: '_'
-        },
-        'backbone': {
-            deps: ['underscore', 'jquery'],
-            exports: 'Backbone'
-        },
+      
         'jquery.ui': {
             deps:    ['jquery'],
             exports: '$'
@@ -56,11 +42,7 @@ requirejs.config({
         'bootstrap': {
             deps:    ['jquery'],
         },
-        
-        'backbone.nested':{
-            deps:    ['backbone', 'backbone.associations']
-        },
-        
+       
           'chosen': {
             deps:    ['jquery'],
         }
