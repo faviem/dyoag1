@@ -20,22 +20,7 @@ module.exports = function (grunt) {
                     'js/backbone-nested.js': 'backbone-nested-model/backbone-nested.js',
                     'js/backbone-associations.js': 'backbone-associations/backbone-associations-min.js',
                     'js/chosen.js': 'chosen-bower/chosen.jquery.min.js',
-                    //pour le dashboard
-                     'js/jquery-1.10.2.js': 'dashboard/jquery-1.10.2.min.js',
-                     'js/amcharts.js': 'dashboard/amcharts.js',
-                     'js/serial.js': 'dashboard/serial.js',
-                     'js/light.js': 'dashboard/light.js',
-                     'js/radar.js': 'dashboard/radar.js',
-                     'js/css3clock.js': 'dashboard/css3clock.js',
-                     'js/skycons.js': 'dashboard/skycons.js',
-                     'js/jquery.easydropdown.js': 'dashboard/jquery.easydropdown.js',
-                     'js/CSSPlugin.js': 'dashboard/CSSPlugin.min.js',
-                     'js/vroom.js': 'dashboard/vroom.js',
-                     'js/TweenLite.js': 'dashboard/TweenLite.min.js',
-                     'js/jquery.nicescroll.js': 'dashboard/jquery.nicescroll.js',
-                    'js/scripts.js': 'dashboard/scripts.js',
-                     'js/bootstrap.dashboard.js': 'dashboard/bootstrap.min.js'
-                    
+                    //pour le dashboard 
                 }
             },
             stylesheets: {
@@ -56,7 +41,12 @@ module.exports = function (grunt) {
             bundled: {
                 src: 'web/assets/css/benagro.css',
                 dest: 'web/assets/css/benagro.min.css'
-            }
+            },
+            dashboard: {
+                src: 'web/assets/css/dashboard.css',
+                dest: 'web/assets/css/dashboard.min.css'
+            },
+            
         },
         uglify: {
             options: {
@@ -79,10 +69,14 @@ module.exports = function (grunt) {
                     //'web/assets/css/bootstrap.css',
                     'web/assets/css/font-awesome.css',
                     'src/AppBundle/Resources/public/css/*.css',
-                    'src/AppBundle/Resources/public/css/dashboard/*.css'
                 ],
                 dest: 'web/assets/css/benagro.css'
             },
+            dashboardCSS: {
+                src: "src/AppBundle/Resources/public/css/dashboard/*.css",            
+                dest: "web/assets/css/dashboard.css"
+            },
+
             js: {
                 src: [
                     //'src/AppBundle/Resources/public/js/*.js',

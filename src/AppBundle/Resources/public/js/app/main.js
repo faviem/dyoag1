@@ -26,19 +26,7 @@ requirejs.config({
         'backbone.associations': '/assets/js/backbone-associations',
         'chosen': '/assets/js/chosen',
         //dashboard
-        'jquery-1.10.2': '/assets/js/jquery-1.10.2',
-        'amcharts': '/assets/js/amcharts',
-        'serial': '/assets/js/serial',
-        'light': '/assets/js/light',
-        'radar': '/assets/js/radar',
-        'css3clock': '/assets/js/css3clock',
-        'skycons': '/assets/js/skycons',
-        'jquery.easydropdown': '/assets/js/jquery.easydropdown',
-        'CSSPlugin': '/assets/js/CSSPlugin',
-        'vroom': '/assets/js/vroom',
-        'TweenLite': '/assets/js/TweenLite',
-        'jquery.nicescroll': '/assets/js/jquery.nicescroll',
-        'scripts': '/assets/js/scripts'
+        'jquery.nicescroll': 'vendor/jquery.nicescroll',
     },
     
     shim: {
