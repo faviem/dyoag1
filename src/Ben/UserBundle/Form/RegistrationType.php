@@ -11,8 +11,8 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
-class RegistrationType extends AbstractType
-{
+class RegistrationType extends AbstractType {
+
 //    protected $class;
 //
 //    /**
@@ -21,56 +21,72 @@ class RegistrationType extends AbstractType
 //    public function __construct($class, $roles_hierarchy = null) {
 //        $this->class = $class;
 //        $this->roles_hierarchy = $roles_hierarchy;
-//        
+//
 //    }
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
         parent::buildForm($builder, $options);
 
         $builder
-                
-                ->add('firstname',  TextType::class , array(
+                ->add('firstname', TextType::class, array(
                     'attr' => array(
                         'placeholder' => 'registration.firstname',
                     )
                 ))
-                ->add('lastname',  TextType::class , array(
+                ->add('lastname', TextType::class, array(
                     'attr' => array(
                         'placeholder' => 'registration.lastname',
                     )
                 ))
-                ->add('phone',  TextType::class , array(
+                ->add('phone', TextType::class, array(
                     'attr' => array(
                         'placeholder' => 'registration.phone',
                     )
                 ))
-                
-                ->add('username',  TextType::class , array(
+                ->add('username', TextType::class, array(
                     'attr' => array(
                         'placeholder' => 'registration.name',
                     )
                 ))
-                ->add('email', EmailType::class , array(
+                ->add('email', EmailType::class, array(
                     'attr' => array(
                         'placeholder' => 'registration.form_email',
                     )
                 ))
-                ->add('plainPassword', PasswordType::class , array(
+                ->add('plainPassword', PasswordType::class, array(
                     'attr' => array(
                         'placeholder' => 'registration.password',
                     )
                 ))
-
+                ->add('typeProfile', ChoiceType::class, array(
+                    'choices' => array(
+                        'Producteur' => 'Producteur',
+                        'Grossiste' => 'Grossiste',
+                        'Courtier' => 'Courtier',
+                        'Détaillant' => 'Détaillant',
+                        'Autres' => 'Autres',
+                    ),
+                    'placeholder' => 'Vous êtes',
+                    'required' => true
+                ))
+                ->add('domaine', ChoiceType::class, array(
+                    'choices' => array(
+                        'Fruits et légumes' => 'Fruits et légumes',
+                        'Céréales' => 'Céréales',
+                        'Autres' => 'Autres',
+                    ),
+                    'placeholder' => 'Spécialisé en',
+                    'required' => true
+                ))
                 ->add('profil', ChoiceType::class, array(
-                    'choices'  => array(
-                        'Client' => '1',
-                        'Agriculteur' => '2',
+                    'choices' => array(
+                        'Particlier' => 'Particlier',
+                        'Professionnel' => 'Professionnel',
                     ),
                     'placeholder' => 'Votre profile',
                     'required' => true
                 ))
-
-                ;
+        ;
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver) {
@@ -82,23 +98,20 @@ class RegistrationType extends AbstractType
         ));
     }
 
-
-    public function getParent()
-    {
+    public function getParent() {
         return 'FOS\UserBundle\Form\Type\RegistrationFormType';
 
         // Or for Symfony < 2.8
         // return 'fos_user_registration';
     }
 
-    public function getBlockPrefix()
-    {
+    public function getBlockPrefix() {
         return 'ben_user_registration';
     }
 
-    // For Symfony 2.x
-    public function getName()
-    {
+    // For Symfony2.x
+    public function getName() {
         return $this->getBlockPrefix();
     }
+
 }
