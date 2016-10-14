@@ -8,6 +8,7 @@ use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 /**
  * A person (alive, dead, undead, or fictional).
  *
@@ -24,14 +25,13 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *     {
  *     "user"="AppBundle\Entity\User\User",
  *     "admin"="AppBundle\Entity\User\Admin",
- *     "customer"="AppBundle\Entity\User\Customer",
- *     "farmer"="AppBundle\Entity\User\Farmer"
+ *     "customer"="AppBundle\Entity\User\Particular",
+ *     "farmer"="AppBundle\Entity\User\Professional"
  *     }
  * )
- */ 
+ */
+class User extends BaseUser {
 
-class User extends BaseUser
-{
     /**
      * @var int
      *
@@ -40,11 +40,12 @@ class User extends BaseUser
      * @ORM\GeneratedValue(strategy="UUID")
      */
     protected $id;
+
     /**
      * @var string The username of the author.
      *
      * @Groups({"user_read", "user_write"})
-     * 
+     *
      * @Assert\Length(min="6")
      */
     protected $username;
@@ -76,7 +77,7 @@ class User extends BaseUser
      * @Groups({"user_read", "user_write"})
      */
     protected $roles;
-    
+
     /**
      * @var string
      *
@@ -99,6 +100,7 @@ class User extends BaseUser
      * @ORM\Column(name="user_phone", type="string", length=45, nullable=false)
      */
     private $phone;
+
     /**
      * @var \DateTime Date of birth.
      *
@@ -114,16 +116,32 @@ class User extends BaseUser
      * @Assert\Type(type="string")
      */
     private $gender;
-    
+
     /**
-     * @var string 
+     * @var string
      *
      * @ORM\Column(nullable=false)
      * @Assert\Type(type="string")
      * @Assert\NotNull()
      */
     private $profil;
-    
+
+    /**
+     * @var string Vous etes $typeProfile
+     *
+     * @ORM\Column(name="professional_type_profile", type="string", length=45, nullable=false)
+     * @Assert\Length(min="5")
+     */
+    private $typeProfile;
+
+    /**
+     * @var string specialisé en $domaine
+     *
+     * @ORM\Column(name="professional_field", type="string", length=45, nullable=false)
+     * @Assert\Length(min="5")
+     */
+    private $domaine;
+
     /**
      * @var string The avatar.
      *
@@ -137,17 +155,14 @@ class User extends BaseUser
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Vente", mappedBy="user", cascade={"persist"})
      */
     private $ventes;
-    
-    
+
     /**
      * @var commandes[]
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Commande", mappedBy="user", cascade={"persist"})
      */
     private $commandes;
-    
-    
-    public function __construct()
-    {
+
+    public function __construct() {
         parent::__construct();
         $this->commandes = new ArrayCollection();
         $this->ventes = new ArrayCollection();
@@ -159,8 +174,7 @@ class User extends BaseUser
      * @param \DateTime $birthDate
      * @return User
      */
-    public function setBirthDate($birthDate)
-    {
+    public function setBirthDate($birthDate) {
         $this->birthDate = $birthDate;
 
         return $this;
@@ -169,10 +183,9 @@ class User extends BaseUser
     /**
      * Get birthDate
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
-    public function getBirthDate()
-    {
+    public function getBirthDate() {
         return $this->birthDate;
     }
 
@@ -182,8 +195,7 @@ class User extends BaseUser
      * @param string $description
      * @return User
      */
-    public function setDescription($description)
-    {
+    public function setDescription($description) {
         $this->description = $description;
 
         return $this;
@@ -192,10 +204,9 @@ class User extends BaseUser
     /**
      * Get description
      *
-     * @return string 
+     * @return string
      */
-    public function getDescription()
-    {
+    public function getDescription() {
         return $this->description;
     }
 
@@ -205,8 +216,7 @@ class User extends BaseUser
      * @param string $gender
      * @return User
      */
-    public function setGender($gender)
-    {
+    public function setGender($gender) {
         $this->gender = $gender;
 
         return $this;
@@ -215,10 +225,9 @@ class User extends BaseUser
     /**
      * Get gender
      *
-     * @return string 
+     * @return string
      */
-    public function getGender()
-    {
+    public function getGender() {
         return $this->gender;
     }
 
@@ -228,8 +237,7 @@ class User extends BaseUser
      * @param string $name
      * @return User
      */
-    public function setName($name)
-    {
+    public function setName($name) {
         $this->name = $name;
 
         return $this;
@@ -238,10 +246,9 @@ class User extends BaseUser
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
 
@@ -251,8 +258,7 @@ class User extends BaseUser
      * @param string $avatar
      * @return User
      */
-    public function setAvatar($avatar)
-    {
+    public function setAvatar($avatar) {
         $this->avatar = $avatar;
 
         return $this;
@@ -261,10 +267,9 @@ class User extends BaseUser
     /**
      * Get avatar
      *
-     * @return string 
+     * @return string
      */
-    public function getAvatar()
-    {
+    public function getAvatar() {
         return $this->avatar;
     }
 
@@ -274,8 +279,7 @@ class User extends BaseUser
      * @param \AppBundle\Entity\Vente $ventes
      * @return User
      */
-    public function addVente(\AppBundle\Entity\Vente $ventes)
-    {
+    public function addVente(\AppBundle\Entity\Vente $ventes) {
         $this->ventes[] = $ventes;
 
         return $this;
@@ -286,18 +290,16 @@ class User extends BaseUser
      *
      * @param \AppBundle\Entity\Vente $ventes
      */
-    public function removeVente(\AppBundle\Entity\Vente $ventes)
-    {
+    public function removeVente(\AppBundle\Entity\Vente $ventes) {
         $this->ventes->removeElement($ventes);
     }
 
     /**
      * Get ventes
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getVentes()
-    {
+    public function getVentes() {
         return $this->ventes;
     }
 
@@ -307,8 +309,7 @@ class User extends BaseUser
      * @param \AppBundle\Entity\Commande $commandes
      * @return User
      */
-    public function addCommande(\AppBundle\Entity\Commande $commandes)
-    {
+    public function addCommande(\AppBundle\Entity\Commande $commandes) {
         $this->commandes[] = $commandes;
 
         return $this;
@@ -319,21 +320,19 @@ class User extends BaseUser
      *
      * @param \AppBundle\Entity\Commande $commandes
      */
-    public function removeCommande(\AppBundle\Entity\Commande $commandes)
-    {
+    public function removeCommande(\AppBundle\Entity\Commande $commandes) {
         $this->commandes->removeElement($commandes);
     }
 
     /**
      * Get commandes
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getCommandes()
-    {
+    public function getCommandes() {
         return $this->commandes;
     }
-    
+
 //    static function getRoleNames()
 //    {
 //        $pathToSecurity = __DIR__ . '/../../../..' . '/app/config/security.yml';
@@ -369,8 +368,7 @@ class User extends BaseUser
      *
      * @return User
      */
-    public function setProfil($profil)
-    {
+    public function setProfil($profil) {
         $this->profil = $profil;
 
         return $this;
@@ -381,8 +379,7 @@ class User extends BaseUser
      *
      * @return string
      */
-    public function getProfil()
-    {
+    public function getProfil() {
         return $this->profil;
     }
 
@@ -393,8 +390,7 @@ class User extends BaseUser
      *
      * @return User
      */
-    public function setFirstName($firstName)
-    {
+    public function setFirstName($firstName) {
         $this->firstName = $firstName;
 
         return $this;
@@ -405,8 +401,7 @@ class User extends BaseUser
      *
      * @return string
      */
-    public function getFirstName()
-    {
+    public function getFirstName() {
         return $this->firstName;
     }
 
@@ -417,8 +412,7 @@ class User extends BaseUser
      *
      * @return User
      */
-    public function setLastName($lastName)
-    {
+    public function setLastName($lastName) {
         $this->lastName = $lastName;
 
         return $this;
@@ -429,8 +423,7 @@ class User extends BaseUser
      *
      * @return string
      */
-    public function getLastName()
-    {
+    public function getLastName() {
         return $this->lastName;
     }
 
@@ -441,8 +434,7 @@ class User extends BaseUser
      *
      * @return User
      */
-    public function setPhone($phone)
-    {
+    public function setPhone($phone) {
         $this->phone = $phone;
 
         return $this;
@@ -453,8 +445,52 @@ class User extends BaseUser
      *
      * @return string
      */
-    public function getPhone()
-    {
+    public function getPhone() {
         return $this->phone;
     }
+
+    /**
+     * Set typeProfile
+     *
+     * @param string $typeProfile
+     *
+     * @return User
+     */
+    public function setTypeProfile($typeProfile) {
+        $this->typeProfile = $typeProfile;
+
+        return $this;
+    }
+
+    /**
+     * Get typeProfile
+     *
+     * @return string
+     */
+    public function getTypeProfile() {
+        return $this->typeProfile;
+    }
+
+    /**
+     * Set domaine
+     *
+     * @param string $domaine
+     *
+     * @return User
+     */
+    public function setDomaine($domaine) {
+        $this->domaine = $domaine;
+
+        return $this;
+    }
+
+    /**
+     * Get domaine
+     *
+     * @return string
+     */
+    public function getDomaine() {
+        return $this->domaine;
+    }
+
 }

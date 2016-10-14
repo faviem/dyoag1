@@ -98,4 +98,10 @@ class District
     {
         return $this->name;
     }
+    
+    public function getProvinceCitydata()
+    {
+        return $this->getCity()->getProvince()->getName().'  ('.$this->getCity()->getName().')';
+    }
+    
 }
