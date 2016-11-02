@@ -10,14 +10,14 @@ use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
- * Vente
+ * Demand
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="AppBundle\Entity\VenteRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\DemandRepository")
  * @ORM\HasLifecycleCallbacks()
  * @Vich\Uploadable
  */
-class Vente {
+class Demand {
 
     /**
      * @var int
@@ -92,11 +92,6 @@ class Vente {
     private $product;
 
     /**
-     * @ORM\OneToMany(targetEntity="Order", mappedBy="vente", cascade={"persist"})
-     */
-    private $orders;
-
-    /**
      * @var User\User
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User\User", inversedBy="ventes")
      */
@@ -109,6 +104,11 @@ class Vente {
      * @Assert\NotNull()
      */
     protected $district;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Demand", mappedBy="demand", cascade={"persist"})
+     */
+    private $supplies;
 
     /**
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
@@ -184,7 +184,7 @@ class Vente {
     }
 
     public function __construct() {
-        $this->orders = new ArrayCollection();
+        $this->supplies = new ArrayCollection();
     }
 
     /**
@@ -247,7 +247,7 @@ class Vente {
      *
      * @param \AppBundle\Entity\District $district
      *
-     * @return Vente
+     * @return Demand
      */
     public function setDistrict(\AppBundle\Entity\District $district = null) {
         $this->district = $district;
@@ -339,7 +339,7 @@ class Vente {
      *
      * @param string $lieu
      *
-     * @return Vente
+     * @return Demand
      */
     public function setLieu($lieu)
     {
@@ -363,7 +363,7 @@ class Vente {
      *
      * @param integer $quantite
      *
-     * @return Vente
+     * @return Demand
      */
     public function setQuantite($quantite)
     {
@@ -387,7 +387,7 @@ class Vente {
      *
      * @param integer $prixUnit
      *
-     * @return Vente
+     * @return Demand
      */
     public function setPrixUnit($prixUnit)
     {
@@ -411,7 +411,7 @@ class Vente {
      *
      * @param string $description
      *
-     * @return Vente
+     * @return Demand
      */
     public function setDescription($description)
     {
@@ -435,7 +435,7 @@ class Vente {
      *
      * @param boolean $published
      *
-     * @return Vente
+     * @return Demand
      */
     public function setPublished($published)
     {
@@ -459,7 +459,7 @@ class Vente {
      *
      * @param \AppBundle\Entity\Product $product
      *
-     * @return Vente
+     * @return Demand
      */
     public function setProduct(\AppBundle\Entity\Product $product)
     {
@@ -479,45 +479,11 @@ class Vente {
     }
 
     /**
-     * Add order
-     *
-     * @param \AppBundle\Entity\Order $order
-     *
-     * @return Vente
-     */
-    public function addOrder(\AppBundle\Entity\Order $order)
-    {
-        $this->orders[] = $order;
-
-        return $this;
-    }
-
-    /**
-     * Remove order
-     *
-     * @param \AppBundle\Entity\Order $order
-     */
-    public function removeOrder(\AppBundle\Entity\Order $order)
-    {
-        $this->orders->removeElement($order);
-    }
-
-    /**
-     * Get orders
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getOrders()
-    {
-        return $this->orders;
-    }
-
-    /**
      * Set user
      *
      * @param \AppBundle\Entity\User\User $user
      *
-     * @return Vente
+     * @return Demand
      */
     public function setUser(\AppBundle\Entity\User\User $user = null)
     {
@@ -534,5 +500,39 @@ class Vente {
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * Add supply
+     *
+     * @param \AppBundle\Entity\Demand $supply
+     *
+     * @return Demand
+     */
+    public function addSupply(\AppBundle\Entity\Demand $supply)
+    {
+        $this->supplies[] = $supply;
+
+        return $this;
+    }
+
+    /**
+     * Remove supply
+     *
+     * @param \AppBundle\Entity\Demand $supply
+     */
+    public function removeSupply(\AppBundle\Entity\Demand $supply)
+    {
+        $this->supplies->removeElement($supply);
+    }
+
+    /**
+     * Get supplies
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSupplies()
+    {
+        return $this->supplies;
     }
 }

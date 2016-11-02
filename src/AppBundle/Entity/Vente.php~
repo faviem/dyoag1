@@ -17,8 +17,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @ORM\HasLifecycleCallbacks()
  * @Vich\Uploadable
  */
-class Vente
-{
+class Vente {
 
     /**
      * @var int
@@ -28,78 +27,81 @@ class Vente
      * @ORM\GeneratedValue(strategy="UUID")
      */
     private $id;
-    
+
     /**
      * @var lieu Lieu ou se trouve le produit.
-     * 
+     *
      * @ORM\Column(type="string")
      */
     private $lieu;
-    
-    
+
     /**
-     * @var dateCreation la date de creation vente.
-     * 
+     * @var dateCreation la date de creation de l 'offre.
+     *
      *
      * @ORM\Column(type="datetime")
      */
     private $dateCreation;
-    
 
     /**
      * @var quantite
-     * 
+     *
      *
      * @ORM\Column(type="integer")
      */
     private $quantite;
 
     /**
-     * @var uniteMesure Unite de mesure
-     * 
+     * @var dateLimit date limite de l'offre
      *
-     * @ORM\Column(type="string")
-     */
-    private $uniteMesure;
-    
-    /**
-     * @var dateLimit date de limite
-     * 
-     *
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="datetime")
      */
     private $dateLimit;
-    
+
     /**
      * @var prixUnit prix unitaire
-     * 
+     *
      *
      * @ORM\Column(type="integer")
      */
     private $prixUnit;
-    
+
     /**
      * @var description detail complementaire
-     * 
+     *
      *
      * @ORM\Column(type="text")
      */
     private $description;
-    
 
-    
+    /**
+     * @var public boolean. offre published
+     * @ORM\Column(type="boolean", options={"default" : false})
+     */
+    private $published = false;
+
     /**
      * @var Product
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Product", cascade={"persist"})
      */
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Product", inversedBy="ventes")
+     * @ORM\JoinColumn(name="product_id", referencedColumnName="id", nullable=false)
+     */
     private $product;
-    
+
+    /**
+     * @ORM\OneToMany(targetEntity="Order", mappedBy="vente", cascade={"persist"})
+     */
+    private $orders;
+
     /**
      * @var User\User
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User\User", inversedBy="ventes")
      */
     private $user;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\District")
      * @ORM\JoinColumn(name="district_id", referencedColumnName="id")
@@ -107,14 +109,12 @@ class Vente
      * @Assert\NotNull()
      */
     protected $district;
-    
-    
 
     /**
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
-     * 
+     *
      * @Vich\UploadableField(mapping="product_image", fileNameProperty="imageName")
-     * 
+     *
      * @var File
      */
     private $imageFile;
@@ -127,19 +127,14 @@ class Vente
     private $imageName;
 
     /**
+     * Date de modifcation de l'offre
+     *
      * @ORM\Column(type="datetime")
      *
      * @var \DateTime
      */
     private $updatedAt;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable = true)
-     *
-     * @var string
-     */
-    private $productCategroy;
-    
     /**
      * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
      * of 'UploadedFile' is injected into this setter to trigger the  update. If this
@@ -151,8 +146,7 @@ class Vente
      *
      * @return Product
      */
-    public function setImageFile(File $image = null)
-    {
+    public function setImageFile(File $image = null) {
         $this->imageFile = $image;
 
         if ($image) {
@@ -167,8 +161,7 @@ class Vente
     /**
      * @return File
      */
-    public function getImageFile()
-    {
+    public function getImageFile() {
         return $this->imageFile;
     }
 
@@ -177,8 +170,7 @@ class Vente
      *
      * @return Product
      */
-    public function setImageName($imageName)
-    {
+    public function setImageName($imageName) {
         $this->imageName = $imageName;
 
         return $this;
@@ -187,253 +179,57 @@ class Vente
     /**
      * @return string
      */
-    public function getImageName()
-    {
+    public function getImageName() {
         return $this->imageName;
-    }   
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 
-    /**
-     * Set lieu
-     *
-     * @param string $lieu
-     * @return Vente
-     */
-    public function setLieu($lieu)
-    {
-        $this->lieu = $lieu;
-
-        return $this;
-    }
-
-    /**
-     * Get lieu
-     *
-     * @return string 
-     */
-    public function getLieu()
-    {
-        return $this->lieu;
-    }
-
-    /**
-     * Set poids
-     *
-     * @param integer $poids
-     * @return Vente
-     */
-    public function setPoids($poids)
-    {
-        $this->poids = $poids;
-
-        return $this;
-    }
-
-    /**
-     * Get poids
-     *
-     * @return integer 
-     */
-    public function getPoids()
-    {
-        return $this->poids;
-    }
-    
-    /**
-     * Set quantite
-     *
-     * @param integer $quantite
-     * @return Vente
-     */
-    public function setQuantite($quantite)
-    {
-        $this->quantite = $quantite;
-
-        return $this;
-    }
-
-    /**
-     * Get quantite
-     *
-     * @return integer 
-     */
-    public function getQuantite()
-    {
-        return $this->quantite;
-    }
-
-    /**
-     * Set uniteMesure
-     *
-     * @param integer $uniteMesure
-     * @return Vente
-     */
-    public function setUniteMesure($uniteMesure)
-    {
-        $this->uniteMesure = $uniteMesure;
-
-        return $this;
-    }
-
-    /**
-     * Get uniteMesure
-     *
-     * @return integer 
-     */
-    public function getUniteMesure()
-    {
-        return $this->uniteMesure;
+    public function __construct() {
+        $this->orders = new ArrayCollection();
     }
 
     /**
      * Set dateLimit
-     *
+     * Chaque offre a 30 jours de visibilité
      * @ORM\PrePersist
      */
-    public function setDateLimit()
-    {
+    public function setDateLimit() {
         $this->dateLimit = new \DateTime();
-        $this->dateLimit->add(new \DateInterval('P5D'));
+        $this->dateLimit->add(new \DateInterval('P30D'));
     }
 
     /**
      * Get dateLimit
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
-    public function getDateLimit()
-    {
+    public function getDateLimit() {
         return $this->dateLimit;
     }
 
     /**
-     * Set prixUnit
-     *
-     * @param integer $prixUnit
-     * @return Vente
-     */
-    public function setPrixUnit($prixUnit)
-    {
-        $this->prixUnit = $prixUnit;
-
-        return $this;
-    }
-
-    /**
-     * Get prixUnit
-     *
-     * @return integer 
-     */
-    public function getPrixUnit()
-    {
-        return $this->prixUnit;
-    }
-
-    /**
-     * Set description
-     *
-     * @param string $description
-     * @return Vente
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * Get description
-     *
-     * @return string 
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-
-    /**
-     * Set product
-     *
-     * @param \AppBundle\Entity\Product $product
-     * @return Vente
-     */
-    public function setProduct(\AppBundle\Entity\Product $product = null)
-    {
-        $this->product = $product;
-
-        return $this;
-    }
-
-    /**
-     * Get product
-     *
-     * @return \AppBundle\Entity\Product 
-     */
-    public function getProduct()
-    {
-        return $this->product;
-    }
-
-    /**
-     * Set user
-     *
-     * @param \AppBundle\Entity\User\User $user
-     * @return Vente
-     */
-    public function setUser(\AppBundle\Entity\User\User $user = null)
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    /**
-     * Get user
-     *
-     * @return \AppBundle\Entity\User\User 
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
-    
-    /**
      * Set createdAt
-     **
+     * *
      * @ORM\PrePersist
      */
-    public function setDateCreation()
-    {
+    public function setDateCreation() {
         $this->dateCreation = new \DateTime();
     }
 
     /**
      * Get dateCreation
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
-    public function getDateCreation()
-    {
+    public function getDateCreation() {
         return $this->dateCreation;
     }
-    
+
     /**
      * Set updatedAt
      *
      * @ORM\PreUpdate
      */
-    public function setUpdatedAt()
-    {
+    public function setUpdatedAt() {
         $this->updatedAt = new \DateTime();
     }
 
@@ -442,8 +238,7 @@ class Vente
      *
      * @return \DateTime
      */
-    public function getUpdatedAt()
-    {
+    public function getUpdatedAt() {
         return $this->updatedAt;
     }
 
@@ -454,8 +249,7 @@ class Vente
      *
      * @return Vente
      */
-    public function setDistrict(\AppBundle\Entity\District $district = null)
-    {
+    public function setDistrict(\AppBundle\Entity\District $district = null) {
         $this->district = $district;
 
         return $this;
@@ -466,53 +260,47 @@ class Vente
      *
      * @return \AppBundle\Entity\District
      */
-    public function getDistrict()
-    {
+    public function getDistrict() {
         return $this->district;
     }
-    
-    static public function getLuceneIndex()
-    {
+
+    static public function getLuceneIndex() {
         if (file_exists($index = self::getLuceneIndexFile())) {
             return \Zend_Search_Lucene::open($index);
         }
- 
+
         return \Zend_Search_Lucene::create($index);
     }
- 
-    static public function getLuceneIndexFile()
-    {
-        return __DIR__.'/../../../web/data/vente.index';
+
+    static public function getLuceneIndexFile() {
+        return __DIR__ . '/../../../web/data/vente.index';
     }
-    
-    
+
     /**
      * Set createdAt
-     **
+     * *
      * @ORM\PostPersist
      * @ORM\PostUpdate
      */
-    public function updateLuceneIndex()
-    {
+    public function updateLuceneIndex() {
         $index = self::getLuceneIndex();
 
         // remove existing entries
-        foreach ($index->find('pk:'.$this->getId()) as $hit)
-        {
-          $index->delete($hit->id);
+        foreach ($index->find('pk:' . $this->getId()) as $hit) {
+            $index->delete($hit->id);
         }
- 
+
         // don't index expired and non-activated jobs
 //        if ($this->isExpired() || !$this->getIsActivated())
 //        {
 //          return;
 //        }
- 
+
         $doc = new \Zend_Search_Lucene_Document();
- 
+
         // store job primary key to identify it in the search results
         $doc->addField(\Zend_Search_Lucene_Field::Keyword('pk', $this->getId()));
- 
+
         // index job fields
         $doc->addField(\Zend_Search_Lucene_Field::UnStored('product', $this->getProduct(), 'utf-8'));
         $doc->addField(\Zend_Search_Lucene_Field::UnStored('lieu', $this->getLieu(), 'utf-8'));
@@ -521,43 +309,18 @@ class Vente
         $index->addDocument($doc);
         $index->commit();
     }
-    
-    
+
     /**
      * Set createdAt
-     **
+     * *
      * @ORM\PostRemove
      */
-    public function deleteLuceneIndex()
-    {
+    public function deleteLuceneIndex() {
         $index = self::getLuceneIndex();
- 
-        foreach ($index->find('pk:'.$this->getId()) as $hit) {
+
+        foreach ($index->find('pk:' . $this->getId()) as $hit) {
             $index->delete($hit->id);
         }
     }
 
-    /**
-     * Set productCategroy
-     *
-     * @param string $productCategroy
-     *
-     * @return Vente
-     */
-    public function setProductCategroy($productCategroy)
-    {
-        $this->productCategroy = $productCategroy;
-
-        return $this;
-    }
-
-    /**
-     * Get productCategroy
-     *
-     * @return string
-     */
-    public function getProductCategroy()
-    {
-        return $this->productCategroy;
-    }
 }

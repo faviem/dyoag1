@@ -80,4 +80,28 @@ class Professional extends User {
         return $this->ifu;
     }
 
+
+    /**
+     * Set adresse
+     *
+     * @param string $adresse
+     *
+     * @return Professional
+     */
+    public function setAdresse($adresse)
+    {
+        $this->adresse = $adresse;
+
+        return $this;
+    }
+
+    /**
+     * Get adresse
+     *
+     * @return string
+     */
+    public function getAdresse()
+    {
+        return $this->adresse;
+    }
 }
