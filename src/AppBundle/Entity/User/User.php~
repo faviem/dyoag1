@@ -157,15 +157,29 @@ class User extends BaseUser {
     private $ventes;
 
     /**
-     * @var commandes[]
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Commande", mappedBy="user", cascade={"persist"})
+     * @var orders[]
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Order", mappedBy="user", cascade={"persist"})
      */
-    private $commandes;
+    private $orders;
+
+    /**
+     * @var supplies[]
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Supply", mappedBy="user", cascade={"persist"})
+     */
+    private $supplies;
+
+    /**
+     * @var demands[]
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Demand", mappedBy="user", cascade={"persist"})
+     */
+    private $demands;
 
     public function __construct() {
         parent::__construct();
-        $this->commandes = new ArrayCollection();
+        $this->orders = new ArrayCollection();
         $this->ventes = new ArrayCollection();
+        $this->supplies = new ArrayCollection();
+        $this->demands = new ArrayCollection();
     }
 
     /**
@@ -304,33 +318,33 @@ class User extends BaseUser {
     }
 
     /**
-     * Add commandes
+     * Add orders
      *
-     * @param \AppBundle\Entity\Commande $commandes
+     * @param \AppBundle\Entity\Order $orders
      * @return User
      */
-    public function addCommande(\AppBundle\Entity\Commande $commandes) {
-        $this->commandes[] = $commandes;
+    public function addOrder(\AppBundle\Entity\Order $orders) {
+        $this->orders[] = $orders;
 
         return $this;
     }
 
     /**
-     * Remove commandes
+     * Remove orders
      *
-     * @param \AppBundle\Entity\Commande $commandes
+     * @param \AppBundle\Entity\Order $orders
      */
-    public function removeCommande(\AppBundle\Entity\Commande $commandes) {
-        $this->commandes->removeElement($commandes);
+    public function removeOrder(\AppBundle\Entity\Order $orders) {
+        $this->orders->removeElement($orders);
     }
 
     /**
-     * Get commandes
+     * Get orders
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getCommandes() {
-        return $this->commandes;
+    public function getOrders() {
+        return $this->orders;
     }
 
 //    static function getRoleNames()

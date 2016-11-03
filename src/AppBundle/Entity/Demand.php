@@ -36,12 +36,12 @@ class Demand {
     private $lieu;
 
     /**
-     * @var dateCreation la date de creation de l 'offre.
+     * @var createAt la date de creation de l 'offre.
      *
      *
      * @ORM\Column(type="datetime")
      */
-    private $dateCreation;
+    private $createAt;
 
     /**
      * @var quantite
@@ -212,16 +212,16 @@ class Demand {
      * @ORM\PrePersist
      */
     public function setDateCreation() {
-        $this->dateCreation = new \DateTime();
+        $this->createAt = new \DateTime();
     }
 
     /**
-     * Get dateCreation
+     * Get createAt
      *
      * @return \DateTime
      */
     public function getDateCreation() {
-        return $this->dateCreation;
+        return $this->createAt;
     }
 
     /**
@@ -323,14 +323,12 @@ class Demand {
         }
     }
 
-
     /**
      * Get id
      *
      * @return guid
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -341,8 +339,7 @@ class Demand {
      *
      * @return Demand
      */
-    public function setLieu($lieu)
-    {
+    public function setLieu($lieu) {
         $this->lieu = $lieu;
 
         return $this;
@@ -353,8 +350,7 @@ class Demand {
      *
      * @return string
      */
-    public function getLieu()
-    {
+    public function getLieu() {
         return $this->lieu;
     }
 
@@ -365,8 +361,7 @@ class Demand {
      *
      * @return Demand
      */
-    public function setQuantite($quantite)
-    {
+    public function setQuantite($quantite) {
         $this->quantite = $quantite;
 
         return $this;
@@ -377,8 +372,7 @@ class Demand {
      *
      * @return integer
      */
-    public function getQuantite()
-    {
+    public function getQuantite() {
         return $this->quantite;
     }
 
@@ -389,8 +383,7 @@ class Demand {
      *
      * @return Demand
      */
-    public function setPrixUnit($prixUnit)
-    {
+    public function setPrixUnit($prixUnit) {
         $this->prixUnit = $prixUnit;
 
         return $this;
@@ -401,8 +394,7 @@ class Demand {
      *
      * @return integer
      */
-    public function getPrixUnit()
-    {
+    public function getPrixUnit() {
         return $this->prixUnit;
     }
 
@@ -413,8 +405,7 @@ class Demand {
      *
      * @return Demand
      */
-    public function setDescription($description)
-    {
+    public function setDescription($description) {
         $this->description = $description;
 
         return $this;
@@ -425,8 +416,7 @@ class Demand {
      *
      * @return string
      */
-    public function getDescription()
-    {
+    public function getDescription() {
         return $this->description;
     }
 
@@ -437,8 +427,7 @@ class Demand {
      *
      * @return Demand
      */
-    public function setPublished($published)
-    {
+    public function setPublished($published) {
         $this->published = $published;
 
         return $this;
@@ -449,8 +438,7 @@ class Demand {
      *
      * @return boolean
      */
-    public function getPublished()
-    {
+    public function getPublished() {
         return $this->published;
     }
 
@@ -461,8 +449,7 @@ class Demand {
      *
      * @return Demand
      */
-    public function setProduct(\AppBundle\Entity\Product $product)
-    {
+    public function setProduct(\AppBundle\Entity\Product $product) {
         $this->product = $product;
 
         return $this;
@@ -473,8 +460,7 @@ class Demand {
      *
      * @return \AppBundle\Entity\Product
      */
-    public function getProduct()
-    {
+    public function getProduct() {
         return $this->product;
     }
 
@@ -485,8 +471,7 @@ class Demand {
      *
      * @return Demand
      */
-    public function setUser(\AppBundle\Entity\User\User $user = null)
-    {
+    public function setUser(\AppBundle\Entity\User\User $user = null) {
         $this->user = $user;
 
         return $this;
@@ -497,8 +482,7 @@ class Demand {
      *
      * @return \AppBundle\Entity\User\User
      */
-    public function getUser()
-    {
+    public function getUser() {
         return $this->user;
     }
 
@@ -509,8 +493,7 @@ class Demand {
      *
      * @return Demand
      */
-    public function addSupply(\AppBundle\Entity\Demand $supply)
-    {
+    public function addSupply(\AppBundle\Entity\Demand $supply) {
         $this->supplies[] = $supply;
 
         return $this;
@@ -521,8 +504,7 @@ class Demand {
      *
      * @param \AppBundle\Entity\Demand $supply
      */
-    public function removeSupply(\AppBundle\Entity\Demand $supply)
-    {
+    public function removeSupply(\AppBundle\Entity\Demand $supply) {
         $this->supplies->removeElement($supply);
     }
 
@@ -531,8 +513,32 @@ class Demand {
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getSupplies()
-    {
+    public function getSupplies() {
         return $this->supplies;
+    }
+
+
+    /**
+     * Set createAt
+     *
+     * @param \DateTime $createAt
+     *
+     * @return Demand
+     */
+    public function setCreateAt($createAt)
+    {
+        $this->createAt = $createAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createAt
+     *
+     * @return \DateTime
+     */
+    public function getCreateAt()
+    {
+        return $this->createAt;
     }
 }

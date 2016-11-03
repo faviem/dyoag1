@@ -26,26 +26,26 @@ class Supply {
     private $id;
 
     /**
-     * @var dateCreation la date de offre.
+     * @var createAt la date de offre.
      *
      *
      * @ORM\Column(type="datetime")
      */
-    private $dateCreation;
+    private $createAt;
 
     /**
      * @ORM\Column(type="datetime", nullable = true)
      *
      * @var \DateTime
      */
-    private $dateMiseAjour;
+    private $updateAt;
 
     /**
      * @ORM\Column(type="datetime", nullable = true)
      *
      * @var \DateTime
      */
-    private $dateLivraison;
+    private $deliveredAt;
 
     /**
      * @var quantite
@@ -54,6 +54,34 @@ class Supply {
      * @ORM\Column(type="integer")
      */
     private $quantite;
+
+    /**
+     * @ORM\Column(type="datetime", nullable = true)
+     *
+     * @var \DateTime
+     */
+    private $canceledAt;
+
+    /**
+     * @ORM\Column(type="text", nullable = true)
+     *
+     * @var \DateTime
+     */
+    private $canceledReason;
+
+    /**
+     * @ORM\Column(type="datetime", nullable = true)
+     *
+     * @var \DateTime
+     */
+    private $acceptedAt;
+
+    /**
+     * @ORM\Column(type="datetime", nullable = true)
+     *
+     * @var \DateTime
+     */
+    private $approuvedAt;
 
     /**
      * @var permanent boolean. Approvisionnement permanent
@@ -74,9 +102,27 @@ class Supply {
     private $delivered = false;
 
     /**
+     * @var approuved boolean. order approuve
+     * @ORM\Column(type="boolean", options={"default" : false})
+     */
+    private $approuved = false;
+
+    /**
+     * @var canceled boolean. order canceled
+     * @ORM\Column(type="boolean", options={"default" : false})
+     */
+    private $canceled = false;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Demand", inversedBy="supplies")
      */
     private $demand;
+
+    /**
+     * @var User\User
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User\User", inversedBy="supplies")
+     */
+    private $user;
 
     /**
      * Get id
@@ -93,34 +139,166 @@ class Supply {
      * @ORM\PrePersist
      */
     public function setDateCreation() {
-        $this->dateCreation = new \DateTime();
+        $this->createAt = new \DateTime();
     }
 
     /**
-     * Get dateCreation
+     * Get createAt
      *
      * @return \DateTime
      */
     public function getDateCreation() {
-        return $this->dateCreation;
+        return $this->createAt;
     }
 
     /**
-     * Set dateMiseAjour
+     * Set updateAt
      *
      * @ORM\PreUpdate
      */
     public function setDateMiseAjour() {
-        $this->dateMiseAjour = new \DateTime();
+        $this->updateAt = new \DateTime();
     }
 
     /**
-     * Get dateMiseAjour
+     * Get updateAt
      *
      * @return \DateTime
      */
     public function getDateMiseAjour() {
-        return $this->dateMiseAjour;
+        return $this->updateAt;
+    }
+
+    /**
+     * Set deliveredAt
+     *
+     * @param \DateTime $deliveredAt
+     *
+     * @return Supply
+     */
+    public function setDateLivraison($deliveredAt) {
+        $this->deliveredAt = $deliveredAt;
+
+        return $this;
+    }
+
+    /**
+     * Get deliveredAt
+     *
+     * @return \DateTime
+     */
+    public function getDateLivraison() {
+        return $this->deliveredAt;
+    }
+
+    /**
+     * Set quantite
+     *
+     * @param integer $quantite
+     *
+     * @return Supply
+     */
+    public function setQuantite($quantite) {
+        $this->quantite = $quantite;
+
+        return $this;
+    }
+
+    /**
+     * Get quantite
+     *
+     * @return integer
+     */
+    public function getQuantite() {
+        return $this->quantite;
+    }
+
+    /**
+     * Set permanent
+     *
+     * @param boolean $permanent
+     *
+     * @return Supply
+     */
+    public function setPermanent($permanent) {
+        $this->permanent = $permanent;
+
+        return $this;
+    }
+
+    /**
+     * Get permanent
+     *
+     * @return boolean
+     */
+    public function getPermanent() {
+        return $this->permanent;
+    }
+
+    /**
+     * Set accepted
+     *
+     * @param boolean $accepted
+     *
+     * @return Supply
+     */
+    public function setAccepted($accepted) {
+        $this->accepted = $accepted;
+
+        return $this;
+    }
+
+    /**
+     * Get accepted
+     *
+     * @return boolean
+     */
+    public function getAccepted() {
+        return $this->accepted;
+    }
+
+    /**
+     * Set delivered
+     *
+     * @param boolean $delivered
+     *
+     * @return Supply
+     */
+    public function setDelivered($delivered) {
+        $this->delivered = $delivered;
+
+        return $this;
+    }
+
+    /**
+     * Get delivered
+     *
+     * @return boolean
+     */
+    public function getDelivered() {
+        return $this->delivered;
+    }
+
+    /**
+     * Set demand
+     *
+     * @param \AppBundle\Entity\Demand $demand
+     *
+     * @return Supply
+     */
+    public function setDemand(\AppBundle\Entity\Demand $demand = null) {
+        $this->demand = $demand;
+
+        return $this;
+    }
+
+    /**
+     * Get demand
+     *
+     * @return \AppBundle\Entity\Demand
+     */
+    public function getDemand() {
+        return $this->demand;
     }
 
 }

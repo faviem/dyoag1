@@ -26,26 +26,26 @@ class Supply {
     private $id;
 
     /**
-     * @var dateCreation la date de offre.
+     * @var createAt la date de offre.
      *
      *
      * @ORM\Column(type="datetime")
      */
-    private $dateCreation;
+    private $createAt;
 
     /**
      * @ORM\Column(type="datetime", nullable = true)
      *
      * @var \DateTime
      */
-    private $dateMiseAjour;
+    private $updateAt;
 
     /**
      * @ORM\Column(type="datetime", nullable = true)
      *
      * @var \DateTime
      */
-    private $dateLivraison;
+    private $deliveredAt;
 
     /**
      * @var quantite
@@ -54,6 +54,34 @@ class Supply {
      * @ORM\Column(type="integer")
      */
     private $quantite;
+
+    /**
+     * @ORM\Column(type="datetime", nullable = true)
+     *
+     * @var \DateTime
+     */
+    private $canceledAt;
+
+    /**
+     * @ORM\Column(type="text", nullable = true)
+     *
+     * @var \DateTime
+     */
+    private $canceledReason;
+
+    /**
+     * @ORM\Column(type="datetime", nullable = true)
+     *
+     * @var \DateTime
+     */
+    private $acceptedAt;
+
+    /**
+     * @ORM\Column(type="datetime", nullable = true)
+     *
+     * @var \DateTime
+     */
+    private $approuvedAt;
 
     /**
      * @var permanent boolean. Approvisionnement permanent
@@ -72,6 +100,18 @@ class Supply {
      * @ORM\Column(name="offre_livre", type="boolean", options={"default" : false})
      */
     private $delivered = false;
+
+    /**
+     * @var approuved boolean. order approuve
+     * @ORM\Column(type="boolean", options={"default" : false})
+     */
+    private $approuved = false;
+
+    /**
+     * @var canceled boolean. order canceled
+     * @ORM\Column(type="boolean", options={"default" : false})
+     */
+    private $canceled = false;
 
     /**
      * @ORM\ManyToOne(targetEntity="Demand", inversedBy="supplies")
@@ -99,56 +139,56 @@ class Supply {
      * @ORM\PrePersist
      */
     public function setDateCreation() {
-        $this->dateCreation = new \DateTime();
+        $this->createAt = new \DateTime();
     }
 
     /**
-     * Get dateCreation
+     * Get createAt
      *
      * @return \DateTime
      */
     public function getDateCreation() {
-        return $this->dateCreation;
+        return $this->createAt;
     }
 
     /**
-     * Set dateMiseAjour
+     * Set updateAt
      *
      * @ORM\PreUpdate
      */
     public function setDateMiseAjour() {
-        $this->dateMiseAjour = new \DateTime();
+        $this->updateAt = new \DateTime();
     }
 
     /**
-     * Get dateMiseAjour
+     * Get updateAt
      *
      * @return \DateTime
      */
     public function getDateMiseAjour() {
-        return $this->dateMiseAjour;
+        return $this->updateAt;
     }
 
     /**
-     * Set dateLivraison
+     * Set deliveredAt
      *
-     * @param \DateTime $dateLivraison
+     * @param \DateTime $deliveredAt
      *
      * @return Supply
      */
-    public function setDateLivraison($dateLivraison) {
-        $this->dateLivraison = $dateLivraison;
+    public function setDateLivraison($deliveredAt) {
+        $this->deliveredAt = $deliveredAt;
 
         return $this;
     }
 
     /**
-     * Get dateLivraison
+     * Get deliveredAt
      *
      * @return \DateTime
      */
     public function getDateLivraison() {
-        return $this->dateLivraison;
+        return $this->deliveredAt;
     }
 
     /**
@@ -261,4 +301,244 @@ class Supply {
         return $this->demand;
     }
 
+
+    /**
+     * Set createAt
+     *
+     * @param \DateTime $createAt
+     *
+     * @return Supply
+     */
+    public function setCreateAt($createAt)
+    {
+        $this->createAt = $createAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createAt
+     *
+     * @return \DateTime
+     */
+    public function getCreateAt()
+    {
+        return $this->createAt;
+    }
+
+    /**
+     * Set updateAt
+     *
+     * @param \DateTime $updateAt
+     *
+     * @return Supply
+     */
+    public function setUpdateAt($updateAt)
+    {
+        $this->updateAt = $updateAt;
+
+        return $this;
+    }
+
+    /**
+     * Get updateAt
+     *
+     * @return \DateTime
+     */
+    public function getUpdateAt()
+    {
+        return $this->updateAt;
+    }
+
+    /**
+     * Set deliveredAt
+     *
+     * @param \DateTime $deliveredAt
+     *
+     * @return Supply
+     */
+    public function setDeliveredAt($deliveredAt)
+    {
+        $this->deliveredAt = $deliveredAt;
+
+        return $this;
+    }
+
+    /**
+     * Get deliveredAt
+     *
+     * @return \DateTime
+     */
+    public function getDeliveredAt()
+    {
+        return $this->deliveredAt;
+    }
+
+    /**
+     * Set canceledAt
+     *
+     * @param \DateTime $canceledAt
+     *
+     * @return Supply
+     */
+    public function setCanceledAt($canceledAt)
+    {
+        $this->canceledAt = $canceledAt;
+
+        return $this;
+    }
+
+    /**
+     * Get canceledAt
+     *
+     * @return \DateTime
+     */
+    public function getCanceledAt()
+    {
+        return $this->canceledAt;
+    }
+
+    /**
+     * Set canceledReason
+     *
+     * @param string $canceledReason
+     *
+     * @return Supply
+     */
+    public function setCanceledReason($canceledReason)
+    {
+        $this->canceledReason = $canceledReason;
+
+        return $this;
+    }
+
+    /**
+     * Get canceledReason
+     *
+     * @return string
+     */
+    public function getCanceledReason()
+    {
+        return $this->canceledReason;
+    }
+
+    /**
+     * Set acceptedAt
+     *
+     * @param \DateTime $acceptedAt
+     *
+     * @return Supply
+     */
+    public function setAcceptedAt($acceptedAt)
+    {
+        $this->acceptedAt = $acceptedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get acceptedAt
+     *
+     * @return \DateTime
+     */
+    public function getAcceptedAt()
+    {
+        return $this->acceptedAt;
+    }
+
+    /**
+     * Set approuvedAt
+     *
+     * @param \DateTime $approuvedAt
+     *
+     * @return Supply
+     */
+    public function setApprouvedAt($approuvedAt)
+    {
+        $this->approuvedAt = $approuvedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get approuvedAt
+     *
+     * @return \DateTime
+     */
+    public function getApprouvedAt()
+    {
+        return $this->approuvedAt;
+    }
+
+    /**
+     * Set approuved
+     *
+     * @param boolean $approuved
+     *
+     * @return Supply
+     */
+    public function setApprouved($approuved)
+    {
+        $this->approuved = $approuved;
+
+        return $this;
+    }
+
+    /**
+     * Get approuved
+     *
+     * @return boolean
+     */
+    public function getApprouved()
+    {
+        return $this->approuved;
+    }
+
+    /**
+     * Set canceled
+     *
+     * @param boolean $canceled
+     *
+     * @return Supply
+     */
+    public function setCanceled($canceled)
+    {
+        $this->canceled = $canceled;
+
+        return $this;
+    }
+
+    /**
+     * Get canceled
+     *
+     * @return boolean
+     */
+    public function getCanceled()
+    {
+        return $this->canceled;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \AppBundle\Entity\User\User $user
+     *
+     * @return Supply
+     */
+    public function setUser(\AppBundle\Entity\User\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \AppBundle\Entity\User\User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
 }

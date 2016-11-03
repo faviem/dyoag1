@@ -36,12 +36,12 @@ class Demand {
     private $lieu;
 
     /**
-     * @var dateCreation la date de creation de l 'offre.
+     * @var createAt la date de creation de l 'offre.
      *
      *
      * @ORM\Column(type="datetime")
      */
-    private $dateCreation;
+    private $createAt;
 
     /**
      * @var quantite
@@ -212,16 +212,16 @@ class Demand {
      * @ORM\PrePersist
      */
     public function setDateCreation() {
-        $this->dateCreation = new \DateTime();
+        $this->createAt = new \DateTime();
     }
 
     /**
-     * Get dateCreation
+     * Get createAt
      *
      * @return \DateTime
      */
     public function getDateCreation() {
-        return $this->dateCreation;
+        return $this->createAt;
     }
 
     /**
@@ -321,6 +321,200 @@ class Demand {
         foreach ($index->find('pk:' . $this->getId()) as $hit) {
             $index->delete($hit->id);
         }
+    }
+
+    /**
+     * Get id
+     *
+     * @return guid
+     */
+    public function getId() {
+        return $this->id;
+    }
+
+    /**
+     * Set lieu
+     *
+     * @param string $lieu
+     *
+     * @return Demand
+     */
+    public function setLieu($lieu) {
+        $this->lieu = $lieu;
+
+        return $this;
+    }
+
+    /**
+     * Get lieu
+     *
+     * @return string
+     */
+    public function getLieu() {
+        return $this->lieu;
+    }
+
+    /**
+     * Set quantite
+     *
+     * @param integer $quantite
+     *
+     * @return Demand
+     */
+    public function setQuantite($quantite) {
+        $this->quantite = $quantite;
+
+        return $this;
+    }
+
+    /**
+     * Get quantite
+     *
+     * @return integer
+     */
+    public function getQuantite() {
+        return $this->quantite;
+    }
+
+    /**
+     * Set prixUnit
+     *
+     * @param integer $prixUnit
+     *
+     * @return Demand
+     */
+    public function setPrixUnit($prixUnit) {
+        $this->prixUnit = $prixUnit;
+
+        return $this;
+    }
+
+    /**
+     * Get prixUnit
+     *
+     * @return integer
+     */
+    public function getPrixUnit() {
+        return $this->prixUnit;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     *
+     * @return Demand
+     */
+    public function setDescription($description) {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription() {
+        return $this->description;
+    }
+
+    /**
+     * Set published
+     *
+     * @param boolean $published
+     *
+     * @return Demand
+     */
+    public function setPublished($published) {
+        $this->published = $published;
+
+        return $this;
+    }
+
+    /**
+     * Get published
+     *
+     * @return boolean
+     */
+    public function getPublished() {
+        return $this->published;
+    }
+
+    /**
+     * Set product
+     *
+     * @param \AppBundle\Entity\Product $product
+     *
+     * @return Demand
+     */
+    public function setProduct(\AppBundle\Entity\Product $product) {
+        $this->product = $product;
+
+        return $this;
+    }
+
+    /**
+     * Get product
+     *
+     * @return \AppBundle\Entity\Product
+     */
+    public function getProduct() {
+        return $this->product;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \AppBundle\Entity\User\User $user
+     *
+     * @return Demand
+     */
+    public function setUser(\AppBundle\Entity\User\User $user = null) {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \AppBundle\Entity\User\User
+     */
+    public function getUser() {
+        return $this->user;
+    }
+
+    /**
+     * Add supply
+     *
+     * @param \AppBundle\Entity\Demand $supply
+     *
+     * @return Demand
+     */
+    public function addSupply(\AppBundle\Entity\Demand $supply) {
+        $this->supplies[] = $supply;
+
+        return $this;
+    }
+
+    /**
+     * Remove supply
+     *
+     * @param \AppBundle\Entity\Demand $supply
+     */
+    public function removeSupply(\AppBundle\Entity\Demand $supply) {
+        $this->supplies->removeElement($supply);
+    }
+
+    /**
+     * Get supplies
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSupplies() {
+        return $this->supplies;
     }
 
 }
