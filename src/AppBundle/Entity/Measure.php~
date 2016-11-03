@@ -8,12 +8,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * UniteMesure
+ * Measure
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="AppBundle\Entity\UniteMesureRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\MeasureRepository")
  */
-class UniteMesure {
+class Measure {
 
     /**
      * @var int
@@ -33,7 +33,7 @@ class UniteMesure {
     private $name;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Product", inversedBy="uniteMesures")
+     * @ORM\ManyToMany(targetEntity="Product", inversedBy="measures")
      */
     private $products;
 
@@ -50,7 +50,7 @@ class UniteMesure {
      * Set name
      *
      * @param string $name
-     * @return UniteMesure
+     * @return Measure
      */
     public function setName($name) {
         $this->name = $name;
@@ -72,7 +72,7 @@ class UniteMesure {
      *
      * @param \AppBundle\Entity\Product $product
      *
-     * @return UniteMesure
+     * @return Measure
      */
     public function addProduct(\AppBundle\Entity\Product $product) {
         $this->products[] = $product;
@@ -101,8 +101,7 @@ class UniteMesure {
     /**
      * Constructor
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->products = new \Doctrine\Common\Collections\ArrayCollection();
     }
 

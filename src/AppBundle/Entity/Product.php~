@@ -45,10 +45,10 @@ class Product {
     private $category;
 
     /**
-     * @ORM\ManyToMany(targetEntity="UniteMesure", inversedBy="products")
-     * @ORM\JoinTable(name="products_unite_mesures")
+     * @ORM\ManyToMany(targetEntity="Measure", inversedBy="products")
+     * @ORM\JoinTable(name="products_measures")
      */
-    private $uniteMesures;
+    private $measures;
 
     /**
      * @ORM\OneToMany(targetEntity="Vente", mappedBy="product", cascade={"persist"})
@@ -127,7 +127,7 @@ class Product {
     }
 
     public function __construct() {
-        $this->uniteMesures = new ArrayCollection();
+        $this->measures = new ArrayCollection();
         $this->ventes = new ArrayCollection();
     }
 
@@ -208,72 +208,4 @@ class Product {
         return $this->name;
     }
 
-
-    /**
-     * Add uniteMesure
-     *
-     * @param \AppBundle\Entity\UniteMesure $uniteMesure
-     *
-     * @return Product
-     */
-    public function addUniteMesure(\AppBundle\Entity\UniteMesure $uniteMesure)
-    {
-        $this->uniteMesures[] = $uniteMesure;
-
-        return $this;
-    }
-
-    /**
-     * Remove uniteMesure
-     *
-     * @param \AppBundle\Entity\UniteMesure $uniteMesure
-     */
-    public function removeUniteMesure(\AppBundle\Entity\UniteMesure $uniteMesure)
-    {
-        $this->uniteMesures->removeElement($uniteMesure);
-    }
-
-    /**
-     * Get uniteMesures
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getUniteMesures()
-    {
-        return $this->uniteMesures;
-    }
-
-    /**
-     * Add vente
-     *
-     * @param \AppBundle\Entity\Vente $vente
-     *
-     * @return Product
-     */
-    public function addVente(\AppBundle\Entity\Vente $vente)
-    {
-        $this->ventes[] = $vente;
-
-        return $this;
-    }
-
-    /**
-     * Remove vente
-     *
-     * @param \AppBundle\Entity\Vente $vente
-     */
-    public function removeVente(\AppBundle\Entity\Vente $vente)
-    {
-        $this->ventes->removeElement($vente);
-    }
-
-    /**
-     * Get ventes
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getVentes()
-    {
-        return $this->ventes;
-    }
 }

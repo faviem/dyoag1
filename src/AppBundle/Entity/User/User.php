@@ -127,20 +127,17 @@ class User extends BaseUser {
     private $profil;
 
     /**
-     * @var string Vous etes $typeProfile
+     * @var string Vous etes $user_category
      *
-     * @ORM\Column(name="professional_type_profile", type="string", length=45, nullable=false)
-     * @Assert\Length(min="5")
+     * @ORM\ManyToOne(targetEntity="UserCategory", inversedBy="users")
      */
-    private $typeProfile;
+    private $user_category;
 
     /**
-     * @var string specialisé en $domaine
-     *
-     * @ORM\Column(name="professional_field", type="string", length=45, nullable=false)
-     * @Assert\Length(min="5")
+     * @ORM\ManyToMany(targetEntity="Field", inversedBy="users", cascade={"persist"})
+     * @ORM\JoinTable(name="users_fields")
      */
-    private $domaine;
+    private $fields;
 
     /**
      * @var string The avatar.
@@ -347,34 +344,6 @@ class User extends BaseUser {
         return $this->orders;
     }
 
-//    static function getRoleNames()
-//    {
-//        $pathToSecurity = __DIR__ . '/../../../..' . '/app/config/security.yml';
-//        $yaml = new Parser();
-//        $rolesArray = $yaml->parse(file_get_contents($pathToSecurity));
-//        $arrayKeys = array();
-//        foreach ($rolesArray['security']['role_hierarchy'] as $key => $value)
-//        {
-//            //never allow assigning super admin
-//            if ($key != 'ROLE_SUPER_ADMIN')
-//                $arrayKeys[$key] = User::convertRoleToLabel($key);
-//            //skip values that are arrays --- roles with multiple sub-roles
-//            if (!is_array($value))
-//                if ($value != 'ROLE_SUPER_ADMIN')
-//                    $arrayKeys[$value] = User::convertRoleToLabel($value);
-//        }
-//        //sort for display purposes
-//        asort($arrayKeys);
-//        return $arrayKeys;
-//    }
-//
-//    static private function convertRoleToLabel($role)
-//    {
-//        $roleDisplay = str_replace('ROLE_', '', $role);
-//        $roleDisplay = str_replace('_', ' ', $roleDisplay);
-//        return ucwords(strtolower($roleDisplay));
-//    }
-
     /**
      * Set profil
      *
@@ -464,59 +433,13 @@ class User extends BaseUser {
     }
 
     /**
-     * Set typeProfile
-     *
-     * @param string $typeProfile
-     *
-     * @return User
-     */
-    public function setTypeProfile($typeProfile) {
-        $this->typeProfile = $typeProfile;
-
-        return $this;
-    }
-
-    /**
-     * Get typeProfile
-     *
-     * @return string
-     */
-    public function getTypeProfile() {
-        return $this->typeProfile;
-    }
-
-    /**
-     * Set domaine
-     *
-     * @param string $domaine
-     *
-     * @return User
-     */
-    public function setDomaine($domaine) {
-        $this->domaine = $domaine;
-
-        return $this;
-    }
-
-    /**
-     * Get domaine
-     *
-     * @return string
-     */
-    public function getDomaine() {
-        return $this->domaine;
-    }
-
-
-    /**
      * Add supply
      *
      * @param \AppBundle\Entity\Supply $supply
      *
      * @return User
      */
-    public function addSupply(\AppBundle\Entity\Supply $supply)
-    {
+    public function addSupply(\AppBundle\Entity\Supply $supply) {
         $this->supplies[] = $supply;
 
         return $this;
@@ -527,8 +450,7 @@ class User extends BaseUser {
      *
      * @param \AppBundle\Entity\Supply $supply
      */
-    public function removeSupply(\AppBundle\Entity\Supply $supply)
-    {
+    public function removeSupply(\AppBundle\Entity\Supply $supply) {
         $this->supplies->removeElement($supply);
     }
 
@@ -537,8 +459,7 @@ class User extends BaseUser {
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getSupplies()
-    {
+    public function getSupplies() {
         return $this->supplies;
     }
 
@@ -549,8 +470,7 @@ class User extends BaseUser {
      *
      * @return User
      */
-    public function addDemand(\AppBundle\Entity\Demand $demand)
-    {
+    public function addDemand(\AppBundle\Entity\Demand $demand) {
         $this->demands[] = $demand;
 
         return $this;
@@ -561,8 +481,7 @@ class User extends BaseUser {
      *
      * @param \AppBundle\Entity\Demand $demand
      */
-    public function removeDemand(\AppBundle\Entity\Demand $demand)
-    {
+    public function removeDemand(\AppBundle\Entity\Demand $demand) {
         $this->demands->removeElement($demand);
     }
 
@@ -571,8 +490,61 @@ class User extends BaseUser {
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getDemands()
-    {
+    public function getDemands() {
         return $this->demands;
     }
+
+    /**
+     * Set userCategory
+     *
+     * @param \AppBundle\Entity\User\UserCategory $userCategory
+     *
+     * @return User
+     */
+    public function setUserCategory(\AppBundle\Entity\User\UserCategory $userCategory = null) {
+        $this->user_category = $userCategory;
+
+        return $this;
+    }
+
+    /**
+     * Get userCategory
+     *
+     * @return \AppBundle\Entity\User\UserCategory
+     */
+    public function getUserCategory() {
+        return $this->user_category;
+    }
+
+    /**
+     * Add field
+     *
+     * @param \AppBundle\Entity\User\Field $field
+     *
+     * @return User
+     */
+    public function addField(\AppBundle\Entity\User\Field $field) {
+        $this->fields[] = $field;
+
+        return $this;
+    }
+
+    /**
+     * Remove field
+     *
+     * @param \AppBundle\Entity\User\Field $field
+     */
+    public function removeField(\AppBundle\Entity\User\Field $field) {
+        $this->fields->removeElement($field);
+    }
+
+    /**
+     * Get fields
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getFields() {
+        return $this->fields;
+    }
+
 }

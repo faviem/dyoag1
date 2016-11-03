@@ -1,19 +1,16 @@
 <?php
 
-namespace AppBundle\Entity;
+namespace AppBundle\Entity\User;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * Category
- *
- * @ORM\Table()
- * @ORM\Entity
+ * UserCategory
+ * @ORM\Entity()
  */
-class Category {
+class UserCategory {
 
     /**
      * @var int
@@ -25,7 +22,7 @@ class Category {
     private $id;
 
     /**
-     * @var string The name of the item.
+     * @var string The name of the category.
      *
      * @ORM\Column(nullable=false)
      * @Assert\Type(type="string")
@@ -33,20 +30,22 @@ class Category {
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="Product", mappedBy="category", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="User", mappedBy="user_category", cascade={"persist"})
      */
-    private $products;
+    private $users;
 
     public function __construct() {
-        $this->products = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
+
 
     /**
      * Get id
      *
      * @return integer
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
@@ -54,9 +53,11 @@ class Category {
      * Set name
      *
      * @param string $name
-     * @return Category
+     *
+     * @return UserCategory
      */
-    public function setName($name) {
+    public function setName($name)
+    {
         $this->name = $name;
 
         return $this;
@@ -67,39 +68,42 @@ class Category {
      *
      * @return string
      */
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 
     /**
-     * Add product
+     * Add user
      *
-     * @param \AppBundle\Entity\Product $product
+     * @param \AppBundle\Entity\User\User $user
      *
-     * @return Category
+     * @return UserCategory
      */
-    public function addProduct(\AppBundle\Entity\Product $product) {
-        $this->products[] = $product;
+    public function addUser(\AppBundle\Entity\User\User $user)
+    {
+        $this->users[] = $user;
 
         return $this;
     }
 
     /**
-     * Remove product
+     * Remove user
      *
-     * @param \AppBundle\Entity\Product $product
+     * @param \AppBundle\Entity\User\User $user
      */
-    public function removeProduct(\AppBundle\Entity\Product $product) {
-        $this->products->removeElement($product);
+    public function removeUser(\AppBundle\Entity\User\User $user)
+    {
+        $this->users->removeElement($user);
     }
 
     /**
-     * Get products
+     * Get users
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getProducts() {
-        return $this->products;
+    public function getUsers()
+    {
+        return $this->users;
     }
-
 }

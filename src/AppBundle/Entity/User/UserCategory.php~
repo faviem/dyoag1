@@ -1,0 +1,41 @@
+<?php
+
+namespace AppBundle\Entity\User;
+
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
+/**
+ * UserCategory
+ * @ORM\Entity()
+ */
+class UserCategory {
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string The name of the category.
+     *
+     * @ORM\Column(nullable=false)
+     * @Assert\Type(type="string")
+     */
+    private $name;
+
+    /**
+     * @ORM\OneToMany(targetEntity="User", mappedBy="user_category", cascade={"persist"})
+     */
+    private $users;
+
+    public function __construct() {
+        $this->users = new ArrayCollection();
+    }
+
+}

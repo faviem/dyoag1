@@ -45,10 +45,10 @@ class Product {
     private $category;
 
     /**
-     * @ORM\ManyToMany(targetEntity="UniteMesure", inversedBy="products")
-     * @ORM\JoinTable(name="products_unite_mesures")
+     * @ORM\ManyToMany(targetEntity="Measure", inversedBy="products", cascade={"persist"})
+     * @ORM\JoinTable(name="products_measures")
      */
-    private $uniteMesures;
+    private $measures;
 
     /**
      * @ORM\OneToMany(targetEntity="Vente", mappedBy="product", cascade={"persist"})
@@ -127,7 +127,7 @@ class Product {
     }
 
     public function __construct() {
-        $this->uniteMesures = new ArrayCollection();
+        $this->measures = new ArrayCollection();
         $this->ventes = new ArrayCollection();
     }
 
@@ -208,39 +208,35 @@ class Product {
         return $this->name;
     }
 
-
     /**
-     * Add uniteMesure
+     * Add measure
      *
-     * @param \AppBundle\Entity\UniteMesure $uniteMesure
+     * @param \AppBundle\Entity\Measure $measure
      *
      * @return Product
      */
-    public function addUniteMesure(\AppBundle\Entity\UniteMesure $uniteMesure)
-    {
-        $this->uniteMesures[] = $uniteMesure;
+    public function addMeasure(\AppBundle\Entity\Measure $measure) {
+        $this->measures[] = $measure;
 
         return $this;
     }
 
     /**
-     * Remove uniteMesure
+     * Remove measure
      *
-     * @param \AppBundle\Entity\UniteMesure $uniteMesure
+     * @param \AppBundle\Entity\Measure $measure
      */
-    public function removeUniteMesure(\AppBundle\Entity\UniteMesure $uniteMesure)
-    {
-        $this->uniteMesures->removeElement($uniteMesure);
+    public function removeMeasure(\AppBundle\Entity\Measure $measure) {
+        $this->measures->removeElement($measure);
     }
 
     /**
-     * Get uniteMesures
+     * Get measures
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getUniteMesures()
-    {
-        return $this->uniteMesures;
+    public function getMeasures() {
+        return $this->measures;
     }
 
     /**
@@ -250,8 +246,7 @@ class Product {
      *
      * @return Product
      */
-    public function addVente(\AppBundle\Entity\Vente $vente)
-    {
+    public function addVente(\AppBundle\Entity\Vente $vente) {
         $this->ventes[] = $vente;
 
         return $this;
@@ -262,8 +257,7 @@ class Product {
      *
      * @param \AppBundle\Entity\Vente $vente
      */
-    public function removeVente(\AppBundle\Entity\Vente $vente)
-    {
+    public function removeVente(\AppBundle\Entity\Vente $vente) {
         $this->ventes->removeElement($vente);
     }
 
@@ -272,8 +266,8 @@ class Product {
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getVentes()
-    {
+    public function getVentes() {
         return $this->ventes;
     }
+
 }
