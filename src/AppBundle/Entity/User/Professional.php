@@ -14,7 +14,7 @@ class Professional extends User {
     /**
      * @var integer numero ifu
      *
-     * @ORM\Column(name="professional_ifu", type="integer", length=45, nullable=false)
+     * @ORM\Column(name="professional_ifu", type="bigint", length=13, nullable=false)
      * @Assert\Length(min="13")
      * @Assert\Length(max="13")
      */
@@ -80,7 +80,6 @@ class Professional extends User {
         return $this->ifu;
     }
 
-
     /**
      * Set adresse
      *
@@ -88,8 +87,7 @@ class Professional extends User {
      *
      * @return Professional
      */
-    public function setAdresse($adresse)
-    {
+    public function setAdresse($adresse) {
         $this->adresse = $adresse;
 
         return $this;
@@ -100,8 +98,8 @@ class Professional extends User {
      *
      * @return string
      */
-    public function getAdresse()
-    {
+    public function getAdresse() {
         return $this->adresse;
     }
+
 }

@@ -127,20 +127,17 @@ class User extends BaseUser {
     private $profil;
 
     /**
-     * @var string Vous etes $typeProfile
+     * @var string Vous etes $user_category
      *
-     * @ORM\Column(name="professional_type_profile", type="string", length=45, nullable=false)
-     * @Assert\Length(min="5")
+     * @ORM\ManyToOne(targetEntity="UserCategory", inversedBy="users")
      */
-    private $typeProfile;
+    private $user_category;
 
     /**
-     * @var string specialisé en $domaine
-     *
-     * @ORM\Column(name="professional_field", type="string", length=45, nullable=false)
-     * @Assert\Length(min="5")
+     * @ORM\ManyToMany(targetEntity="Field", inversedBy="users")
+     * @ORM\JoinTable(name="users_fields")
      */
-    private $domaine;
+    private $fields;
 
     /**
      * @var string The avatar.
@@ -464,47 +461,65 @@ class User extends BaseUser {
     }
 
     /**
-     * Set typeProfile
+     * Add supply
      *
-     * @param string $typeProfile
+     * @param \AppBundle\Entity\Supply $supply
      *
      * @return User
      */
-    public function setTypeProfile($typeProfile) {
-        $this->typeProfile = $typeProfile;
+    public function addSupply(\AppBundle\Entity\Supply $supply) {
+        $this->supplies[] = $supply;
 
         return $this;
     }
 
     /**
-     * Get typeProfile
+     * Remove supply
      *
-     * @return string
+     * @param \AppBundle\Entity\Supply $supply
      */
-    public function getTypeProfile() {
-        return $this->typeProfile;
+    public function removeSupply(\AppBundle\Entity\Supply $supply) {
+        $this->supplies->removeElement($supply);
     }
 
     /**
-     * Set domaine
+     * Get supplies
      *
-     * @param string $domaine
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSupplies() {
+        return $this->supplies;
+    }
+
+    /**
+     * Add demand
+     *
+     * @param \AppBundle\Entity\Demand $demand
      *
      * @return User
      */
-    public function setDomaine($domaine) {
-        $this->domaine = $domaine;
+    public function addDemand(\AppBundle\Entity\Demand $demand) {
+        $this->demands[] = $demand;
 
         return $this;
     }
 
     /**
-     * Get domaine
+     * Remove demand
      *
-     * @return string
+     * @param \AppBundle\Entity\Demand $demand
      */
-    public function getDomaine() {
-        return $this->domaine;
+    public function removeDemand(\AppBundle\Entity\Demand $demand) {
+        $this->demands->removeElement($demand);
+    }
+
+    /**
+     * Get demands
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getDemands() {
+        return $this->demands;
     }
 
 }

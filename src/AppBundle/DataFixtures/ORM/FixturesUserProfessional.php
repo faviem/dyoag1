@@ -5,33 +5,35 @@ namespace AppBundle\DataFixtures\ORM;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
-use AppBundle\Entity\User\Farmer;
+use AppBundle\Entity\User\Professional;
 
 class FixturesUserProfessional extends AbstractFixture implements OrderedFixtureInterface {
 
     public function load(ObjectManager $em) {
         //  Create admin user1
-        $userFarm1 = new Farmer();
-        $userFarm1->setUsername('userfarm1');
-        $userFarm1->setEnabled(true);
-        $userFarm1->setEmail('farm1@gmail.com');
-        $userFarm1->setPlainPassword('test');
-        $userFarm1->setRoles(array('ROLE_PROFESSIONAL'));
-        $userFarm1->setFirstName('Eric');
-        $userFarm1->setLastName('Adomou');
-        $userFarm1->setPhone('97502447');
-        $userFarm1->setProfil('2');
-        $userFarm1->setNomEntreprise('Dyo agro');
-        $userFarm1->setAdresse('Cotonou');
-        $userFarm1->setTypeProfile('Grossise');
-        $userFarm1->setDomaine('Produit laitier');
-        $em->persist($userFarm1);
+        $userProfessional1 = new Professional();
+        $userProfessional1->setUsername('userfarm1');
+        $userProfessional1->setEnabled(true);
+        $userProfessional1->setEmail('farm1@gmail.com');
+        $userProfessional1->setPlainPassword('test');
+        $userProfessional1->setRoles(array('ROLE_PROFESSIONAL'));
+        $userProfessional1->setFirstName('Eric');
+        $userProfessional1->setLastName('Adomou');
+        $userProfessional1->setPhone('97502447');
+        $userProfessional1->setProfil('Professionnel');
+        $userProfessional1->setNomEntreprise('Dyo agro');
+        $userProfessional1->setAdresse('Cotonou');
+        $userProfessional1->setIfu(1234567890123);
+        $userProfessional1->setUserCategory($this->getReference('userCategory1'));
+        $userProfessional1->addField($this->getReference('field1'));
+        $userProfessional1->addField($this->getReference('field2'));
+        $em->persist($userProfessional1);
         $em->flush();
-        $this->addReference('userFarm1', $userFarm1);
+        $this->addReference('userProfessional1', $userProfessional1);
     }
 
     public function getOrder() {
-        return 2; // the order in which fixtures will be loaded
+        return 5; // the order in which fixtures will be loaded
     }
 
 }

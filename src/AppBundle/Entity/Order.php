@@ -10,7 +10,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * Order
  *
- * @ORM\Table()
+ * @ORM\Table("orders")
  * @ORM\Entity(repositoryClass="AppBundle\Entity\OrderRepository")
  * @ORM\HasLifecycleCallbacks()
  */
@@ -301,7 +301,6 @@ class Order {
         return $this->vente;
     }
 
-
     /**
      * Set createAt
      *
@@ -309,8 +308,7 @@ class Order {
      *
      * @return Order
      */
-    public function setCreateAt($createAt)
-    {
+    public function setCreateAt($createAt) {
         $this->createAt = $createAt;
 
         return $this;
@@ -321,8 +319,7 @@ class Order {
      *
      * @return \DateTime
      */
-    public function getCreateAt()
-    {
+    public function getCreateAt() {
         return $this->createAt;
     }
 
@@ -333,8 +330,7 @@ class Order {
      *
      * @return Order
      */
-    public function setUpdateAt($updateAt)
-    {
+    public function setUpdateAt($updateAt) {
         $this->updateAt = $updateAt;
 
         return $this;
@@ -345,8 +341,7 @@ class Order {
      *
      * @return \DateTime
      */
-    public function getUpdateAt()
-    {
+    public function getUpdateAt() {
         return $this->updateAt;
     }
 
@@ -357,8 +352,7 @@ class Order {
      *
      * @return Order
      */
-    public function setDeliveredAt($deliveredAt)
-    {
+    public function setDeliveredAt($deliveredAt) {
         $this->deliveredAt = $deliveredAt;
 
         return $this;
@@ -369,8 +363,7 @@ class Order {
      *
      * @return \DateTime
      */
-    public function getDeliveredAt()
-    {
+    public function getDeliveredAt() {
         return $this->deliveredAt;
     }
 
@@ -381,8 +374,7 @@ class Order {
      *
      * @return Order
      */
-    public function setCanceledAt($canceledAt)
-    {
+    public function setCanceledAt($canceledAt) {
         $this->canceledAt = $canceledAt;
 
         return $this;
@@ -393,8 +385,7 @@ class Order {
      *
      * @return \DateTime
      */
-    public function getCanceledAt()
-    {
+    public function getCanceledAt() {
         return $this->canceledAt;
     }
 
@@ -405,8 +396,7 @@ class Order {
      *
      * @return Order
      */
-    public function setCanceledReason($canceledReason)
-    {
+    public function setCanceledReason($canceledReason) {
         $this->canceledReason = $canceledReason;
 
         return $this;
@@ -417,8 +407,7 @@ class Order {
      *
      * @return string
      */
-    public function getCanceledReason()
-    {
+    public function getCanceledReason() {
         return $this->canceledReason;
     }
 
@@ -429,8 +418,7 @@ class Order {
      *
      * @return Order
      */
-    public function setAcceptedAt($acceptedAt)
-    {
+    public function setAcceptedAt($acceptedAt) {
         $this->acceptedAt = $acceptedAt;
 
         return $this;
@@ -441,8 +429,7 @@ class Order {
      *
      * @return \DateTime
      */
-    public function getAcceptedAt()
-    {
+    public function getAcceptedAt() {
         return $this->acceptedAt;
     }
 
@@ -453,8 +440,7 @@ class Order {
      *
      * @return Order
      */
-    public function setApprouvedAt($approuvedAt)
-    {
+    public function setApprouvedAt($approuvedAt) {
         $this->approuvedAt = $approuvedAt;
 
         return $this;
@@ -465,8 +451,7 @@ class Order {
      *
      * @return \DateTime
      */
-    public function getApprouvedAt()
-    {
+    public function getApprouvedAt() {
         return $this->approuvedAt;
     }
 
@@ -477,8 +462,7 @@ class Order {
      *
      * @return Order
      */
-    public function setApprouved($approuved)
-    {
+    public function setApprouved($approuved) {
         $this->approuved = $approuved;
 
         return $this;
@@ -489,8 +473,7 @@ class Order {
      *
      * @return boolean
      */
-    public function getApprouved()
-    {
+    public function getApprouved() {
         return $this->approuved;
     }
 
@@ -501,8 +484,7 @@ class Order {
      *
      * @return Order
      */
-    public function setCanceled($canceled)
-    {
+    public function setCanceled($canceled) {
         $this->canceled = $canceled;
 
         return $this;
@@ -513,8 +495,7 @@ class Order {
      *
      * @return boolean
      */
-    public function getCanceled()
-    {
+    public function getCanceled() {
         return $this->canceled;
     }
 
@@ -525,8 +506,7 @@ class Order {
      *
      * @return Order
      */
-    public function setUser(\AppBundle\Entity\User\User $user = null)
-    {
+    public function setUser(\AppBundle\Entity\User\User $user = null) {
         $this->user = $user;
 
         return $this;
@@ -537,8 +517,8 @@ class Order {
      *
      * @return \AppBundle\Entity\User\User
      */
-    public function getUser()
-    {
+    public function getUser() {
         return $this->user;
     }
+
 }

@@ -7,13 +7,12 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use AppBundle\Entity\User\Admin;
 
-class FixturesUserAdmin extends AbstractFixture implements OrderedFixtureInterface
-{
-    public function load(ObjectManager $em)
-    {
+class FixturesUserAdmin extends AbstractFixture implements OrderedFixtureInterface {
+
+    public function load(ObjectManager $em) {
         //  Create admin user1
         $user1 = new Admin();
-        $user1->setUsername('admin');        
+        $user1->setUsername('admin');
         $user1->setEnabled(true);
         $user1->setEmail('jtocson@gmail.com');
         $user1->setPlainPassword('adminpass');
@@ -21,15 +20,17 @@ class FixturesUserAdmin extends AbstractFixture implements OrderedFixtureInterfa
         $user1->setFirstName('Jacques');
         $user1->setLastName('Adjahoungbo');
         $user1->setPhone('97502447');
-        $user1->setProfil('admin');
+        $user1->setProfil('Admin');
+        $user1->setUserCategory($this->getReference('userCategory1'));
+        $user1->addField($this->getReference('field1'));
+        $user1->addField($this->getReference('field2'));
         $em->persist($user1);
         $em->flush();
         $this->addReference('admin', $user1);
-        
     }
 
-    public function getOrder()
-    {
-        return 1; // the order in which fixtures will be loaded
+    public function getOrder() {
+        return 3; // the order in which fixtures will be loaded
     }
+
 }

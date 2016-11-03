@@ -8,12 +8,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * Category
+ * Measure
  *
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\MeasureRepository")
  */
-class Category {
+class Measure {
 
     /**
      * @var int
@@ -27,19 +27,15 @@ class Category {
     /**
      * @var string The name of the item.
      *
-     * @ORM\Column(nullable=false)
+     * @ORM\Column(nullable=true)
      * @Assert\Type(type="string")
      */
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="Product", mappedBy="category", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="Product", inversedBy="measures", cascade={"persist"})
      */
     private $products;
-
-    public function __construct() {
-        $this->products = new ArrayCollection();
-    }
 
     /**
      * Get id
@@ -54,7 +50,7 @@ class Category {
      * Set name
      *
      * @param string $name
-     * @return Category
+     * @return Measure
      */
     public function setName($name) {
         $this->name = $name;
@@ -76,7 +72,7 @@ class Category {
      *
      * @param \AppBundle\Entity\Product $product
      *
-     * @return Category
+     * @return Measure
      */
     public function addProduct(\AppBundle\Entity\Product $product) {
         $this->products[] = $product;
@@ -100,6 +96,13 @@ class Category {
      */
     public function getProducts() {
         return $this->products;
+    }
+
+    /**
+     * Constructor
+     */
+    public function __construct() {
+        $this->products = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 }
