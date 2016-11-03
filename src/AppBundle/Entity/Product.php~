@@ -208,4 +208,72 @@ class Product {
         return $this->name;
     }
 
+
+    /**
+     * Add uniteMesure
+     *
+     * @param \AppBundle\Entity\UniteMesure $uniteMesure
+     *
+     * @return Product
+     */
+    public function addUniteMesure(\AppBundle\Entity\UniteMesure $uniteMesure)
+    {
+        $this->uniteMesures[] = $uniteMesure;
+
+        return $this;
+    }
+
+    /**
+     * Remove uniteMesure
+     *
+     * @param \AppBundle\Entity\UniteMesure $uniteMesure
+     */
+    public function removeUniteMesure(\AppBundle\Entity\UniteMesure $uniteMesure)
+    {
+        $this->uniteMesures->removeElement($uniteMesure);
+    }
+
+    /**
+     * Get uniteMesures
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getUniteMesures()
+    {
+        return $this->uniteMesures;
+    }
+
+    /**
+     * Add vente
+     *
+     * @param \AppBundle\Entity\Vente $vente
+     *
+     * @return Product
+     */
+    public function addVente(\AppBundle\Entity\Vente $vente)
+    {
+        $this->ventes[] = $vente;
+
+        return $this;
+    }
+
+    /**
+     * Remove vente
+     *
+     * @param \AppBundle\Entity\Vente $vente
+     */
+    public function removeVente(\AppBundle\Entity\Vente $vente)
+    {
+        $this->ventes->removeElement($vente);
+    }
+
+    /**
+     * Get ventes
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getVentes()
+    {
+        return $this->ventes;
+    }
 }

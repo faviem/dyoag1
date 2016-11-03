@@ -507,4 +507,72 @@ class User extends BaseUser {
         return $this->domaine;
     }
 
+
+    /**
+     * Add supply
+     *
+     * @param \AppBundle\Entity\Supply $supply
+     *
+     * @return User
+     */
+    public function addSupply(\AppBundle\Entity\Supply $supply)
+    {
+        $this->supplies[] = $supply;
+
+        return $this;
+    }
+
+    /**
+     * Remove supply
+     *
+     * @param \AppBundle\Entity\Supply $supply
+     */
+    public function removeSupply(\AppBundle\Entity\Supply $supply)
+    {
+        $this->supplies->removeElement($supply);
+    }
+
+    /**
+     * Get supplies
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSupplies()
+    {
+        return $this->supplies;
+    }
+
+    /**
+     * Add demand
+     *
+     * @param \AppBundle\Entity\Demand $demand
+     *
+     * @return User
+     */
+    public function addDemand(\AppBundle\Entity\Demand $demand)
+    {
+        $this->demands[] = $demand;
+
+        return $this;
+    }
+
+    /**
+     * Remove demand
+     *
+     * @param \AppBundle\Entity\Demand $demand
+     */
+    public function removeDemand(\AppBundle\Entity\Demand $demand)
+    {
+        $this->demands->removeElement($demand);
+    }
+
+    /**
+     * Get demands
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getDemands()
+    {
+        return $this->demands;
+    }
 }
