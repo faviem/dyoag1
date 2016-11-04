@@ -14,8 +14,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @see http://schema.org/Product Documentation on Schema.org
  *
  *
- * @ORM\Entity
- * @ORM\Table("Product")
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\ProductRepository")
  * @ORM\HasLifecycleCallbacks()
  * @Vich\Uploadable
  */
@@ -45,7 +44,7 @@ class Product {
     private $category;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Measure", inversedBy="products")
+     * @ORM\ManyToMany(targetEntity="Measure", inversedBy="products", cascade={"persist"})
      * @ORM\JoinTable(name="products_measures")
      */
     private $measures;
@@ -206,6 +205,68 @@ class Product {
 
     public function __toString() {
         return $this->name;
+    }
+
+    /**
+     * Add measure
+     *
+     * @param \AppBundle\Entity\Measure $measure
+     *
+     * @return Product
+     */
+    public function addMeasure(\AppBundle\Entity\Measure $measure) {
+        $this->measures[] = $measure;
+
+        return $this;
+    }
+
+    /**
+     * Remove measure
+     *
+     * @param \AppBundle\Entity\Measure $measure
+     */
+    public function removeMeasure(\AppBundle\Entity\Measure $measure) {
+        $this->measures->removeElement($measure);
+    }
+
+    /**
+     * Get measures
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getMeasures() {
+        return $this->measures;
+    }
+
+    /**
+     * Add vente
+     *
+     * @param \AppBundle\Entity\Vente $vente
+     *
+     * @return Product
+     */
+    public function addVente(\AppBundle\Entity\Vente $vente) {
+        $this->ventes[] = $vente;
+
+        return $this;
+    }
+
+    /**
+     * Remove vente
+     *
+     * @param \AppBundle\Entity\Vente $vente
+     */
+    public function removeVente(\AppBundle\Entity\Vente $vente) {
+        $this->ventes->removeElement($vente);
+    }
+
+    /**
+     * Get ventes
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getVentes() {
+        return $this->ventes;
     }
 
 }

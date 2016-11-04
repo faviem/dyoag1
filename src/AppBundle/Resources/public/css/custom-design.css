@@ -19,7 +19,9 @@ form .form-group .checkbox-group{
     margin-left: 60px;
     text-align: left;
 }
-
+form label.form-control{
+    text-align: left;
+}
 /*screen-sm*/
 @media (max-width: 768px) {
     .brand-name {

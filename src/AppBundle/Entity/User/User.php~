@@ -134,7 +134,7 @@ class User extends BaseUser {
     private $user_category;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Field", inversedBy="users")
+     * @ORM\ManyToMany(targetEntity="Field", inversedBy="users", cascade={"persist"})
      * @ORM\JoinTable(name="users_fields")
      */
     private $fields;
@@ -344,34 +344,6 @@ class User extends BaseUser {
         return $this->orders;
     }
 
-//    static function getRoleNames()
-//    {
-//        $pathToSecurity = __DIR__ . '/../../../..' . '/app/config/security.yml';
-//        $yaml = new Parser();
-//        $rolesArray = $yaml->parse(file_get_contents($pathToSecurity));
-//        $arrayKeys = array();
-//        foreach ($rolesArray['security']['role_hierarchy'] as $key => $value)
-//        {
-//            //never allow assigning super admin
-//            if ($key != 'ROLE_SUPER_ADMIN')
-//                $arrayKeys[$key] = User::convertRoleToLabel($key);
-//            //skip values that are arrays --- roles with multiple sub-roles
-//            if (!is_array($value))
-//                if ($value != 'ROLE_SUPER_ADMIN')
-//                    $arrayKeys[$value] = User::convertRoleToLabel($value);
-//        }
-//        //sort for display purposes
-//        asort($arrayKeys);
-//        return $arrayKeys;
-//    }
-//
-//    static private function convertRoleToLabel($role)
-//    {
-//        $roleDisplay = str_replace('ROLE_', '', $role);
-//        $roleDisplay = str_replace('_', ' ', $roleDisplay);
-//        return ucwords(strtolower($roleDisplay));
-//    }
-
     /**
      * Set profil
      *
@@ -520,6 +492,59 @@ class User extends BaseUser {
      */
     public function getDemands() {
         return $this->demands;
+    }
+
+    /**
+     * Set userCategory
+     *
+     * @param \AppBundle\Entity\User\UserCategory $userCategory
+     *
+     * @return User
+     */
+    public function setUserCategory(\AppBundle\Entity\User\UserCategory $userCategory = null) {
+        $this->user_category = $userCategory;
+
+        return $this;
+    }
+
+    /**
+     * Get userCategory
+     *
+     * @return \AppBundle\Entity\User\UserCategory
+     */
+    public function getUserCategory() {
+        return $this->user_category;
+    }
+
+    /**
+     * Add field
+     *
+     * @param \AppBundle\Entity\User\Field $field
+     *
+     * @return User
+     */
+    public function addField(\AppBundle\Entity\User\Field $field) {
+        $this->fields[] = $field;
+
+        return $this;
+    }
+
+    /**
+     * Remove field
+     *
+     * @param \AppBundle\Entity\User\Field $field
+     */
+    public function removeField(\AppBundle\Entity\User\Field $field) {
+        $this->fields->removeElement($field);
+    }
+
+    /**
+     * Get fields
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getFields() {
+        return $this->fields;
     }
 
 }

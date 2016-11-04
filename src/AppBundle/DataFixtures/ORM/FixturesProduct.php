@@ -31,7 +31,7 @@ class FixturesProduct extends AbstractFixture implements OrderedFixtureInterface
         $product1->addMeasure($this->getReference('measure1'));
         $product1->addMeasure($this->getReference('measure3'));
         $product1->addMeasure($this->getReference('measure4'));
-        $product1->setCategory($this->getReference('category3'));
+        $product1->setCategory($this->getReference('category1'));
         $path1 = realpath($this->webRoot . "/uploads/fixture_images/gari.jpg");
         $imageFile1 = new File($path1);
         $product1->setImageFile($imageFile1);
@@ -52,7 +52,7 @@ class FixturesProduct extends AbstractFixture implements OrderedFixtureInterface
         $product3->setName('Haricot vert');
         $product3->addMeasure($this->getReference('measure1'));
         $product3->addMeasure($this->getReference('measure3'));
-        $product3->setCategory($this->getReference('category3'));
+        $product3->setCategory($this->getReference('category1'));
         $path3 = realpath($this->webRoot . "/uploads/fixture_images/haricot-vert.jpg");
         $imageFile3 = new File($path3);
         $product3->setImageFile($imageFile3);
