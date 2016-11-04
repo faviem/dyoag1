@@ -45,18 +45,24 @@
                 {{ form_errors(form.phone) }}
             </div>
 
-            <legend>{{ "registration.legend.3" | trans }}</legend>
-
             <div class="form-group">
 
-                {{ form_widget(form.typeProfile, {'attr' : {'class' : 'form-control'}}) }}
-                {{ form_errors(form.typeProfile) }}
+                {{ form_widget(form.user_category, {'attr' : {'class' : 'form-control'}}) }}
+                {{ form_errors(form.user_category) }}
             </div>
 
             <div class="form-group">
 
-                {{ form_widget(form.domaine, {'attr' : {'class' : 'form-control'}}) }}
-                {{ form_errors(form.domaine) }}
+                <div class="checkbox-group">
+                    <label class="form-control">Spécialisé en:</label>
+                    {% for field in form.fields %}
+                        <div class="checkbox">
+                            {{ form_widget(field ) }}
+                            {{ form_label(field) }}
+                        </div>
+
+                    {% endfor %}
+                </div>
             </div>
 
             <div class="form-group">
@@ -67,6 +73,8 @@
 
 
             {% if(form.nomEntreprise is defined) %}
+
+                <legend>{{ "registration.legend.3" | trans }}</legend>
 
                 <div class="form-group">
 

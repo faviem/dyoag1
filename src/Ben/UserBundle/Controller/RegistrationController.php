@@ -38,7 +38,6 @@ class RegistrationController extends BaseController {
             return $event->getResponse();
         }
 
-        //$form->setData($user);
 
         $form->handleRequest($request);
 
@@ -65,7 +64,6 @@ class RegistrationController extends BaseController {
     }
 
     public function renderformAction(Request $request) {
-//        $user_profile = $request->query->get('data');
         $form = $this->getForm($request);
         $html = $this->renderView('FOSUserBundle:Registration:filter_area.html.twig', array('form' => $form->createView()));
 

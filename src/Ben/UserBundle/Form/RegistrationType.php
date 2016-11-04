@@ -10,19 +10,9 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class RegistrationType extends AbstractType {
-
-//    protected $class;
-//
-//    /**
-//     * @param string $class The User class name
-//     */
-//    public function __construct($class, $roles_hierarchy = null) {
-//        $this->class = $class;
-//        $this->roles_hierarchy = $roles_hierarchy;
-//
-//    }
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
         parent::buildForm($builder, $options);
@@ -58,25 +48,17 @@ class RegistrationType extends AbstractType {
                         'placeholder' => 'registration.password',
                     )
                 ))
-                ->add('typeProfile', ChoiceType::class, array(
-                    'choices' => array(
-                        'Producteur' => 'Producteur',
-                        'Grossiste' => 'Grossiste',
-                        'Courtier' => 'Courtier',
-                        'Détaillant' => 'Détaillant',
-                        'Autres' => 'Autres',
-                    ),
+                ->add('user_category', EntityType::class, array(
+                    'class' => 'AppBundle:User\UserCategory',
                     'placeholder' => 'Vous êtes',
                     'required' => true
                 ))
-                ->add('domaine', ChoiceType::class, array(
-                    'choices' => array(
-                        'Fruits et légumes' => 'Fruits et légumes',
-                        'Céréales' => 'Céréales',
-                        'Autres' => 'Autres',
-                    ),
+                ->add('fields', EntityType::class, array(
+                    'class' => 'AppBundle:User\Field',
                     'placeholder' => 'Spécialisé en',
-                    'required' => true
+                    'required' => true,
+                    'expanded' => true,
+                    'multiple' => true,
                 ))
                 ->add('profil', ChoiceType::class, array(
                     'choices' => array(
