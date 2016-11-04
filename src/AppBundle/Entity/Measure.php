@@ -105,4 +105,8 @@ class Measure {
         $this->products = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
+    public function __toString() {
+        return $this->getName();
+    }
+
 }

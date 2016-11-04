@@ -14,7 +14,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @see http://schema.org/Product Documentation on Schema.org
  *
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\ProductRepository")
  * @ORM\Table("Product")
  * @ORM\HasLifecycleCallbacks()
  * @Vich\Uploadable
