@@ -275,3 +275,42 @@ ivory_lucene_search:
         # Query parser encoding (Optional)
         # See http://framework.zend.com/manual/en/zend.search.lucene.searching.html#zend.search.lucene.searching.query_building.parsing
         query_parser_encoding: "UTF-8" # (default: "")
+        
+easy_admin:
+    entities:
+        
+        Category:
+            class: AppBundle\Entity\Category   
+            
+        Measure:
+            class: AppBundle\Entity\Measure
+     
+        Product:
+            class: AppBundle\Entity\Product
+            list:
+                fields:
+                    - { property: 'name' }
+                    - { property: 'measures' }
+                    - { property: 'category' }
+                    - { property: 'image', type: 'image', base_path: %app.path.product_images% }
+            
+            show:
+                fields:
+                    - { property: 'image', type: 'image', base_path: %app.path.product_images% }
+            form:
+                fields:
+                    - { property: 'name' }
+                    - { property: 'measures' }
+                    - { property: 'category' }
+                    - { property: 'imageFile', type: 'file' }       
+        Demand:
+            class: AppBundle\Entity\Demand
+            
+        Supply:
+            class: AppBundle\Entity\Supply
+            
+        Vente:
+            class: AppBundle\Entity\Vente
+            
+        User:
+            class: AppBundle\Entity\User\User
