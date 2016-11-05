@@ -27,6 +27,7 @@ class AppKernel extends Kernel
             new Ben\WebServiceBundle\BenWebServiceBundle(),
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
             new Ivory\LuceneSearchBundle\IvoryLuceneSearchBundle(),
+            new JavierEguiluz\Bundle\EasyAdminBundle\EasyAdminBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
