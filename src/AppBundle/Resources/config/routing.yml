@@ -1,3 +1,0 @@
-#ben_agro_homepage:
-#    path:     /
-#    defaults: { _controller: BenAgroBundle:Default:index }
