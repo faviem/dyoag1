@@ -38,14 +38,14 @@ class Order {
      *
      * @var \DateTime
      */
-    private $updateAt;
-
-    /**
-     * @ORM\Column(type="datetime", nullable = true)
-     *
-     * @var \DateTime
-     */
     private $deliveredAt;
+    
+    /**
+     * @ORM\Column(type="text", nullable = true)
+     *
+     * @var \text
+     */
+    private $deliverConclusion;
 
     /**
      * @ORM\Column(type="datetime", nullable = true)
@@ -67,6 +67,13 @@ class Order {
      * @var \DateTime
      */
     private $acceptedAt;
+    
+    /**
+     * @ORM\Column(type="datetime", nullable = true)
+     *
+     * @var \DateTime
+     */
+    private $deleteAt;
 
     /**
      * @ORM\Column(type="datetime", nullable = true)
@@ -82,12 +89,20 @@ class Order {
      * @ORM\Column(type="integer")
      */
     private $quantite;
+    
+    /**
+     * @var rating
+     *
+     *
+     * @ORM\Column(type="integer")
+     */
+    private $rating;
 
     /**
-     * @var permanent boolean. Approvisionnement permanent
+     * @var accepted boolean. order accepte
      * @ORM\Column(type="boolean", options={"default" : false})
      */
-    private $permanent = false;
+    private $delete = false;
 
     /**
      * @var accepted boolean. order accepte
@@ -124,181 +139,15 @@ class Order {
      */
     private $user;
 
+
     /**
      * Get id
      *
      * @return integer
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
-    }
-
-    /**
-     * Set createdAt
-     * *
-     * @ORM\PrePersist
-     */
-    public function setDateCreation() {
-        $this->createAt = new \DateTime();
-    }
-
-    /**
-     * Get createAt
-     *
-     * @return \DateTime
-     */
-    public function getDateCreation() {
-        return $this->createAt;
-    }
-
-    /**
-     * Set updateAt
-     *
-     * @ORM\PreUpdate
-     */
-    public function setDateMiseAjour() {
-        $this->updateAt = new \DateTime();
-    }
-
-    /**
-     * Get updateAt
-     *
-     * @return \DateTime
-     */
-    public function getDateMiseAjour() {
-        return $this->updateAt;
-    }
-
-    /**
-     * Set deliveredAt
-     *
-     * @param \DateTime $deliveredAt
-     *
-     * @return Order
-     */
-    public function setDateLivraison($deliveredAt) {
-        $this->deliveredAt = $deliveredAt;
-
-        return $this;
-    }
-
-    /**
-     * Get deliveredAt
-     *
-     * @return \DateTime
-     */
-    public function getDateLivraison() {
-        return $this->deliveredAt;
-    }
-
-    /**
-     * Set quantite
-     *
-     * @param integer $quantite
-     *
-     * @return Order
-     */
-    public function setQuantite($quantite) {
-        $this->quantite = $quantite;
-
-        return $this;
-    }
-
-    /**
-     * Get quantite
-     *
-     * @return integer
-     */
-    public function getQuantite() {
-        return $this->quantite;
-    }
-
-    /**
-     * Set permanent
-     *
-     * @param boolean $permanent
-     *
-     * @return Order
-     */
-    public function setPermanent($permanent) {
-        $this->permanent = $permanent;
-
-        return $this;
-    }
-
-    /**
-     * Get permanent
-     *
-     * @return boolean
-     */
-    public function getPermanent() {
-        return $this->permanent;
-    }
-
-    /**
-     * Set accepted
-     *
-     * @param boolean $accepted
-     *
-     * @return Order
-     */
-    public function setAccepted($accepted) {
-        $this->accepted = $accepted;
-
-        return $this;
-    }
-
-    /**
-     * Get accepted
-     *
-     * @return boolean
-     */
-    public function getAccepted() {
-        return $this->accepted;
-    }
-
-    /**
-     * Set delivered
-     *
-     * @param boolean $delivered
-     *
-     * @return Order
-     */
-    public function setDelivered($delivered) {
-        $this->delivered = $delivered;
-
-        return $this;
-    }
-
-    /**
-     * Get delivered
-     *
-     * @return boolean
-     */
-    public function getDelivered() {
-        return $this->delivered;
-    }
-
-    /**
-     * Set vente
-     *
-     * @param \AppBundle\Entity\Vente $vente
-     *
-     * @return Order
-     */
-    public function setVente(\AppBundle\Entity\Vente $vente = null) {
-        $this->vente = $vente;
-
-        return $this;
-    }
-
-    /**
-     * Get vente
-     *
-     * @return \AppBundle\Entity\Vente
-     */
-    public function getVente() {
-        return $this->vente;
     }
 
     /**
@@ -308,7 +157,8 @@ class Order {
      *
      * @return Order
      */
-    public function setCreateAt($createAt) {
+    public function setCreateAt($createAt)
+    {
         $this->createAt = $createAt;
 
         return $this;
@@ -319,30 +169,9 @@ class Order {
      *
      * @return \DateTime
      */
-    public function getCreateAt() {
+    public function getCreateAt()
+    {
         return $this->createAt;
-    }
-
-    /**
-     * Set updateAt
-     *
-     * @param \DateTime $updateAt
-     *
-     * @return Order
-     */
-    public function setUpdateAt($updateAt) {
-        $this->updateAt = $updateAt;
-
-        return $this;
-    }
-
-    /**
-     * Get updateAt
-     *
-     * @return \DateTime
-     */
-    public function getUpdateAt() {
-        return $this->updateAt;
     }
 
     /**
@@ -352,7 +181,8 @@ class Order {
      *
      * @return Order
      */
-    public function setDeliveredAt($deliveredAt) {
+    public function setDeliveredAt($deliveredAt)
+    {
         $this->deliveredAt = $deliveredAt;
 
         return $this;
@@ -363,8 +193,33 @@ class Order {
      *
      * @return \DateTime
      */
-    public function getDeliveredAt() {
+    public function getDeliveredAt()
+    {
         return $this->deliveredAt;
+    }
+
+    /**
+     * Set deliverConclusion
+     *
+     * @param string $deliverConclusion
+     *
+     * @return Order
+     */
+    public function setDeliverConclusion($deliverConclusion)
+    {
+        $this->deliverConclusion = $deliverConclusion;
+
+        return $this;
+    }
+
+    /**
+     * Get deliverConclusion
+     *
+     * @return string
+     */
+    public function getDeliverConclusion()
+    {
+        return $this->deliverConclusion;
     }
 
     /**
@@ -374,7 +229,8 @@ class Order {
      *
      * @return Order
      */
-    public function setCanceledAt($canceledAt) {
+    public function setCanceledAt($canceledAt)
+    {
         $this->canceledAt = $canceledAt;
 
         return $this;
@@ -385,7 +241,8 @@ class Order {
      *
      * @return \DateTime
      */
-    public function getCanceledAt() {
+    public function getCanceledAt()
+    {
         return $this->canceledAt;
     }
 
@@ -396,7 +253,8 @@ class Order {
      *
      * @return Order
      */
-    public function setCanceledReason($canceledReason) {
+    public function setCanceledReason($canceledReason)
+    {
         $this->canceledReason = $canceledReason;
 
         return $this;
@@ -407,7 +265,8 @@ class Order {
      *
      * @return string
      */
-    public function getCanceledReason() {
+    public function getCanceledReason()
+    {
         return $this->canceledReason;
     }
 
@@ -418,7 +277,8 @@ class Order {
      *
      * @return Order
      */
-    public function setAcceptedAt($acceptedAt) {
+    public function setAcceptedAt($acceptedAt)
+    {
         $this->acceptedAt = $acceptedAt;
 
         return $this;
@@ -429,8 +289,33 @@ class Order {
      *
      * @return \DateTime
      */
-    public function getAcceptedAt() {
+    public function getAcceptedAt()
+    {
         return $this->acceptedAt;
+    }
+
+    /**
+     * Set deleteAt
+     *
+     * @param \DateTime $deleteAt
+     *
+     * @return Order
+     */
+    public function setDeleteAt($deleteAt)
+    {
+        $this->deleteAt = $deleteAt;
+
+        return $this;
+    }
+
+    /**
+     * Get deleteAt
+     *
+     * @return \DateTime
+     */
+    public function getDeleteAt()
+    {
+        return $this->deleteAt;
     }
 
     /**
@@ -440,7 +325,8 @@ class Order {
      *
      * @return Order
      */
-    public function setApprouvedAt($approuvedAt) {
+    public function setApprouvedAt($approuvedAt)
+    {
         $this->approuvedAt = $approuvedAt;
 
         return $this;
@@ -451,8 +337,129 @@ class Order {
      *
      * @return \DateTime
      */
-    public function getApprouvedAt() {
+    public function getApprouvedAt()
+    {
         return $this->approuvedAt;
+    }
+
+    /**
+     * Set quantite
+     *
+     * @param integer $quantite
+     *
+     * @return Order
+     */
+    public function setQuantite($quantite)
+    {
+        $this->quantite = $quantite;
+
+        return $this;
+    }
+
+    /**
+     * Get quantite
+     *
+     * @return integer
+     */
+    public function getQuantite()
+    {
+        return $this->quantite;
+    }
+
+    /**
+     * Set rating
+     *
+     * @param integer $rating
+     *
+     * @return Order
+     */
+    public function setRating($rating)
+    {
+        $this->rating = $rating;
+
+        return $this;
+    }
+
+    /**
+     * Get rating
+     *
+     * @return integer
+     */
+    public function getRating()
+    {
+        return $this->rating;
+    }
+
+    /**
+     * Set delete
+     *
+     * @param boolean $delete
+     *
+     * @return Order
+     */
+    public function setDelete($delete)
+    {
+        $this->delete = $delete;
+
+        return $this;
+    }
+
+    /**
+     * Get delete
+     *
+     * @return boolean
+     */
+    public function getDelete()
+    {
+        return $this->delete;
+    }
+
+    /**
+     * Set accepted
+     *
+     * @param boolean $accepted
+     *
+     * @return Order
+     */
+    public function setAccepted($accepted)
+    {
+        $this->accepted = $accepted;
+
+        return $this;
+    }
+
+    /**
+     * Get accepted
+     *
+     * @return boolean
+     */
+    public function getAccepted()
+    {
+        return $this->accepted;
+    }
+
+    /**
+     * Set delivered
+     *
+     * @param boolean $delivered
+     *
+     * @return Order
+     */
+    public function setDelivered($delivered)
+    {
+        $this->delivered = $delivered;
+
+        return $this;
+    }
+
+    /**
+     * Get delivered
+     *
+     * @return boolean
+     */
+    public function getDelivered()
+    {
+        return $this->delivered;
     }
 
     /**
@@ -462,7 +469,8 @@ class Order {
      *
      * @return Order
      */
-    public function setApprouved($approuved) {
+    public function setApprouved($approuved)
+    {
         $this->approuved = $approuved;
 
         return $this;
@@ -473,7 +481,8 @@ class Order {
      *
      * @return boolean
      */
-    public function getApprouved() {
+    public function getApprouved()
+    {
         return $this->approuved;
     }
 
@@ -484,7 +493,8 @@ class Order {
      *
      * @return Order
      */
-    public function setCanceled($canceled) {
+    public function setCanceled($canceled)
+    {
         $this->canceled = $canceled;
 
         return $this;
@@ -495,8 +505,33 @@ class Order {
      *
      * @return boolean
      */
-    public function getCanceled() {
+    public function getCanceled()
+    {
         return $this->canceled;
+    }
+
+    /**
+     * Set vente
+     *
+     * @param \AppBundle\Entity\Vente $vente
+     *
+     * @return Order
+     */
+    public function setVente(\AppBundle\Entity\Vente $vente = null)
+    {
+        $this->vente = $vente;
+
+        return $this;
+    }
+
+    /**
+     * Get vente
+     *
+     * @return \AppBundle\Entity\Vente
+     */
+    public function getVente()
+    {
+        return $this->vente;
     }
 
     /**
@@ -506,7 +541,8 @@ class Order {
      *
      * @return Order
      */
-    public function setUser(\AppBundle\Entity\User\User $user = null) {
+    public function setUser(\AppBundle\Entity\User\User $user = null)
+    {
         $this->user = $user;
 
         return $this;
@@ -517,8 +553,8 @@ class Order {
      *
      * @return \AppBundle\Entity\User\User
      */
-    public function getUser() {
+    public function getUser()
+    {
         return $this->user;
     }
-
 }

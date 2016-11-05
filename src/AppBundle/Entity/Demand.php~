@@ -59,6 +59,13 @@ class Demand {
     private $dateLimit;
 
     /**
+     * @var dateLimit date limite de l'offre
+     *
+     * @ORM\Column(type="datetime")
+     */
+    private $dateLimitUpdate;
+
+    /**
      * @var prixUnit prix unitaire
      *
      *
@@ -79,12 +86,57 @@ class Demand {
      * @ORM\Column(type="boolean", options={"default" : false})
      */
     private $published = false;
+    
+    /**
+     * @ORM\Column(type="datetime", nullable = true)
+     *
+     * @var \DateTime
+     */
+    private $canceledAt;
 
     /**
-     * @var Product
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Product", cascade={"persist"})
+     * @ORM\Column(type="text", nullable = true)
+     *
+     * @var \DateTime
      */
-
+    private $canceledReason;
+    
+    /**
+     * @var public boolean. offre published
+     * @ORM\Column(type="boolean", options={"default" : true})
+     */
+    private $available = true;
+       
+    /**
+     * @ORM\Column(type="datetime", nullable = true)
+     *
+     * @var \DateTime
+     */
+    private $deleteAt;
+    
+    /**
+     * @var accepted boolean. order accepte
+     * @ORM\Column(type="boolean", options={"default" : false})
+     */
+    private $delete = false;
+    
+    /**
+     * @var permanent boolean. Approvisionnement permanent
+     * @ORM\Column(type="boolean", options={"default" : false})
+     */
+    private $permanent = false;
+     
+    /**
+     * @var canceled boolean. order canceled
+     * @ORM\Column(type="boolean", options={"default" : false})
+     */
+    private $canceled = false;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Measure")
+     */
+    private $measure;
+    
     /**
      * @ORM\ManyToOne(targetEntity="Product", inversedBy="ventes")
      * @ORM\JoinColumn(name="product_id", referencedColumnName="id", nullable=false)
@@ -204,24 +256,6 @@ class Demand {
      */
     public function getDateLimit() {
         return $this->dateLimit;
-    }
-
-    /**
-     * Set createdAt
-     * *
-     * @ORM\PrePersist
-     */
-    public function setDateCreation() {
-        $this->createAt = new \DateTime();
-    }
-
-    /**
-     * Get createAt
-     *
-     * @return \DateTime
-     */
-    public function getDateCreation() {
-        return $this->createAt;
     }
 
     /**
