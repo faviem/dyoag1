@@ -70,6 +70,17 @@ doctrine:
         auto_generate_proxy_classes: "%kernel.debug%"
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
+        
+        # The mappings to import the FOSMessage entities
+        mappings:
+            fos_message:
+                type: annotation
+                dir: %kernel.root_dir%/../vendor/friendsofsymfony/message/src/Driver/Doctrine/ORM/Entity
+                prefix: FOS\Message\Driver\Doctrine\ORM\Entity
+                
+       # User your user entity instead of the PersonInterface
+        resolve_target_entities:
+            FOS\Message\Model\PersonInterface: AppBundle\Entity\User\User
 
 # Swiftmailer Configuration
 swiftmailer:
