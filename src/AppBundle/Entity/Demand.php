@@ -86,7 +86,7 @@ class Demand {
      * @ORM\Column(type="boolean", options={"default" : false})
      */
     private $published = false;
-    
+
     /**
      * @ORM\Column(type="datetime", nullable = true)
      *
@@ -100,43 +100,43 @@ class Demand {
      * @var \DateTime
      */
     private $canceledReason;
-    
+
     /**
      * @var public boolean. offre published
      * @ORM\Column(type="boolean", options={"default" : true})
      */
     private $available = true;
-       
+
     /**
      * @ORM\Column(type="datetime", nullable = true)
      *
      * @var \DateTime
      */
     private $deleteAt;
-    
+
     /**
      * @var accepted boolean. order accepte
      * @ORM\Column(type="boolean", options={"default" : false})
      */
     private $delete = false;
-    
+
     /**
      * @var permanent boolean. Approvisionnement permanent
      * @ORM\Column(type="boolean", options={"default" : false})
      */
     private $permanent = false;
-     
+
     /**
      * @var canceled boolean. order canceled
      * @ORM\Column(type="boolean", options={"default" : false})
      */
     private $canceled = false;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="Measure")
      */
     private $measure;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="Product", inversedBy="ventes")
      * @ORM\JoinColumn(name="product_id", referencedColumnName="id", nullable=false)
@@ -145,7 +145,7 @@ class Demand {
 
     /**
      * @var User\User
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User\User", inversedBy="ventes")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User\User", inversedBy="demands")
      */
     private $user;
 
@@ -158,7 +158,7 @@ class Demand {
     protected $district;
 
     /**
-     * @ORM\OneToMany(targetEntity="Demand", mappedBy="demand", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Supply", mappedBy="demand", cascade={"persist"})
      */
     private $supplies;
 
@@ -551,7 +551,6 @@ class Demand {
         return $this->supplies;
     }
 
-
     /**
      * Set createAt
      *
@@ -559,8 +558,7 @@ class Demand {
      *
      * @return Demand
      */
-    public function setCreateAt($createAt)
-    {
+    public function setCreateAt($createAt) {
         $this->createAt = $createAt;
 
         return $this;
@@ -571,8 +569,7 @@ class Demand {
      *
      * @return \DateTime
      */
-    public function getCreateAt()
-    {
+    public function getCreateAt() {
         return $this->createAt;
     }
 
@@ -584,8 +581,7 @@ class Demand {
      * @return Demand
      * @ORM\PreUpdate
      */
-    public function setDateLimitUpdate()
-    {
+    public function setDateLimitUpdate() {
         $this->dateLimitUpdate = new \DateTime();
         $this->dateLimitUpdate->add(new \DateInterval('P30D'));
 
@@ -597,8 +593,7 @@ class Demand {
      *
      * @return \DateTime
      */
-    public function getDateLimitUpdate()
-    {
+    public function getDateLimitUpdate() {
         return $this->dateLimitUpdate;
     }
 
@@ -609,8 +604,7 @@ class Demand {
      *
      * @return Demand
      */
-    public function setCanceledAt($canceledAt)
-    {
+    public function setCanceledAt($canceledAt) {
         $this->canceledAt = $canceledAt;
 
         return $this;
@@ -621,8 +615,7 @@ class Demand {
      *
      * @return \DateTime
      */
-    public function getCanceledAt()
-    {
+    public function getCanceledAt() {
         return $this->canceledAt;
     }
 
@@ -633,8 +626,7 @@ class Demand {
      *
      * @return Demand
      */
-    public function setCanceledReason($canceledReason)
-    {
+    public function setCanceledReason($canceledReason) {
         $this->canceledReason = $canceledReason;
 
         return $this;
@@ -645,8 +637,7 @@ class Demand {
      *
      * @return string
      */
-    public function getCanceledReason()
-    {
+    public function getCanceledReason() {
         return $this->canceledReason;
     }
 
@@ -657,8 +648,7 @@ class Demand {
      *
      * @return Demand
      */
-    public function setAvailable($available)
-    {
+    public function setAvailable($available) {
         $this->available = $available;
 
         return $this;
@@ -669,8 +659,7 @@ class Demand {
      *
      * @return boolean
      */
-    public function getAvailable()
-    {
+    public function getAvailable() {
         return $this->available;
     }
 
@@ -681,8 +670,7 @@ class Demand {
      *
      * @return Demand
      */
-    public function setDeleteAt($deleteAt)
-    {
+    public function setDeleteAt($deleteAt) {
         $this->deleteAt = $deleteAt;
 
         return $this;
@@ -693,8 +681,7 @@ class Demand {
      *
      * @return \DateTime
      */
-    public function getDeleteAt()
-    {
+    public function getDeleteAt() {
         return $this->deleteAt;
     }
 
@@ -705,8 +692,7 @@ class Demand {
      *
      * @return Demand
      */
-    public function setDelete($delete)
-    {
+    public function setDelete($delete) {
         $this->delete = $delete;
 
         return $this;
@@ -717,8 +703,7 @@ class Demand {
      *
      * @return boolean
      */
-    public function getDelete()
-    {
+    public function getDelete() {
         return $this->delete;
     }
 
@@ -729,8 +714,7 @@ class Demand {
      *
      * @return Demand
      */
-    public function setPermanent($permanent)
-    {
+    public function setPermanent($permanent) {
         $this->permanent = $permanent;
 
         return $this;
@@ -741,8 +725,7 @@ class Demand {
      *
      * @return boolean
      */
-    public function getPermanent()
-    {
+    public function getPermanent() {
         return $this->permanent;
     }
 
@@ -753,8 +736,7 @@ class Demand {
      *
      * @return Demand
      */
-    public function setCanceled($canceled)
-    {
+    public function setCanceled($canceled) {
         $this->canceled = $canceled;
 
         return $this;
@@ -765,8 +747,7 @@ class Demand {
      *
      * @return boolean
      */
-    public function getCanceled()
-    {
+    public function getCanceled() {
         return $this->canceled;
     }
 
@@ -777,8 +758,7 @@ class Demand {
      *
      * @return Demand
      */
-    public function setMeasure(\AppBundle\Entity\Measure $measure = null)
-    {
+    public function setMeasure(\AppBundle\Entity\Measure $measure = null) {
         $this->measure = $measure;
 
         return $this;
@@ -789,8 +769,8 @@ class Demand {
      *
      * @return \AppBundle\Entity\Measure
      */
-    public function getMeasure()
-    {
+    public function getMeasure() {
         return $this->measure;
     }
+
 }

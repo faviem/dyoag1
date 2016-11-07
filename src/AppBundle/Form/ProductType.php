@@ -22,11 +22,6 @@ class ProductType extends AbstractType {
                     'choice_name' => 'name',
                     'placeholder' => 'Choisissez votre produit',
                 ))
-                ->add('imageFile', VichFileType::class, array(
-                    'required' => false,
-                    'allow_delete' => true, // not mandatory, default is true
-                    'download_link' => true, // not mandatory, default is true
-                ))
                 ->add('measures', EntityType::class, array(
                     'class' => 'AppBundle:Measure',
                     'label' => 'Unité de mesure',
