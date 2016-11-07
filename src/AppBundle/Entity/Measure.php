@@ -33,7 +33,7 @@ class Measure {
     private $name;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Product", inversedBy="measures", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="Product", mappedBy="measures", cascade={"persist"})
      */
     private $products;
 

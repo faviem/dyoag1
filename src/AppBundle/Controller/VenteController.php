@@ -29,8 +29,8 @@ class VenteController extends Controller {
 
         $categories = $em->getRepository('AppBundle:Category')->findAll();
 
-        // pagination http://stackoverflow.com/questions/14817817/symfony-knppaginator-query-with-custom-filters-from-form-fields
-        // http://achreftlili.github.io/2015/08/23/Ajaxify-Knp-Bundle-pagination/
+// pagination http://stackoverflow.com/questions/14817817/symfony-knppaginator-query-with-custom-filters-from-form-fields
+// http://achreftlili.github.io/2015/08/23/Ajaxify-Knp-Bundle-pagination/
         $dql = "SELECT o FROM AppBundle:Vente o";
         $query = $em->createQuery($dql);
 
@@ -219,11 +219,10 @@ class VenteController extends Controller {
     }
 
     /**
-     * @Route("/vente/cities", name="vente_select_cities")
+     * @Route("/select/mesures", name="vente_select_measures")
      */
-    public function citiesAction(Request $request) {
-        //$product_id = $request->request->get('province_id');
-        $product_id = '05d26153-a27f-11e6-9cfc-643150374b26';
+    public function measuresAction(Request $request) {
+        $product_id = $request->request->get('product_id');
         $em = $this->getDoctrine()->getManager();
         $product = $em->getRepository('AppBundle:Product')->getMeasures($product_id);
         return new JsonResponse($product);

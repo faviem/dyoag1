@@ -22,6 +22,17 @@ form .form-group .checkbox-group{
 form label.form-control{
     text-align: left;
 }
+span.required{
+    color: red
+}
+input[type='number'] {
+    -moz-appearance:textfield;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
 /*screen-sm*/
 @media (max-width: 768px) {
     .brand-name {
