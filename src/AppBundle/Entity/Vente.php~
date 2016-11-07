@@ -569,4 +569,246 @@ class Vente {
     {
         return $this->user;
     }
+
+    /**
+     * Set createAt
+     *
+     * @param \DateTime $createAt
+     *
+     * @return Vente
+     */
+    public function setCreateAt($createAt)
+    {
+        $this->createAt = $createAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createAt
+     *
+     * @return \DateTime
+     */
+    public function getCreateAt()
+    {
+        return $this->createAt;
+    }
+
+    /**
+     * Set dateLimitUpdate
+     *
+     * @param \DateTime $dateLimitUpdate
+     *
+     * @return Vente
+     * @ORM\PreUpdate
+     */
+    public function setDateLimitUpdate()
+    {
+        $this->dateLimitUpdate = new \DateTime();
+        $this->dateLimitUpdate->add(new \DateInterval('P30D'));
+
+        return $this;
+    }
+
+    /**
+     * Get dateLimitUpdate
+     *
+     * @return \DateTime
+     */
+    public function getDateLimitUpdate()
+    {
+        return $this->dateLimitUpdate;
+    }
+
+    /**
+     * Set canceledAt
+     *
+     * @param \DateTime $canceledAt
+     *
+     * @return Vente
+     */
+    public function setCanceledAt($canceledAt)
+    {
+        $this->canceledAt = $canceledAt;
+
+        return $this;
+    }
+
+    /**
+     * Get canceledAt
+     *
+     * @return \DateTime
+     */
+    public function getCanceledAt()
+    {
+        return $this->canceledAt;
+    }
+
+    /**
+     * Set canceledReason
+     *
+     * @param string $canceledReason
+     *
+     * @return Vente
+     */
+    public function setCanceledReason($canceledReason)
+    {
+        $this->canceledReason = $canceledReason;
+
+        return $this;
+    }
+
+    /**
+     * Get canceledReason
+     *
+     * @return string
+     */
+    public function getCanceledReason()
+    {
+        return $this->canceledReason;
+    }
+
+    /**
+     * Set available
+     *
+     * @param boolean $available
+     *
+     * @return Vente
+     */
+    public function setAvailable($available)
+    {
+        $this->available = $available;
+
+        return $this;
+    }
+
+    /**
+     * Get available
+     *
+     * @return boolean
+     */
+    public function getAvailable()
+    {
+        return $this->available;
+    }
+
+    /**
+     * Set deleteAt
+     *
+     * @param \DateTime $deleteAt
+     *
+     * @return Vente
+     */
+    public function setDeleteAt($deleteAt)
+    {
+        $this->deleteAt = $deleteAt;
+
+        return $this;
+    }
+
+    /**
+     * Get deleteAt
+     *
+     * @return \DateTime
+     */
+    public function getDeleteAt()
+    {
+        return $this->deleteAt;
+    }
+
+    /**
+     * Set delete
+     *
+     * @param boolean $delete
+     *
+     * @return Vente
+     */
+    public function setDelete($delete)
+    {
+        $this->delete = $delete;
+
+        return $this;
+    }
+
+    /**
+     * Get delete
+     *
+     * @return boolean
+     */
+    public function getDelete()
+    {
+        return $this->delete;
+    }
+
+    /**
+     * Set permanent
+     *
+     * @param boolean $permanent
+     *
+     * @return Vente
+     */
+    public function setPermanent($permanent)
+    {
+        $this->permanent = $permanent;
+
+        return $this;
+    }
+
+    /**
+     * Get permanent
+     *
+     * @return boolean
+     */
+    public function getPermanent()
+    {
+        return $this->permanent;
+    }
+
+    /**
+     * Set canceled
+     *
+     * @param boolean $canceled
+     *
+     * @return Vente
+     */
+    public function setCanceled($canceled)
+    {
+        $this->canceled = $canceled;
+
+        return $this;
+    }
+
+    /**
+     * Get canceled
+     *
+     * @return boolean
+     */
+    public function getCanceled()
+    {
+        return $this->canceled;
+    }
+
+    /**
+     * Set measure
+     *
+     * @param \AppBundle\Entity\Measure $measure
+     *
+     * @return Vente
+     */
+    public function setMeasure(\AppBundle\Entity\Measure $measure = null)
+    {
+        $this->measure = $measure;
+
+        return $this;
+    }
+
+    /**
+     * Get measure
+     *
+     * @return \AppBundle\Entity\Measure
+     */
+    public function getMeasure()
+    {
+        return $this->measure;
+    }
 }
