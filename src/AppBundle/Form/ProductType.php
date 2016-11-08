@@ -21,6 +21,7 @@ class ProductType extends AbstractType {
                     'group_by' => 'category.name',
                     'choice_name' => 'name',
                     'placeholder' => 'Choisissez votre produit',
+                    'mapped' => false
                 ))
                 ->add('measures', EntityType::class, array(
                     'class' => 'AppBundle:Measure',
@@ -28,6 +29,7 @@ class ProductType extends AbstractType {
                     'required' => true,
 //                    'expanded' => true,
 //                    'multiple' => true,
+                    'mapped' => false
                 ))
         ;
     }

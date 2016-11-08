@@ -36,7 +36,7 @@ class Vente {
     private $lieu;
 
     /**
-     * @var dateCreation la date de creation de l 'offre.
+     * @var createAt la date de creation de l 'offre.
      *
      *
      * @ORM\Column(type="datetime")
@@ -80,7 +80,7 @@ class Vente {
      * @ORM\Column(type="text")
      */
     private $description;
-    
+
     /**
      * @ORM\Column(type="datetime", nullable = true)
      *
@@ -94,38 +94,38 @@ class Vente {
      * @var \DateTime
      */
     private $canceledReason;
-    
+
     /**
      * @var public boolean. offre published
      * @ORM\Column(type="boolean", options={"default" : false})
      */
     private $published = false;
-    
+
     /**
      * @var public boolean. offre published
      * @ORM\Column(type="boolean", options={"default" : true})
      */
     private $available = true;
-       
+
     /**
      * @ORM\Column(type="datetime", nullable = true)
      *
      * @var \DateTime
      */
     private $deleteAt;
-    
+
     /**
      * @var accepted boolean. order accepte
      * @ORM\Column(type="boolean", options={"default" : false})
      */
     private $delete = false;
-    
+
     /**
      * @var permanent boolean. Approvisionnement permanent
      * @ORM\Column(type="boolean", options={"default" : false})
      */
     private $permanent = false;
-     
+
     /**
      * @var canceled boolean. order canceled
      * @ORM\Column(type="boolean", options={"default" : false})
@@ -133,8 +133,7 @@ class Vente {
     private $canceled = false;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Product", inversedBy="ventes")
-     * @ORM\JoinColumn(name="product_id", referencedColumnName="id", nullable=false)
+     * @ORM\ManyToOne(targetEntity="Product", cascade={"persist"})
      */
     private $product;
 
@@ -250,6 +249,15 @@ class Vente {
     }
 
     /**
+     * Set createdAt
+     * *
+     * @ORM\PrePersist
+     */
+    public function setCreateat() {
+        $this->createAt = new \DateTime();
+    }
+
+    /**
      * Get dateLimit
      *
      * @return \DateTime
@@ -357,14 +365,12 @@ class Vente {
         }
     }
 
-
     /**
      * Get id
      *
      * @return guid
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -375,8 +381,7 @@ class Vente {
      *
      * @return Vente
      */
-    public function setLieu($lieu)
-    {
+    public function setLieu($lieu) {
         $this->lieu = $lieu;
 
         return $this;
@@ -387,8 +392,7 @@ class Vente {
      *
      * @return string
      */
-    public function getLieu()
-    {
+    public function getLieu() {
         return $this->lieu;
     }
 
@@ -399,8 +403,7 @@ class Vente {
      *
      * @return Vente
      */
-    public function setQuantite($quantite)
-    {
+    public function setQuantite($quantite) {
         $this->quantite = $quantite;
 
         return $this;
@@ -411,8 +414,7 @@ class Vente {
      *
      * @return integer
      */
-    public function getQuantite()
-    {
+    public function getQuantite() {
         return $this->quantite;
     }
 
@@ -423,8 +425,7 @@ class Vente {
      *
      * @return Vente
      */
-    public function setPrixUnit($prixUnit)
-    {
+    public function setPrixUnit($prixUnit) {
         $this->prixUnit = $prixUnit;
 
         return $this;
@@ -435,8 +436,7 @@ class Vente {
      *
      * @return integer
      */
-    public function getPrixUnit()
-    {
+    public function getPrixUnit() {
         return $this->prixUnit;
     }
 
@@ -447,8 +447,7 @@ class Vente {
      *
      * @return Vente
      */
-    public function setDescription($description)
-    {
+    public function setDescription($description) {
         $this->description = $description;
 
         return $this;
@@ -459,8 +458,7 @@ class Vente {
      *
      * @return string
      */
-    public function getDescription()
-    {
+    public function getDescription() {
         return $this->description;
     }
 
@@ -471,8 +469,7 @@ class Vente {
      *
      * @return Vente
      */
-    public function setPublished($published)
-    {
+    public function setPublished($published) {
         $this->published = $published;
 
         return $this;
@@ -483,33 +480,8 @@ class Vente {
      *
      * @return boolean
      */
-    public function getPublished()
-    {
+    public function getPublished() {
         return $this->published;
-    }
-
-    /**
-     * Set product
-     *
-     * @param \AppBundle\Entity\Product $product
-     *
-     * @return Vente
-     */
-    public function setProduct(\AppBundle\Entity\Product $product)
-    {
-        $this->product = $product;
-
-        return $this;
-    }
-
-    /**
-     * Get product
-     *
-     * @return \AppBundle\Entity\Product
-     */
-    public function getProduct()
-    {
-        return $this->product;
     }
 
     /**
@@ -519,8 +491,7 @@ class Vente {
      *
      * @return Vente
      */
-    public function addOrder(\AppBundle\Entity\Order $order)
-    {
+    public function addOrder(\AppBundle\Entity\Order $order) {
         $this->orders[] = $order;
 
         return $this;
@@ -531,8 +502,7 @@ class Vente {
      *
      * @param \AppBundle\Entity\Order $order
      */
-    public function removeOrder(\AppBundle\Entity\Order $order)
-    {
+    public function removeOrder(\AppBundle\Entity\Order $order) {
         $this->orders->removeElement($order);
     }
 
@@ -541,8 +511,7 @@ class Vente {
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getOrders()
-    {
+    public function getOrders() {
         return $this->orders;
     }
 
@@ -553,8 +522,7 @@ class Vente {
      *
      * @return Vente
      */
-    public function setUser(\AppBundle\Entity\User\User $user = null)
-    {
+    public function setUser(\AppBundle\Entity\User\User $user = null) {
         $this->user = $user;
 
         return $this;
@@ -565,23 +533,8 @@ class Vente {
      *
      * @return \AppBundle\Entity\User\User
      */
-    public function getUser()
-    {
+    public function getUser() {
         return $this->user;
-    }
-
-    /**
-     * Set createAt
-     *
-     * @param \DateTime $createAt
-     *
-     * @return Vente
-     */
-    public function setCreateAt($createAt)
-    {
-        $this->createAt = $createAt;
-
-        return $this;
     }
 
     /**
@@ -589,8 +542,7 @@ class Vente {
      *
      * @return \DateTime
      */
-    public function getCreateAt()
-    {
+    public function getCreateAt() {
         return $this->createAt;
     }
 
@@ -602,8 +554,7 @@ class Vente {
      * @return Vente
      * @ORM\PreUpdate
      */
-    public function setDateLimitUpdate()
-    {
+    public function setDateLimitUpdate() {
         $this->dateLimitUpdate = new \DateTime();
         $this->dateLimitUpdate->add(new \DateInterval('P30D'));
 
@@ -615,8 +566,7 @@ class Vente {
      *
      * @return \DateTime
      */
-    public function getDateLimitUpdate()
-    {
+    public function getDateLimitUpdate() {
         return $this->dateLimitUpdate;
     }
 
@@ -627,8 +577,7 @@ class Vente {
      *
      * @return Vente
      */
-    public function setCanceledAt($canceledAt)
-    {
+    public function setCanceledAt($canceledAt) {
         $this->canceledAt = $canceledAt;
 
         return $this;
@@ -639,8 +588,7 @@ class Vente {
      *
      * @return \DateTime
      */
-    public function getCanceledAt()
-    {
+    public function getCanceledAt() {
         return $this->canceledAt;
     }
 
@@ -651,8 +599,7 @@ class Vente {
      *
      * @return Vente
      */
-    public function setCanceledReason($canceledReason)
-    {
+    public function setCanceledReason($canceledReason) {
         $this->canceledReason = $canceledReason;
 
         return $this;
@@ -663,8 +610,7 @@ class Vente {
      *
      * @return string
      */
-    public function getCanceledReason()
-    {
+    public function getCanceledReason() {
         return $this->canceledReason;
     }
 
@@ -675,8 +621,7 @@ class Vente {
      *
      * @return Vente
      */
-    public function setAvailable($available)
-    {
+    public function setAvailable($available) {
         $this->available = $available;
 
         return $this;
@@ -687,8 +632,7 @@ class Vente {
      *
      * @return boolean
      */
-    public function getAvailable()
-    {
+    public function getAvailable() {
         return $this->available;
     }
 
@@ -699,8 +643,7 @@ class Vente {
      *
      * @return Vente
      */
-    public function setDeleteAt($deleteAt)
-    {
+    public function setDeleteAt($deleteAt) {
         $this->deleteAt = $deleteAt;
 
         return $this;
@@ -711,8 +654,7 @@ class Vente {
      *
      * @return \DateTime
      */
-    public function getDeleteAt()
-    {
+    public function getDeleteAt() {
         return $this->deleteAt;
     }
 
@@ -723,8 +665,7 @@ class Vente {
      *
      * @return Vente
      */
-    public function setDelete($delete)
-    {
+    public function setDelete($delete) {
         $this->delete = $delete;
 
         return $this;
@@ -735,8 +676,7 @@ class Vente {
      *
      * @return boolean
      */
-    public function getDelete()
-    {
+    public function getDelete() {
         return $this->delete;
     }
 
@@ -747,8 +687,7 @@ class Vente {
      *
      * @return Vente
      */
-    public function setPermanent($permanent)
-    {
+    public function setPermanent($permanent) {
         $this->permanent = $permanent;
 
         return $this;
@@ -759,8 +698,7 @@ class Vente {
      *
      * @return boolean
      */
-    public function getPermanent()
-    {
+    public function getPermanent() {
         return $this->permanent;
     }
 
@@ -771,8 +709,7 @@ class Vente {
      *
      * @return Vente
      */
-    public function setCanceled($canceled)
-    {
+    public function setCanceled($canceled) {
         $this->canceled = $canceled;
 
         return $this;
@@ -783,8 +720,7 @@ class Vente {
      *
      * @return boolean
      */
-    public function getCanceled()
-    {
+    public function getCanceled() {
         return $this->canceled;
     }
 
@@ -795,8 +731,7 @@ class Vente {
      *
      * @return Vente
      */
-    public function setMeasure(\AppBundle\Entity\Measure $measure = null)
-    {
+    public function setMeasure(\AppBundle\Entity\Measure $measure = null) {
         $this->measure = $measure;
 
         return $this;
@@ -807,8 +742,30 @@ class Vente {
      *
      * @return \AppBundle\Entity\Measure
      */
-    public function getMeasure()
-    {
+    public function getMeasure() {
         return $this->measure;
     }
+
+    /**
+     * Set product
+     *
+     * @param \AppBundle\Entity\Product $product
+     *
+     * @return Vente
+     */
+    public function setProduct(\AppBundle\Entity\Product $product = null) {
+        $this->product = $product;
+
+        return $this;
+    }
+
+    /**
+     * Get product
+     *
+     * @return \AppBundle\Entity\Product
+     */
+    public function getProduct() {
+        return $this->product;
+    }
+
 }

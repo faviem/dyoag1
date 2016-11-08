@@ -57,17 +57,13 @@ class VenteController extends Controller {
         $form->handleRequest($request);
         $user = $this->getUser();
 
-
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            if (null === $vente->getImageName()) {
+                $vente->setImageName($vente->getProduct()->getImageName());
+            }
+            var_dump($vente->getImageName());
             $vente->setUser($user);
-
-            $category_id = $request->request->get('vente')['product']['category'];
-
-            $category = $em->getRepository('AppBundle:Category')->find($category_id);
-
-            $vente->setProductCategroy($category->getName());
-
             $em->persist($vente);
             $em->flush();
 
@@ -204,18 +200,6 @@ class VenteController extends Controller {
                         ->setMethod('DELETE')
                         ->getForm()
         ;
-    }
-
-    /**
-     * @Route("/vente/provinces", name="vente_select_provinces")
-     */
-    public function provincesAction(Request $request) {
-        $country_id = $request->request->get('country_id');
-
-        $em = $this->getDoctrine()->getManager();
-        $provinces = $em->getRepository('AppBundle:Province')->findByCountryId($country_id);
-
-        return new JsonResponse($provinces);
     }
 
     /**

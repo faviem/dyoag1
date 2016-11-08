@@ -138,8 +138,7 @@ class Demand {
     private $measure;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Product", inversedBy="ventes")
-     * @ORM\JoinColumn(name="product_id", referencedColumnName="id", nullable=false)
+     * @ORM\ManyToOne(targetEntity="Product")
      */
     private $product;
 

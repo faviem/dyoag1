@@ -51,11 +51,6 @@ class Product {
     private $measures;
 
     /**
-     * @ORM\OneToMany(targetEntity="Vente", mappedBy="product", cascade={"persist"})
-     */
-    private $ventes;
-
-    /**
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
      *
      * @Vich\UploadableField(mapping="product_image", fileNameProperty="imageName")
@@ -72,7 +67,7 @@ class Product {
     private $imageName;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable = true)
      *
      * @var \DateTime
      */
@@ -128,7 +123,6 @@ class Product {
 
     public function __construct() {
         $this->measures = new ArrayCollection();
-        $this->ventes = new ArrayCollection();
     }
 
     /**
@@ -205,8 +199,9 @@ class Product {
     }
 
     public function __toString() {
-        return $this->name;
+        return '' . $this->getName();
     }
+
 
     /**
      * Add measure
@@ -215,7 +210,8 @@ class Product {
      *
      * @return Product
      */
-    public function addMeasure(\AppBundle\Entity\Measure $measure) {
+    public function addMeasure(\AppBundle\Entity\Measure $measure)
+    {
         $this->measures[] = $measure;
 
         return $this;
@@ -226,7 +222,8 @@ class Product {
      *
      * @param \AppBundle\Entity\Measure $measure
      */
-    public function removeMeasure(\AppBundle\Entity\Measure $measure) {
+    public function removeMeasure(\AppBundle\Entity\Measure $measure)
+    {
         $this->measures->removeElement($measure);
     }
 
@@ -235,39 +232,8 @@ class Product {
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getMeasures() {
+    public function getMeasures()
+    {
         return $this->measures;
     }
-
-    /**
-     * Add vente
-     *
-     * @param \AppBundle\Entity\Vente $vente
-     *
-     * @return Product
-     */
-    public function addVente(\AppBundle\Entity\Vente $vente) {
-        $this->ventes[] = $vente;
-
-        return $this;
-    }
-
-    /**
-     * Remove vente
-     *
-     * @param \AppBundle\Entity\Vente $vente
-     */
-    public function removeVente(\AppBundle\Entity\Vente $vente) {
-        $this->ventes->removeElement($vente);
-    }
-
-    /**
-     * Get ventes
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getVentes() {
-        return $this->ventes;
-    }
-
 }

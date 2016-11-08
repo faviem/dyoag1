@@ -28,7 +28,7 @@ define(
 
 //                $('select').chosen();
 //                $('.chosen-results li').css('text-align', 'left');
-                $("#vente_product_name").change(function () {
+                $("#vente_product").change(function () {
                     var data = {
                         product_id: $(this).val()
                     };
@@ -38,7 +38,7 @@ define(
                         url: Routing.generate('vente_select_measures'),
                         data: data
                     }).done(function (data) {
-                        var $measures_selector = $('#vente_product_measures'),
+                        var $measures_selector = $('#vente_measure'),
                                 $product_mage_selector = $('#product_image'),
                                 measures = data[0].measures;
                         $product_mage_selector.html('<img alt="" src="/uploads/images/products/' + data[0].imageName + '">');

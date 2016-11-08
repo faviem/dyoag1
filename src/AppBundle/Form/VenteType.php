@@ -20,14 +20,14 @@ class VenteType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options) {
 
         $builder
-                ->add('product', ProductType::class)
-//                ->add('product', EntityType::class, array(
-//                    'class' => 'AppBundle:Product',
-//                    'group_by' => 'category.name',
-//                    'choice_name' => 'name',
-//                    'placeholder' => 'Choisissez votre produit',
-//                    'required' => true
-//                ))
+                //->add('product', ProductType::class)
+                ->add('product', EntityType::class, array(
+                    'class' => 'AppBundle:Product',
+                    'group_by' => 'category.name',
+                    'choice_name' => 'name',
+                    'placeholder' => 'Choisissez votre produit',
+                    'required' => true
+                ))
                 ->add('district', EntityType::class, array(
                     'class' => 'AppBundle:District',
                     'group_by' => 'ProvinceCitydata',
@@ -37,6 +37,12 @@ class VenteType extends AbstractType {
                 ))
                 ->add('lieu')
                 ->add('quantite')
+                ->add('measure', EntityType::class, array(
+                    'class' => 'AppBundle:Measure',
+                    'label' => 'Unité de mesure',
+                    'required' => true,
+                    'placeholder' => 'Unités de mesures'
+                ))
 
 //            ->add('dateLimit', DateType::class, array(
 //                'widget' => 'single_text',
