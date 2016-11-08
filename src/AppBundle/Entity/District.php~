@@ -14,8 +14,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="district")
  * @ORM\Entity(repositoryClass="AppBundle\Entity\DistrictRepository")
  */
-class District
-{
+class District {
+
     /**
      * @var integer $id
      *
@@ -33,7 +33,7 @@ class District
     protected $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\City", inversedBy="cities")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\City", inversedBy="districts")
      * @ORM\JoinColumn(name="city_id", referencedColumnName="id")
      */
     protected $city;
@@ -43,8 +43,7 @@ class District
      *
      * @return integer
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -54,8 +53,7 @@ class District
      * @param  string $name
      * @return District
      */
-    public function setName($name)
-    {
+    public function setName($name) {
         $this->name = $name;
 
         return $this;
@@ -66,8 +64,7 @@ class District
      *
      * @return string
      */
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
 
@@ -77,8 +74,7 @@ class District
      * @param  \AppBundle\Entity\City $city
      * @return District
      */
-    public function setCity(\AppBundle\Entity\City $city = null)
-    {
+    public function setCity(\AppBundle\Entity\City $city = null) {
         $this->city = $city;
 
         return $this;
@@ -89,19 +85,16 @@ class District
      *
      * @return \AppBundle\Entity\City
      */
-    public function getCity()
-    {
+    public function getCity() {
         return $this->city;
     }
 
-    public function __toString()
-    {
+    public function __toString() {
         return $this->name;
     }
-    
-    public function getProvinceCitydata()
-    {
-        return $this->getCity()->getProvince()->getName().'  ('.$this->getCity()->getName().')';
+
+    public function getProvinceCitydata() {
+        return $this->getCity()->getProvince()->getName() . '  (' . $this->getCity()->getName() . ')';
     }
-    
+
 }

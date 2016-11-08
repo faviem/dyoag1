@@ -139,4 +139,422 @@ class Order {
      */
     private $user;
 
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set createAt
+     *
+     * @param \DateTime $createAt
+     *
+     * @return Order
+     */
+    public function setCreateAt($createAt)
+    {
+        $this->createAt = $createAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createAt
+     *
+     * @return \DateTime
+     */
+    public function getCreateAt()
+    {
+        return $this->createAt;
+    }
+
+    /**
+     * Set deliveredAt
+     *
+     * @param \DateTime $deliveredAt
+     *
+     * @return Order
+     */
+    public function setDeliveredAt($deliveredAt)
+    {
+        $this->deliveredAt = $deliveredAt;
+
+        return $this;
+    }
+
+    /**
+     * Get deliveredAt
+     *
+     * @return \DateTime
+     */
+    public function getDeliveredAt()
+    {
+        return $this->deliveredAt;
+    }
+
+    /**
+     * Set deliverConclusion
+     *
+     * @param string $deliverConclusion
+     *
+     * @return Order
+     */
+    public function setDeliverConclusion($deliverConclusion)
+    {
+        $this->deliverConclusion = $deliverConclusion;
+
+        return $this;
+    }
+
+    /**
+     * Get deliverConclusion
+     *
+     * @return string
+     */
+    public function getDeliverConclusion()
+    {
+        return $this->deliverConclusion;
+    }
+
+    /**
+     * Set canceledAt
+     *
+     * @param \DateTime $canceledAt
+     *
+     * @return Order
+     */
+    public function setCanceledAt($canceledAt)
+    {
+        $this->canceledAt = $canceledAt;
+
+        return $this;
+    }
+
+    /**
+     * Get canceledAt
+     *
+     * @return \DateTime
+     */
+    public function getCanceledAt()
+    {
+        return $this->canceledAt;
+    }
+
+    /**
+     * Set canceledReason
+     *
+     * @param string $canceledReason
+     *
+     * @return Order
+     */
+    public function setCanceledReason($canceledReason)
+    {
+        $this->canceledReason = $canceledReason;
+
+        return $this;
+    }
+
+    /**
+     * Get canceledReason
+     *
+     * @return string
+     */
+    public function getCanceledReason()
+    {
+        return $this->canceledReason;
+    }
+
+    /**
+     * Set acceptedAt
+     *
+     * @param \DateTime $acceptedAt
+     *
+     * @return Order
+     */
+    public function setAcceptedAt($acceptedAt)
+    {
+        $this->acceptedAt = $acceptedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get acceptedAt
+     *
+     * @return \DateTime
+     */
+    public function getAcceptedAt()
+    {
+        return $this->acceptedAt;
+    }
+
+    /**
+     * Set deleteAt
+     *
+     * @param \DateTime $deleteAt
+     *
+     * @return Order
+     */
+    public function setDeleteAt($deleteAt)
+    {
+        $this->deleteAt = $deleteAt;
+
+        return $this;
+    }
+
+    /**
+     * Get deleteAt
+     *
+     * @return \DateTime
+     */
+    public function getDeleteAt()
+    {
+        return $this->deleteAt;
+    }
+
+    /**
+     * Set approuvedAt
+     *
+     * @param \DateTime $approuvedAt
+     *
+     * @return Order
+     */
+    public function setApprouvedAt($approuvedAt)
+    {
+        $this->approuvedAt = $approuvedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get approuvedAt
+     *
+     * @return \DateTime
+     */
+    public function getApprouvedAt()
+    {
+        return $this->approuvedAt;
+    }
+
+    /**
+     * Set quantite
+     *
+     * @param integer $quantite
+     *
+     * @return Order
+     */
+    public function setQuantite($quantite)
+    {
+        $this->quantite = $quantite;
+
+        return $this;
+    }
+
+    /**
+     * Get quantite
+     *
+     * @return integer
+     */
+    public function getQuantite()
+    {
+        return $this->quantite;
+    }
+
+    /**
+     * Set rating
+     *
+     * @param integer $rating
+     *
+     * @return Order
+     */
+    public function setRating($rating)
+    {
+        $this->rating = $rating;
+
+        return $this;
+    }
+
+    /**
+     * Get rating
+     *
+     * @return integer
+     */
+    public function getRating()
+    {
+        return $this->rating;
+    }
+
+    /**
+     * Set delete
+     *
+     * @param boolean $delete
+     *
+     * @return Order
+     */
+    public function setDelete($delete)
+    {
+        $this->delete = $delete;
+
+        return $this;
+    }
+
+    /**
+     * Get delete
+     *
+     * @return boolean
+     */
+    public function getDelete()
+    {
+        return $this->delete;
+    }
+
+    /**
+     * Set accepted
+     *
+     * @param boolean $accepted
+     *
+     * @return Order
+     */
+    public function setAccepted($accepted)
+    {
+        $this->accepted = $accepted;
+
+        return $this;
+    }
+
+    /**
+     * Get accepted
+     *
+     * @return boolean
+     */
+    public function getAccepted()
+    {
+        return $this->accepted;
+    }
+
+    /**
+     * Set delivered
+     *
+     * @param boolean $delivered
+     *
+     * @return Order
+     */
+    public function setDelivered($delivered)
+    {
+        $this->delivered = $delivered;
+
+        return $this;
+    }
+
+    /**
+     * Get delivered
+     *
+     * @return boolean
+     */
+    public function getDelivered()
+    {
+        return $this->delivered;
+    }
+
+    /**
+     * Set approuved
+     *
+     * @param boolean $approuved
+     *
+     * @return Order
+     */
+    public function setApprouved($approuved)
+    {
+        $this->approuved = $approuved;
+
+        return $this;
+    }
+
+    /**
+     * Get approuved
+     *
+     * @return boolean
+     */
+    public function getApprouved()
+    {
+        return $this->approuved;
+    }
+
+    /**
+     * Set canceled
+     *
+     * @param boolean $canceled
+     *
+     * @return Order
+     */
+    public function setCanceled($canceled)
+    {
+        $this->canceled = $canceled;
+
+        return $this;
+    }
+
+    /**
+     * Get canceled
+     *
+     * @return boolean
+     */
+    public function getCanceled()
+    {
+        return $this->canceled;
+    }
+
+    /**
+     * Set vente
+     *
+     * @param \AppBundle\Entity\Vente $vente
+     *
+     * @return Order
+     */
+    public function setVente(\AppBundle\Entity\Vente $vente = null)
+    {
+        $this->vente = $vente;
+
+        return $this;
+    }
+
+    /**
+     * Get vente
+     *
+     * @return \AppBundle\Entity\Vente
+     */
+    public function getVente()
+    {
+        return $this->vente;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \AppBundle\Entity\User\User $user
+     *
+     * @return Order
+     */
+    public function setUser(\AppBundle\Entity\User\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \AppBundle\Entity\User\User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
 }
