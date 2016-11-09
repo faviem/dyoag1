@@ -61,7 +61,7 @@ class Vente {
     /**
      * @var dateLimit date limite de l'offre
      *
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable = true)
      */
     private $dateLimitUpdate;
 
@@ -118,7 +118,7 @@ class Vente {
      * @var accepted boolean. order accepte
      * @ORM\Column(type="boolean", options={"default" : false})
      */
-    private $delete = false;
+    private $deleted = false;
 
     /**
      * @var permanent boolean. Approvisionnement permanent
@@ -180,7 +180,7 @@ class Vente {
     /**
      * Date de modifcation de l'offre
      *
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable = true)
      *
      * @var \DateTime
      */
@@ -329,7 +329,7 @@ class Vente {
 
         // remove existing entries
         foreach ($index->find('pk:' . $this->getId()) as $hit) {
-            $index->delete($hit->id);
+            $index->deleted($hit->id);
         }
 
         // don't index expired and non-activated jobs
@@ -361,7 +361,7 @@ class Vente {
         $index = self::getLuceneIndex();
 
         foreach ($index->find('pk:' . $this->getId()) as $hit) {
-            $index->delete($hit->id);
+            $index->deleted($hit->id);
         }
     }
 
@@ -659,25 +659,25 @@ class Vente {
     }
 
     /**
-     * Set delete
+     * Set deleted
      *
-     * @param boolean $delete
+     * @param boolean $deleted
      *
      * @return Vente
      */
-    public function setDelete($delete) {
-        $this->delete = $delete;
+    public function setDelete($deleted) {
+        $this->deleted = $deleted;
 
         return $this;
     }
 
     /**
-     * Get delete
+     * Get deleted
      *
      * @return boolean
      */
     public function getDelete() {
-        return $this->delete;
+        return $this->deleted;
     }
 
     /**
