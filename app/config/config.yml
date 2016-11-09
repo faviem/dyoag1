@@ -227,6 +227,10 @@ knp_paginator:
 
 
 easy_admin:
+    site_name: 'DYO AGRO'
+    design:
+        brand_color: '#1ABC9C'
+
     entities:
 
         Category:
