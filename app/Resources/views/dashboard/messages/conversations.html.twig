@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Conversations{% endblock %}
+
+{% block body %}
+    <h3>Conversations</h3>
+
+    {% if conversations|length > 0 %}
+        <p>
+            <a href="{{ path('messages_start') }}">Start a conversation</a>
+        </p>
+
+        <hr />
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th style="width: 5%">#</th>
+                <th>With</th>
+                <th style="width: 15%">Last message</th>
+                <th style="width: 15%">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for conversation in conversations %}
+                {% set firstUnread = conversation.firstUnreadMessage(app.user) %}
+
+                <tr>
+                    <td>
+                        {{ conversation.id }}
+                    </td>
+                    <td>
+                        <a href="{{ path('messages_conversation', { 'id': conversation.id, 'page': 1 }) }}">
+                            {{ members_list(conversation, app.user) }}</a>
+                        {% if conversation.subject %}
+                            (Subject : {{ conversation.subject }})
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if firstUnread %}
+                            <a href="{{ path('messages_conversation', { 'id': conversation.id, 'page': get_message_page(conversation, firstUnread) }) }}">
+                                From {{ firstUnread.sender.username }}
+                                on {{ firstUnread.date|date('m/d/Y h:ia') }}
+                            </a>
+                            <strong>(New)</strong>
+                        {% else %}
+                            <a href="{{ path('messages_conversation', { 'id': conversation.id, 'page': get_message_page(conversation, conversation.messages.last) }) }}">
+                                From {{ conversation.messages.last.sender.username }}
+                                on {{ conversation.messages.last.date|date('m/d/Y h:ia') }}
+                            </a>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if firstUnread %}
+                            <form method="post" action="{{ path('messages_conversation_set_read', {'id': conversation.id}) }}">
+                                <button type="submit" class="btn btn-sm btn-link">
+                                    Set as read
+                                </button>
+                                {{ form_rest(forms[conversation.id]) }}
+                            </form>
+                        {% else %}
+                            <form method="post" action="{{ path('messages_conversation_set_unread', {'id': conversation.id}) }}">
+                                <button type="submit" class="btn btn-sm btn-link">
+                                    Set as not read
+                                </button>
+                                {{ form_rest(forms[conversation.id]) }}
+                            </form>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>
+            You don't have any conversation.
+            <a href="{{ path('messages_start') }}">Don't hesitate to start one!</a>
+        </p>
+    {% endif %}
+{% endblock %}

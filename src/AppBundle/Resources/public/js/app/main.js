@@ -24,6 +24,7 @@ requirejs.config({
         'backbone.nested': '/assets/js/backbone-nested',
         'backbone.associations': '/assets/js/backbone-associations',
         'chosen': '/assets/js/chosen',
+        'datatable': '/assets/js/datatable',
         'jquery.spin': 'vendor/jquery.spin',
         'spin': 'vendor/spin',
         //dashboard
