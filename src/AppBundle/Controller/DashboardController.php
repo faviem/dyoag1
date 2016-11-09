@@ -27,12 +27,16 @@ class DashboardController extends Controller
     {        
         $em = $this->getDoctrine()->getManager();
 
-        $ventes = $em->getRepository('AppBundle:Vente')->findBy(array(),array(
+        $ventes = $em->getRepository('AppBundle:Vente')->findBy(array('user' => $this->getUser()->getId()),array(
+                    'createAt' => 'ASC'
+        ));
+        $demands = $em->getRepository('AppBundle:Demand')->findBy(array('user' => $this->getUser()->getId()),array(
                     'createAt' => 'ASC'
         ));
         $produits = $em->getRepository('AppBundle:Product')->findAll();
          return $this->render('dashboard/index.html.twig',array(
                     'ventes' => $ventes,
+                    'demands' => $demands,
                     'produits' => $produits,
         ));
         
