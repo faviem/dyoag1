@@ -96,7 +96,7 @@
                         <li><a href="#">A propos</a></li>
                         <li><a href="{{ path('vente_index') }}">Marché</a></li>
                        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                        <li>{{ app.user.email }}</li>
+                        <li><a href="{{ path('index')}}">{{ app.user.firstName }} ...</a></li>
                         <li>
                             <a href="{{ path("fos_user_security_logout") }}">
                                 {{ "Déconnexion"|trans }}
