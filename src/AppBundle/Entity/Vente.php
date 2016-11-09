@@ -36,12 +36,12 @@ class Vente {
     private $lieu;
 
     /**
-     * @var dateCreation la date de creation de l 'offre.
+     * @var createAt la date de creation de l 'offre.
      *
      *
      * @ORM\Column(type="datetime")
      */
-    private $dateCreation;
+    private $createAt;
 
     /**
      * @var quantite
@@ -57,6 +57,13 @@ class Vente {
      * @ORM\Column(type="datetime")
      */
     private $dateLimit;
+
+    /**
+     * @var dateLimit date limite de l'offre
+     *
+     * @ORM\Column(type="datetime", nullable = true)
+     */
+    private $dateLimitUpdate;
 
     /**
      * @var prixUnit prix unitaire
@@ -75,21 +82,65 @@ class Vente {
     private $description;
 
     /**
+     * @ORM\Column(type="datetime", nullable = true)
+     *
+     * @var \DateTime
+     */
+    private $canceledAt;
+
+    /**
+     * @ORM\Column(type="text", nullable = true)
+     *
+     * @var \DateTime
+     */
+    private $canceledReason;
+
+    /**
      * @var public boolean. offre published
      * @ORM\Column(type="boolean", options={"default" : false})
      */
     private $published = false;
 
     /**
-     * @var Product
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Product", cascade={"persist"})
+     * @var public boolean. offre published
+     * @ORM\Column(type="boolean", options={"default" : true})
      */
+    private $available = true;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Product", inversedBy="ventes")
-     * @ORM\JoinColumn(name="product_id", referencedColumnName="id", nullable=false)
+     * @ORM\Column(type="datetime", nullable = true)
+     *
+     * @var \DateTime
+     */
+    private $deleteAt;
+
+    /**
+     * @var accepted boolean. order accepte
+     * @ORM\Column(type="boolean", options={"default" : false})
+     */
+    private $deleted = false;
+
+    /**
+     * @var permanent boolean. Approvisionnement permanent
+     * @ORM\Column(type="boolean", options={"default" : false})
+     */
+    private $permanent = false;
+
+    /**
+     * @var canceled boolean. order canceled
+     * @ORM\Column(type="boolean", options={"default" : false})
+     */
+    private $canceled = false;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Product", cascade={"persist"})
      */
     private $product;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Measure")
+     */
+    private $measure;
 
     /**
      * @ORM\OneToMany(targetEntity="Order", mappedBy="vente", cascade={"persist"})
@@ -129,7 +180,7 @@ class Vente {
     /**
      * Date de modifcation de l'offre
      *
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable = true)
      *
      * @var \DateTime
      */
@@ -198,30 +249,21 @@ class Vente {
     }
 
     /**
+     * Set createdAt
+     * *
+     * @ORM\PrePersist
+     */
+    public function setCreateat() {
+        $this->createAt = new \DateTime();
+    }
+
+    /**
      * Get dateLimit
      *
      * @return \DateTime
      */
     public function getDateLimit() {
         return $this->dateLimit;
-    }
-
-    /**
-     * Set createdAt
-     * *
-     * @ORM\PrePersist
-     */
-    public function setDateCreation() {
-        $this->dateCreation = new \DateTime();
-    }
-
-    /**
-     * Get dateCreation
-     *
-     * @return \DateTime
-     */
-    public function getDateCreation() {
-        return $this->dateCreation;
     }
 
     /**
@@ -287,7 +329,7 @@ class Vente {
 
         // remove existing entries
         foreach ($index->find('pk:' . $this->getId()) as $hit) {
-            $index->delete($hit->id);
+            $index->deleted($hit->id);
         }
 
         // don't index expired and non-activated jobs
@@ -319,18 +361,16 @@ class Vente {
         $index = self::getLuceneIndex();
 
         foreach ($index->find('pk:' . $this->getId()) as $hit) {
-            $index->delete($hit->id);
+            $index->deleted($hit->id);
         }
     }
-
 
     /**
      * Get id
      *
      * @return guid
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -341,8 +381,7 @@ class Vente {
      *
      * @return Vente
      */
-    public function setLieu($lieu)
-    {
+    public function setLieu($lieu) {
         $this->lieu = $lieu;
 
         return $this;
@@ -353,8 +392,7 @@ class Vente {
      *
      * @return string
      */
-    public function getLieu()
-    {
+    public function getLieu() {
         return $this->lieu;
     }
 
@@ -365,8 +403,7 @@ class Vente {
      *
      * @return Vente
      */
-    public function setQuantite($quantite)
-    {
+    public function setQuantite($quantite) {
         $this->quantite = $quantite;
 
         return $this;
@@ -377,8 +414,7 @@ class Vente {
      *
      * @return integer
      */
-    public function getQuantite()
-    {
+    public function getQuantite() {
         return $this->quantite;
     }
 
@@ -389,8 +425,7 @@ class Vente {
      *
      * @return Vente
      */
-    public function setPrixUnit($prixUnit)
-    {
+    public function setPrixUnit($prixUnit) {
         $this->prixUnit = $prixUnit;
 
         return $this;
@@ -401,8 +436,7 @@ class Vente {
      *
      * @return integer
      */
-    public function getPrixUnit()
-    {
+    public function getPrixUnit() {
         return $this->prixUnit;
     }
 
@@ -413,8 +447,7 @@ class Vente {
      *
      * @return Vente
      */
-    public function setDescription($description)
-    {
+    public function setDescription($description) {
         $this->description = $description;
 
         return $this;
@@ -425,8 +458,7 @@ class Vente {
      *
      * @return string
      */
-    public function getDescription()
-    {
+    public function getDescription() {
         return $this->description;
     }
 
@@ -437,8 +469,7 @@ class Vente {
      *
      * @return Vente
      */
-    public function setPublished($published)
-    {
+    public function setPublished($published) {
         $this->published = $published;
 
         return $this;
@@ -449,33 +480,8 @@ class Vente {
      *
      * @return boolean
      */
-    public function getPublished()
-    {
+    public function getPublished() {
         return $this->published;
-    }
-
-    /**
-     * Set product
-     *
-     * @param \AppBundle\Entity\Product $product
-     *
-     * @return Vente
-     */
-    public function setProduct(\AppBundle\Entity\Product $product)
-    {
-        $this->product = $product;
-
-        return $this;
-    }
-
-    /**
-     * Get product
-     *
-     * @return \AppBundle\Entity\Product
-     */
-    public function getProduct()
-    {
-        return $this->product;
     }
 
     /**
@@ -485,8 +491,7 @@ class Vente {
      *
      * @return Vente
      */
-    public function addOrder(\AppBundle\Entity\Order $order)
-    {
+    public function addOrder(\AppBundle\Entity\Order $order) {
         $this->orders[] = $order;
 
         return $this;
@@ -497,8 +502,7 @@ class Vente {
      *
      * @param \AppBundle\Entity\Order $order
      */
-    public function removeOrder(\AppBundle\Entity\Order $order)
-    {
+    public function removeOrder(\AppBundle\Entity\Order $order) {
         $this->orders->removeElement($order);
     }
 
@@ -507,8 +511,7 @@ class Vente {
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getOrders()
-    {
+    public function getOrders() {
         return $this->orders;
     }
 
@@ -519,8 +522,7 @@ class Vente {
      *
      * @return Vente
      */
-    public function setUser(\AppBundle\Entity\User\User $user = null)
-    {
+    public function setUser(\AppBundle\Entity\User\User $user = null) {
         $this->user = $user;
 
         return $this;
@@ -531,8 +533,239 @@ class Vente {
      *
      * @return \AppBundle\Entity\User\User
      */
-    public function getUser()
-    {
+    public function getUser() {
         return $this->user;
     }
+
+    /**
+     * Get createAt
+     *
+     * @return \DateTime
+     */
+    public function getCreateAt() {
+        return $this->createAt;
+    }
+
+    /**
+     * Set dateLimitUpdate
+     *
+     * @param \DateTime $dateLimitUpdate
+     *
+     * @return Vente
+     * @ORM\PreUpdate
+     */
+    public function setDateLimitUpdate() {
+        $this->dateLimitUpdate = new \DateTime();
+        $this->dateLimitUpdate->add(new \DateInterval('P30D'));
+
+        return $this;
+    }
+
+    /**
+     * Get dateLimitUpdate
+     *
+     * @return \DateTime
+     */
+    public function getDateLimitUpdate() {
+        return $this->dateLimitUpdate;
+    }
+
+    /**
+     * Set canceledAt
+     *
+     * @param \DateTime $canceledAt
+     *
+     * @return Vente
+     */
+    public function setCanceledAt($canceledAt) {
+        $this->canceledAt = $canceledAt;
+
+        return $this;
+    }
+
+    /**
+     * Get canceledAt
+     *
+     * @return \DateTime
+     */
+    public function getCanceledAt() {
+        return $this->canceledAt;
+    }
+
+    /**
+     * Set canceledReason
+     *
+     * @param string $canceledReason
+     *
+     * @return Vente
+     */
+    public function setCanceledReason($canceledReason) {
+        $this->canceledReason = $canceledReason;
+
+        return $this;
+    }
+
+    /**
+     * Get canceledReason
+     *
+     * @return string
+     */
+    public function getCanceledReason() {
+        return $this->canceledReason;
+    }
+
+    /**
+     * Set available
+     *
+     * @param boolean $available
+     *
+     * @return Vente
+     */
+    public function setAvailable($available) {
+        $this->available = $available;
+
+        return $this;
+    }
+
+    /**
+     * Get available
+     *
+     * @return boolean
+     */
+    public function getAvailable() {
+        return $this->available;
+    }
+
+    /**
+     * Set deleteAt
+     *
+     * @param \DateTime $deleteAt
+     *
+     * @return Vente
+     */
+    public function setDeleteAt($deleteAt) {
+        $this->deleteAt = $deleteAt;
+
+        return $this;
+    }
+
+    /**
+     * Get deleteAt
+     *
+     * @return \DateTime
+     */
+    public function getDeleteAt() {
+        return $this->deleteAt;
+    }
+
+    /**
+     * Set deleted
+     *
+     * @param boolean $deleted
+     *
+     * @return Vente
+     */
+    public function setDelete($deleted) {
+        $this->deleted = $deleted;
+
+        return $this;
+    }
+
+    /**
+     * Get deleted
+     *
+     * @return boolean
+     */
+    public function getDelete() {
+        return $this->deleted;
+    }
+
+    /**
+     * Set permanent
+     *
+     * @param boolean $permanent
+     *
+     * @return Vente
+     */
+    public function setPermanent($permanent) {
+        $this->permanent = $permanent;
+
+        return $this;
+    }
+
+    /**
+     * Get permanent
+     *
+     * @return boolean
+     */
+    public function getPermanent() {
+        return $this->permanent;
+    }
+
+    /**
+     * Set canceled
+     *
+     * @param boolean $canceled
+     *
+     * @return Vente
+     */
+    public function setCanceled($canceled) {
+        $this->canceled = $canceled;
+
+        return $this;
+    }
+
+    /**
+     * Get canceled
+     *
+     * @return boolean
+     */
+    public function getCanceled() {
+        return $this->canceled;
+    }
+
+    /**
+     * Set measure
+     *
+     * @param \AppBundle\Entity\Measure $measure
+     *
+     * @return Vente
+     */
+    public function setMeasure(\AppBundle\Entity\Measure $measure = null) {
+        $this->measure = $measure;
+
+        return $this;
+    }
+
+    /**
+     * Get measure
+     *
+     * @return \AppBundle\Entity\Measure
+     */
+    public function getMeasure() {
+        return $this->measure;
+    }
+
+    /**
+     * Set product
+     *
+     * @param \AppBundle\Entity\Product $product
+     *
+     * @return Vente
+     */
+    public function setProduct(\AppBundle\Entity\Product $product = null) {
+        $this->product = $product;
+
+        return $this;
+    }
+
+    /**
+     * Get product
+     *
+     * @return \AppBundle\Entity\Product
+     */
+    public function getProduct() {
+        return $this->product;
+    }
+
 }

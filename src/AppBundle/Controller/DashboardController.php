@@ -25,8 +25,16 @@ class DashboardController extends Controller
      */
     public function indexAction(Request $request)
     {        
-       
-        return $this->render('dashboard/index.html.twig');
+        $em = $this->getDoctrine()->getManager();
+
+        $ventes = $em->getRepository('AppBundle:Vente')->findBy(array(),array(
+                    'createAt' => 'ASC'
+        ));
+        $produits = $em->getRepository('AppBundle:Product')->findAll();
+         return $this->render('dashboard/index.html.twig',array(
+                    'ventes' => $ventes,
+                    'produits' => $produits,
+        ));
         
     }    
     

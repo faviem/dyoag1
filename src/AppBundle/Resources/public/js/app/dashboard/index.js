@@ -20,8 +20,9 @@ define(
     'jquery'
 ],
     function($) {
+       
         'use strict';
-
+          
         var toggle = true;
         $(".sidebar-icon").click(function() {                
             if (toggle)

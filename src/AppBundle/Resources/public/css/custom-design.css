@@ -3,7 +3,7 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 */
-/* 
+/*
     Created on : 11 juil. 2016, 10:50:22
     Author     : Jacques
 */
@@ -14,21 +14,40 @@ and open the template in the editor.
 .dropdown {
     text-align: left;
 }
+
+form .form-group .checkbox-group{
+    margin-left: 60px;
+    text-align: left;
+}
+form label.form-control{
+    text-align: left;
+}
+span.required{
+    color: red
+}
+input[type='number'] {
+    -moz-appearance:textfield;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
 /*screen-sm*/
-@media (max-width: 768px) { 
+@media (max-width: 768px) {
     .brand-name {
         font-size: 26px;
     }
 }
 
-@media (min-width: 768px) and (max-width: 992px) { 
+@media (min-width: 768px) and (max-width: 992px) {
 
 }
 /*screen-md*/
-@media (min-width: 992px) and (max-width: 1200px) { 
+@media (min-width: 992px) and (max-width: 1200px) {
 
 }
 /*screen-lg corresponds with col-lg*/
-@media (min-width: 1200px) {  
+@media (min-width: 1200px) {
 
 }

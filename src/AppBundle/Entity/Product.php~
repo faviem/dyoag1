@@ -14,7 +14,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @see http://schema.org/Product Documentation on Schema.org
  *
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\ProductRepository")
  * @ORM\Table("Product")
  * @ORM\HasLifecycleCallbacks()
  * @Vich\Uploadable
@@ -45,15 +45,10 @@ class Product {
     private $category;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Measure", inversedBy="products")
+     * @ORM\ManyToMany(targetEntity="Measure", inversedBy="products", cascade={"persist"})
      * @ORM\JoinTable(name="products_measures")
      */
     private $measures;
-
-    /**
-     * @ORM\OneToMany(targetEntity="Vente", mappedBy="product", cascade={"persist"})
-     */
-    private $ventes;
 
     /**
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
@@ -72,7 +67,7 @@ class Product {
     private $imageName;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable = true)
      *
      * @var \DateTime
      */
@@ -128,7 +123,6 @@ class Product {
 
     public function __construct() {
         $this->measures = new ArrayCollection();
-        $this->ventes = new ArrayCollection();
     }
 
     /**
@@ -205,7 +199,7 @@ class Product {
     }
 
     public function __toString() {
-        return $this->name;
+        return '' . $this->getName();
     }
 
 }

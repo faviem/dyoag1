@@ -33,7 +33,7 @@ class Measure {
     private $name;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Product", inversedBy="measures")
+     * @ORM\ManyToMany(targetEntity="Product", mappedBy="measures", cascade={"persist"})
      */
     private $products;
 
@@ -103,6 +103,10 @@ class Measure {
      */
     public function __construct() {
         $this->products = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    public function __toString() {
+        return $this->getName();
     }
 
 }

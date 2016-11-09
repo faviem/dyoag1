@@ -269,8 +269,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 <!--/down-->
                 <div class="down">	
                     <a href="index.html"><img src="{{ asset('assets/images/admin.jpg')}}"></a>
-                    <a href="index.html"><span class=" name-caret">Jasmin Leo</span></a>
-                    <p>System Administrator in Company</p>
+                    <a href="index.html"><span class=" name-caret">{{ app.user.lastName }} {{ app.user.lastName }}</span></a>
+                    <p> {{ app.user.profil }}</p>
                     <ul>
                         <li><a class="tooltips" href="index.html"><span>Profile</span><i class="lnr lnr-user"></i></a></li>
                         <li><a class="tooltips" href="index.html"><span>Settings</span><i class="lnr lnr-cog"></i></a></li>

@@ -30,7 +30,7 @@ class Field {
     private $name;
 
     /**
-     * @ORM\ManyToMany(targetEntity="User", mappedBy="fields", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User\User", mappedBy="fields", cascade={"persist"})
      */
     private $users;
 
@@ -38,14 +38,12 @@ class Field {
         $this->users = new ArrayCollection();
     }
 
-
     /**
      * Get id
      *
      * @return integer
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -56,8 +54,7 @@ class Field {
      *
      * @return Field
      */
-    public function setName($name)
-    {
+    public function setName($name) {
         $this->name = $name;
 
         return $this;
@@ -68,8 +65,7 @@ class Field {
      *
      * @return string
      */
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
 
@@ -80,8 +76,7 @@ class Field {
      *
      * @return Field
      */
-    public function addUser(\AppBundle\Entity\User\User $user)
-    {
+    public function addUser(\AppBundle\Entity\User\User $user) {
         $this->users[] = $user;
 
         return $this;
@@ -92,8 +87,7 @@ class Field {
      *
      * @param \AppBundle\Entity\User\User $user
      */
-    public function removeUser(\AppBundle\Entity\User\User $user)
-    {
+    public function removeUser(\AppBundle\Entity\User\User $user) {
         $this->users->removeElement($user);
     }
 
@@ -102,8 +96,12 @@ class Field {
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getUsers()
-    {
+    public function getUsers() {
         return $this->users;
     }
+
+    public function __toString() {
+        return $this->name;
+    }
+
 }

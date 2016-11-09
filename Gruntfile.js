@@ -20,6 +20,7 @@ module.exports = function (grunt) {
                     'js/backbone-nested.js': 'backbone-nested-model/backbone-nested.js',
                     'js/backbone-associations.js': 'backbone-associations/backbone-associations-min.js',
                     'js/chosen.js': 'chosen-bower/chosen.jquery.min.js',
+                    'js/datatable.js': 'datatables.net/js/jquery.dataTables.min.js',
                     //pour le dashboard 
                 }
             },

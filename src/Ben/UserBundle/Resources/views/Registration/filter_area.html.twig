@@ -7,10 +7,11 @@
 {% do form.plainPassword.setRendered %}
 {% do form.profil.setRendered %}
 {% do form.phone.setRendered %}
-{% do form.typeProfile.setRendered %}
-{% do form.domaine.setRendered %}
+{% do form.user_category.setRendered %}
+{% do form.fields.setRendered %}
 
 {% if(form.nomEntreprise is defined) %}
+    <legend>{{ "registration.legend.3" | trans }}</legend>
     <div class="form-group">
         {{ form_widget(form.nomEntreprise, {'attr' : {'class' : 'form-control', 'placeholder' : 'registration.nomEntreprise'|trans}}) }}
         {{ form_errors(form.nomEntreprise) }}

@@ -38,14 +38,12 @@ class UserCategory {
         $this->users = new ArrayCollection();
     }
 
-
     /**
      * Get id
      *
      * @return integer
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -56,8 +54,7 @@ class UserCategory {
      *
      * @return UserCategory
      */
-    public function setName($name)
-    {
+    public function setName($name) {
         $this->name = $name;
 
         return $this;
@@ -68,8 +65,7 @@ class UserCategory {
      *
      * @return string
      */
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
 
@@ -80,8 +76,7 @@ class UserCategory {
      *
      * @return UserCategory
      */
-    public function addUser(\AppBundle\Entity\User\User $user)
-    {
+    public function addUser(\AppBundle\Entity\User\User $user) {
         $this->users[] = $user;
 
         return $this;
@@ -92,8 +87,7 @@ class UserCategory {
      *
      * @param \AppBundle\Entity\User\User $user
      */
-    public function removeUser(\AppBundle\Entity\User\User $user)
-    {
+    public function removeUser(\AppBundle\Entity\User\User $user) {
         $this->users->removeElement($user);
     }
 
@@ -102,8 +96,12 @@ class UserCategory {
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getUsers()
-    {
+    public function getUsers() {
         return $this->users;
     }
+
+    public function __toString() {
+        return $this->name;
+    }
+
 }
