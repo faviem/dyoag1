@@ -35,10 +35,8 @@
         "jms/serializer-bundle": "^1.1",
         "gos/web-socket-bundle": "^1.8",
         "knplabs/knp-paginator-bundle": "^2.5",
-        "zendframework/zendsearch" : "^2.0@rc",
-        "egeloen/lucene-search-bundle": "^2.0",
-        "friendsofsymfony/message": "1.0.x-dev",
         "zendframework/zendsearch": "^2.0@rc",
+        "friendsofsymfony/message": "1.0.x-dev",
         "javiereguiluz/easyadmin-bundle": "^1.15"
 
     },
