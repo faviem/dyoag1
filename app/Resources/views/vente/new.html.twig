@@ -12,19 +12,19 @@
 
                         <div class="form-group col-sm-6 ">
 
-                            {{ form_label(form.product.name, label|default('Nom du produit'), { 'label_attr': { 'class': 'font-secondary' } }) }}
+                            {{ form_label(form.product, label|default('Nom du produit'), { 'label_attr': { 'class': 'font-secondary' } }) }}
                             <span class="required">*</span>
-                            {{ form_widget(form.product.name, {'attr' : {'class' : 'form-control'}} )}}
-                            {{ form_errors(form.product.name) }}
+                            {{ form_widget(form.product, {'attr' : {'class' : 'form-control'}} )}}
+                            {{ form_errors(form.product) }}
                         </div>
                         <div id="product_image" class="col-sm-6 ">
                         </div>
 
                         <div class="form-group col-sm-6 ">
-                            {{ form_label(form.product.measures, label|default(null), { 'label_attr': { 'class': 'font-secondary' } }) }}
+                            {{ form_label(form.measure, label|default(null), { 'label_attr': { 'class': 'font-secondary' } }) }}
                             <span class="required">*</span>
-                            {{ form_widget(form.product.measures, {'attr' : {'class' : 'form-control'}} )}}
-                            {{ form_errors(form.product.measures) }}
+                            {{ form_widget(form.measure, {'attr' : {'class' : 'form-control'}} )}}
+                            {{ form_errors(form.measure) }}
                         </div>
 
                         <div class="form-group col-sm-6 ">
