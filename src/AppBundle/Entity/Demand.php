@@ -772,4 +772,28 @@ class Demand {
         return $this->measure;
     }
 
+
+    /**
+     * Set deleted
+     *
+     * @param boolean $deleted
+     *
+     * @return Demand
+     */
+    public function setDeleted($deleted)
+    {
+        $this->deleted = $deleted;
+
+        return $this;
+    }
+
+    /**
+     * Get deleted
+     *
+     * @return boolean
+     */
+    public function getDeleted()
+    {
+        return $this->deleted;
+    }
 }

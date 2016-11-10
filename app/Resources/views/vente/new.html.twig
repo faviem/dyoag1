@@ -30,7 +30,7 @@
                         <div class="form-group col-sm-6 ">
                             {{ form_label(form.quantite, label|default(null), { 'label_attr': { 'class': 'font-secondary' } }) }}
                             <span class="required">*</span>
-                            {{ form_widget(form.quantite, {'attr' : {'class' : 'form-control'}} )}}
+                            {{ form_widget(form.quantite, {'attr' : {'class' : 'form-control', min: 0}} )}}
                             {{ form_errors(form.quantite) }}
                         </div>
 
@@ -44,10 +44,15 @@
                         <div class="form-group col-sm-6 ">
                             {{ form_label(form.prixUnit, label|default('Prix unitaire'), { 'label_attr': { 'class': 'font-secondary' } }) }}
                             <span class="required">*</span>
-                            {{ form_widget(form.prixUnit, {'attr' : {'class' : 'form-control'}} )}}
+                            <div class="input-group">
+                                {{ form_widget(form.prixUnit, {'attr' : {'class' : 'form-control', min: 0, value : 0}} )}}
+                                <span class="input-group-addon">FCFA</span>
+                            </div>
+
                             {{ form_errors(form.prixUnit) }}
                         </div>
 
+                        <div class="clearfix visible-sm"></div>
                         <div class="form-group">
                             {{ form_label(form.description, label|default(null), { 'label_attr': { 'class': 'font-secondary' } }) }}
                             <span class="required">*</span>
@@ -65,7 +70,6 @@
                             {{ form_errors(form.district) }}
                         </div>
 
-
                         <div class="form-group col-sm-6 ">
                             {{ form_label(form.lieu, label|default('Quartier/Village'), { 'label_attr': { 'class': 'font-secondary' } }) }}
                             <span class="required">*</span>
@@ -73,11 +77,12 @@
                             {{ form_errors(form.lieu) }}
                         </div>
 
-
                         <div class="form-group col-sm-12">
-                            {{ form_label(form.imageFile, label|default('Votre image'), { 'label_attr': { 'class': 'font-secondary' } }) }}
                             {{ form_widget(form.imageFile, {'attr' : {'class' : 'form-control'}} )}}
                             {{ form_errors(form.imageFile) }}
+                        </div>
+                        <div class="form-group col-sm-12">
+                            {{ form_widget(form.recaptcha) }}
                         </div>
 
                         <button class="btn btn-primary btn-xs round-xl btn-block form-el-offset-1" type="submit">Ajouter</button>

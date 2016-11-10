@@ -10,6 +10,8 @@ use Vich\UploaderBundle\Form\Type\VichFileType;
 use AppBundle\Form\ProductType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use EWZ\Bundle\RecaptchaBundle\Form\Type\EWZRecaptchaType;
+use EWZ\Bundle\RecaptchaBundle\Validator\Constraints\IsTrue as RecaptchaTrue;
 
 class VenteType extends AbstractType {
 
@@ -55,6 +57,21 @@ class VenteType extends AbstractType {
                     'required' => false,
                     'allow_delete' => true, // not mandatory, default is true
                     'download_link' => true, // not mandatory, default is true
+                ))
+                ->add('recaptcha', EWZRecaptchaType::class, array(
+                    'attr' => array(
+                        'options' => array(
+                            'theme' => 'light',
+                            'type' => 'image',
+                            'size' => 'normal',
+                            'defer' => true,
+                            'async' => true
+                        )
+                    ),
+                    'mapped' => false,
+                    'constraints' => array(
+                        new RecaptchaTrue()
+                    )
                 ))
         ;
     }

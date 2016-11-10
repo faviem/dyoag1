@@ -11,6 +11,8 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use libphonenumber\PhoneNumberFormat;
+use Misd\PhoneNumberBundle\Form\Type\PhoneNumberType;
 
 class RegistrationType extends AbstractType {
 
@@ -28,7 +30,12 @@ class RegistrationType extends AbstractType {
                         'placeholder' => 'registration.lastname',
                     )
                 ))
-                ->add('phone', TextType::class, array(
+                ->add('phone', PhoneNumberType::class, array(
+                    'default_region' => 'BJ',
+                    'format' => PhoneNumberFormat::NATIONAL,
+                    'widget' => PhoneNumberType::WIDGET_COUNTRY_CHOICE,
+                    'country_choices' => array('BJ', 'TG', 'NE', 'NG'),
+                    'preferred_country_choices' => array('BJ', 'TG', 'NE'),
                     'attr' => array(
                         'placeholder' => 'registration.phone',
                     )

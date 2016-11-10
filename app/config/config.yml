@@ -65,19 +65,20 @@ doctrine:
         #   2. Uncomment database_path in parameters.yml.dist
         #   3. Uncomment next line:
         #     path:     "%database_path%"
-
+        types:
+            phone_number: Misd\PhoneNumberBundle\Doctrine\DBAL\Types\PhoneNumberType
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
-        
+
         # The mappings to import the FOSMessage entities
         mappings:
             fos_message:
                 type: annotation
                 dir: %kernel.root_dir%/../vendor/friendsofsymfony/message/src/Driver/Doctrine/ORM/Entity
                 prefix: FOS\Message\Driver\Doctrine\ORM\Entity
-                
+
        # User your user entity instead of the PersonInterface
         resolve_target_entities:
             FOS\Message\Model\PersonInterface: AppBundle\Entity\User\User
@@ -279,3 +280,16 @@ easy_admin:
 
         User:
             class: AppBundle\Entity\User\User
+
+stof_doctrine_extensions:
+
+    orm:
+        default:
+            sluggable:   true
+
+ewz_recaptcha:
+    public_key:  6Lf4pQsUAAAAAHV2drage3EOo1Z4yxez3zlDvxsv
+    private_key: 6Lf4pQsUAAAAAJpte8c3z85FdcUxfy2AJ0_kqHhs
+    locale_from_request: true
+    #ajax: true
+    #enabled: false #uncomment to desactivate it
