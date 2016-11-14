@@ -72,6 +72,18 @@ class Product {
      * @var \DateTime
      */
     private $updatedAt;
+    
+    /**
+     * @var ventes[]
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Vente", mappedBy="product", cascade={"persist"})
+     */
+    private $ventes;
+    
+    /**
+     * @var demands[]
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Demand", mappedBy="product", cascade={"persist"})
+     */
+    private $demands;
 
     /**
      * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
@@ -235,5 +247,73 @@ class Product {
     public function getMeasures()
     {
         return $this->measures;
+    }
+
+    /**
+     * Add vente
+     *
+     * @param \AppBundle\Entity\Vente $vente
+     *
+     * @return Product
+     */
+    public function addVente(\AppBundle\Entity\Vente $vente)
+    {
+        $this->ventes[] = $vente;
+
+        return $this;
+    }
+
+    /**
+     * Remove vente
+     *
+     * @param \AppBundle\Entity\Vente $vente
+     */
+    public function removeVente(\AppBundle\Entity\Vente $vente)
+    {
+        $this->ventes->removeElement($vente);
+    }
+
+    /**
+     * Get ventes
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getVentes()
+    {
+        return $this->ventes;
+    }
+
+    /**
+     * Add demand
+     *
+     * @param \AppBundle\Entity\Demand $demand
+     *
+     * @return Product
+     */
+    public function addDemand(\AppBundle\Entity\Demand $demand)
+    {
+        $this->demands[] = $demand;
+
+        return $this;
+    }
+
+    /**
+     * Remove demand
+     *
+     * @param \AppBundle\Entity\Demand $demand
+     */
+    public function removeDemand(\AppBundle\Entity\Demand $demand)
+    {
+        $this->demands->removeElement($demand);
+    }
+
+    /**
+     * Get demands
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getDemands()
+    {
+        return $this->demands;
     }
 }

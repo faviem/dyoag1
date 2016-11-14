@@ -133,7 +133,7 @@ class Vente {
     private $canceled = false;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Product", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Product", cascade={"persist"}, inversedBy="ventes")
      */
     private $product;
 
@@ -768,4 +768,28 @@ class Vente {
         return $this->product;
     }
 
+
+    /**
+     * Set deleted
+     *
+     * @param boolean $deleted
+     *
+     * @return Vente
+     */
+    public function setDeleted($deleted)
+    {
+        $this->deleted = $deleted;
+
+        return $this;
+    }
+
+    /**
+     * Get deleted
+     *
+     * @return boolean
+     */
+    public function getDeleted()
+    {
+        return $this->deleted;
+    }
 }

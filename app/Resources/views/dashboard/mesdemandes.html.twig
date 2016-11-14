@@ -1,0 +1,58 @@
+{% extends '/dashboard/index.html.twig' %}
+
+{% block  haut %}  
+    <a href="{{ path('mesdemandesBrouillons')}}" style="text-align: center;color: white;font-size: 16px;margin-bottom: 0%;background: #a6e22e;" class="badge">
+        <span class="fa fa-angle-double-right" ></span>  Brouillons <span style="font-size: 12px;color: #060;;">{{ brouillons|number_format(0, ',', '.') }}</span> </a>
+    <a href="{{ path('mesdemandesPublies')}}" style="text-align: center;color: white;font-size: 16px;margin-bottom: 0%;background: #a6e22e;" class="badge">
+         <span class="fa fa-angle-double-right" ></span> Publiées <span style="font-size: 12px;color: #060;;"> {{  publies|number_format(0, ',', '.') }}</span> </a>
+    <a href="{{ path('mesdemandesResolus')}}" style="text-align: center;color: white;font-size: 16px;margin-bottom: 0%;background: #a6e22e;" class="badge">
+        <span class="fa fa-angle-double-right" ></span> Résolues <span style="font-size: 12px;color: #060;;"> {{ resolus|number_format(0, ',', '.') }}</span> </a>
+    <a href="{{ path('mesdemandesExpires')}}" style="text-align: center;color: white;font-size: 16px;margin-bottom: 0%;background: #a6e22e;" class="badge">
+        <span class="fa fa-angle-double-right" ></span>  Expirées <span style="font-size: 12px;color: #060;"> {{ expires|number_format(0, ',', '.') }}</span> </a>
+    {% endblock  haut %}
+    {% block  corps %}
+        
+         {% block  corpstitre %} <p style="font-style: italic;font-size: 14px;text-align: left;"> <a href="{{ path('index')}}">/ Dashboard </a> <a href="{{ path('mesdemandes')}}">/ Mes Demandes /</a></p>   {% endblock  corpstitre %}
+        {% set nbre=0 %}
+        {% for element in demands %}
+            
+        <div class="col-md-4 " style="margin-bottom: 2%;background: #00c853;">
+            <div class="stats-left" >
+                <h6 style="text-align: left;"> 
+                    <a href="#" style="color: white;text-decoration: none;">
+                       <i class="fa fa-cube" ></i>  Dem...  : {{ element.quantite|number_format(0, ',', '.') }} {{ element.measure.name }}  —  PU  :  {{ element.prixUnit|number_format(0, ',', '.') }}  F CFA
+                    </a>
+                    <br/><br/>
+                    <a href="#" style="color: white;text-decoration: none;font-style: normal;">
+                        <i class="fa fa-calendar" ></i>  Du  :   {{ element.createAt|date('d/m/Y') }} — {% if element.available ==0 %} Résolu {% else %} {% if element.published ==1 %} Publié {% else %}  Brouillon {% endif %} {% endif %}
+                    </a>
+                    <br/><br/>
+                    
+                    {% set qte=0 %}{% set nbre=0%}
+                     {% for souscrptions in element.orders %}
+                         {% set nbre=nbre+1 %}
+                         {% set qte=qte+souscrption.quantites %}
+                      {% endfor %}
+                      <a href="#" title="souscriptions et disponibilité" style="color: yellow;text-decoration: none;">
+                        <i class="fa-comments-o"></i> : {{ nbre }} —  Restante  : {{ (element.quantite-qte)|number_format(0, ',', '.') }} {{ element.measure.name }} 
+                    </a>
+                    
+                </h6>
+                <img src="{{ asset('uploads/images/products/')}}{{ element.imageName }}" style="width:150px;height: 120px;" class="img img-circle"   />
+
+                <h5 style="margin-bottom: -1px;">{{ element.product.name }} <br/><br/>
+                    <a href="#" title="Editer" style="font-size: 14px;text-align: center;color: cyan;">
+                        <i class="fa fa-cogs" ></i> 
+                         </a>
+                <a href="#" title="Supprimer" style="font-size: 14px;text-align: center;color: cyan;margin-left: 10px;">
+                        <i class="fa fa-trash-o" ></i> 
+                         </a>
+                <a href="#" title="Imprimer" style="font-size: 14px;text-align: center;color: cyan;margin-left: 10px;">
+                        <i class="fa fa-file-pdf-o" ></i> 
+                         </a>
+                </h5>
+
+            </div>
+        </div>
+    {% endfor %}
+{% endblock  corps %}

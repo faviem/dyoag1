@@ -75,21 +75,21 @@ class Supply {
      * @var \DateTime
      */
     private $approuvedAt;
-       
+
     /**
      * @ORM\Column(type="datetime", nullable = true)
      *
      * @var \DateTime
      */
     private $deleteAt;
-      
+
     /**
      * @ORM\Column(type="text", nullable = true)
      *
      * @var \text
      */
     private $deliverConclusion;
-      
+
     /**
      * @var rating
      *
@@ -102,8 +102,8 @@ class Supply {
      * @var accepted boolean. order accepte
      * @ORM\Column(type="boolean", options={"default" : false})
      */
-    private $delete = false;
-    
+    private $deleted = false;
+
     /**
      * @var accepted boolean. offre accepte
      * @ORM\Column(type="boolean", options={"default" : false})
@@ -139,14 +139,12 @@ class Supply {
      */
     private $user;
 
-
     /**
      * Get id
      *
      * @return integer
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -157,8 +155,7 @@ class Supply {
      *
      * @return Supply
      */
-    public function setCreateAt($createAt)
-    {
+    public function setCreateAt($createAt) {
         $this->createAt = $createAt;
 
         return $this;
@@ -169,8 +166,7 @@ class Supply {
      *
      * @return \DateTime
      */
-    public function getCreateAt()
-    {
+    public function getCreateAt() {
         return $this->createAt;
     }
 
@@ -181,8 +177,7 @@ class Supply {
      *
      * @return Supply
      */
-    public function setDeliveredAt($deliveredAt)
-    {
+    public function setDeliveredAt($deliveredAt) {
         $this->deliveredAt = $deliveredAt;
 
         return $this;
@@ -193,8 +188,7 @@ class Supply {
      *
      * @return \DateTime
      */
-    public function getDeliveredAt()
-    {
+    public function getDeliveredAt() {
         return $this->deliveredAt;
     }
 
@@ -205,8 +199,7 @@ class Supply {
      *
      * @return Supply
      */
-    public function setQuantite($quantite)
-    {
+    public function setQuantite($quantite) {
         $this->quantite = $quantite;
 
         return $this;
@@ -217,8 +210,7 @@ class Supply {
      *
      * @return integer
      */
-    public function getQuantite()
-    {
+    public function getQuantite() {
         return $this->quantite;
     }
 
@@ -229,8 +221,7 @@ class Supply {
      *
      * @return Supply
      */
-    public function setCanceledAt($canceledAt)
-    {
+    public function setCanceledAt($canceledAt) {
         $this->canceledAt = $canceledAt;
 
         return $this;
@@ -241,8 +232,7 @@ class Supply {
      *
      * @return \DateTime
      */
-    public function getCanceledAt()
-    {
+    public function getCanceledAt() {
         return $this->canceledAt;
     }
 
@@ -253,8 +243,7 @@ class Supply {
      *
      * @return Supply
      */
-    public function setCanceledReason($canceledReason)
-    {
+    public function setCanceledReason($canceledReason) {
         $this->canceledReason = $canceledReason;
 
         return $this;
@@ -265,8 +254,7 @@ class Supply {
      *
      * @return string
      */
-    public function getCanceledReason()
-    {
+    public function getCanceledReason() {
         return $this->canceledReason;
     }
 
@@ -277,8 +265,7 @@ class Supply {
      *
      * @return Supply
      */
-    public function setAcceptedAt($acceptedAt)
-    {
+    public function setAcceptedAt($acceptedAt) {
         $this->acceptedAt = $acceptedAt;
 
         return $this;
@@ -289,8 +276,7 @@ class Supply {
      *
      * @return \DateTime
      */
-    public function getAcceptedAt()
-    {
+    public function getAcceptedAt() {
         return $this->acceptedAt;
     }
 
@@ -301,8 +287,7 @@ class Supply {
      *
      * @return Supply
      */
-    public function setApprouvedAt($approuvedAt)
-    {
+    public function setApprouvedAt($approuvedAt) {
         $this->approuvedAt = $approuvedAt;
 
         return $this;
@@ -313,8 +298,7 @@ class Supply {
      *
      * @return \DateTime
      */
-    public function getApprouvedAt()
-    {
+    public function getApprouvedAt() {
         return $this->approuvedAt;
     }
 
@@ -325,8 +309,7 @@ class Supply {
      *
      * @return Supply
      */
-    public function setDeleteAt($deleteAt)
-    {
+    public function setDeleteAt($deleteAt) {
         $this->deleteAt = $deleteAt;
 
         return $this;
@@ -337,8 +320,7 @@ class Supply {
      *
      * @return \DateTime
      */
-    public function getDeleteAt()
-    {
+    public function getDeleteAt() {
         return $this->deleteAt;
     }
 
@@ -349,8 +331,7 @@ class Supply {
      *
      * @return Supply
      */
-    public function setDeliverConclusion($deliverConclusion)
-    {
+    public function setDeliverConclusion($deliverConclusion) {
         $this->deliverConclusion = $deliverConclusion;
 
         return $this;
@@ -361,8 +342,7 @@ class Supply {
      *
      * @return string
      */
-    public function getDeliverConclusion()
-    {
+    public function getDeliverConclusion() {
         return $this->deliverConclusion;
     }
 
@@ -373,8 +353,7 @@ class Supply {
      *
      * @return Supply
      */
-    public function setRating($rating)
-    {
+    public function setRating($rating) {
         $this->rating = $rating;
 
         return $this;
@@ -385,33 +364,30 @@ class Supply {
      *
      * @return integer
      */
-    public function getRating()
-    {
+    public function getRating() {
         return $this->rating;
     }
 
     /**
-     * Set delete
+     * Set deleted
      *
-     * @param boolean $delete
+     * @param boolean $deleted
      *
      * @return Supply
      */
-    public function setDelete($delete)
-    {
-        $this->delete = $delete;
+    public function setDelete($deleted) {
+        $this->deleted = $deleted;
 
         return $this;
     }
 
     /**
-     * Get delete
+     * Get deleted
      *
      * @return boolean
      */
-    public function getDelete()
-    {
-        return $this->delete;
+    public function getDelete() {
+        return $this->deleted;
     }
 
     /**
@@ -421,8 +397,7 @@ class Supply {
      *
      * @return Supply
      */
-    public function setAccepted($accepted)
-    {
+    public function setAccepted($accepted) {
         $this->accepted = $accepted;
 
         return $this;
@@ -433,8 +408,7 @@ class Supply {
      *
      * @return boolean
      */
-    public function getAccepted()
-    {
+    public function getAccepted() {
         return $this->accepted;
     }
 
@@ -445,8 +419,7 @@ class Supply {
      *
      * @return Supply
      */
-    public function setDelivered($delivered)
-    {
+    public function setDelivered($delivered) {
         $this->delivered = $delivered;
 
         return $this;
@@ -457,8 +430,7 @@ class Supply {
      *
      * @return boolean
      */
-    public function getDelivered()
-    {
+    public function getDelivered() {
         return $this->delivered;
     }
 
@@ -469,8 +441,7 @@ class Supply {
      *
      * @return Supply
      */
-    public function setApprouved($approuved)
-    {
+    public function setApprouved($approuved) {
         $this->approuved = $approuved;
 
         return $this;
@@ -481,8 +452,7 @@ class Supply {
      *
      * @return boolean
      */
-    public function getApprouved()
-    {
+    public function getApprouved() {
         return $this->approuved;
     }
 
@@ -493,8 +463,7 @@ class Supply {
      *
      * @return Supply
      */
-    public function setCanceled($canceled)
-    {
+    public function setCanceled($canceled) {
         $this->canceled = $canceled;
 
         return $this;
@@ -505,8 +474,7 @@ class Supply {
      *
      * @return boolean
      */
-    public function getCanceled()
-    {
+    public function getCanceled() {
         return $this->canceled;
     }
 
@@ -517,8 +485,7 @@ class Supply {
      *
      * @return Supply
      */
-    public function setDemand(\AppBundle\Entity\Demand $demand = null)
-    {
+    public function setDemand(\AppBundle\Entity\Demand $demand = null) {
         $this->demand = $demand;
 
         return $this;
@@ -529,8 +496,7 @@ class Supply {
      *
      * @return \AppBundle\Entity\Demand
      */
-    public function getDemand()
-    {
+    public function getDemand() {
         return $this->demand;
     }
 
@@ -541,8 +507,7 @@ class Supply {
      *
      * @return Supply
      */
-    public function setUser(\AppBundle\Entity\User\User $user = null)
-    {
+    public function setUser(\AppBundle\Entity\User\User $user = null) {
         $this->user = $user;
 
         return $this;
@@ -553,8 +518,32 @@ class Supply {
      *
      * @return \AppBundle\Entity\User\User
      */
-    public function getUser()
-    {
+    public function getUser() {
         return $this->user;
+    }
+
+
+    /**
+     * Set deleted
+     *
+     * @param boolean $deleted
+     *
+     * @return Supply
+     */
+    public function setDeleted($deleted)
+    {
+        $this->deleted = $deleted;
+
+        return $this;
+    }
+
+    /**
+     * Get deleted
+     *
+     * @return boolean
+     */
+    public function getDeleted()
+    {
+        return $this->deleted;
     }
 }
