@@ -138,7 +138,7 @@ class Demand {
     private $measure;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Product")
+     * @ORM\ManyToOne(targetEntity="Product", inversedBy="demands")
      */
     private $product;
 
@@ -185,7 +185,7 @@ class Demand {
      * @var \DateTime
      */
     private $updatedAt;
-
+    
     /**
      * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
      * of 'UploadedFile' is injected into this setter to trigger the  update. If this
@@ -772,4 +772,28 @@ class Demand {
         return $this->measure;
     }
 
+
+    /**
+     * Set deleted
+     *
+     * @param boolean $deleted
+     *
+     * @return Demand
+     */
+    public function setDeleted($deleted)
+    {
+        $this->deleted = $deleted;
+
+        return $this;
+    }
+
+    /**
+     * Get deleted
+     *
+     * @return boolean
+     */
+    public function getDeleted()
+    {
+        return $this->deleted;
+    }
 }

@@ -522,4 +522,31 @@ class Order {
         return $this->user;
     }
 
+<<<<<<< HEAD
+
+    /**
+     * Set deleted
+     *
+     * @param boolean $deleted
+     *
+     * @return Order
+     */
+    public function setDeleted($deleted)
+    {
+        $this->deleted = $deleted;
+
+        return $this;
+    }
+
+    /**
+     * Get deleted
+     *
+     * @return boolean
+     */
+    public function getDeleted()
+    {
+        return $this->deleted;
+    }
+=======
+>>>>>>> 60da85f01e96be5e9d97023cb1f50849e273d56c
 }

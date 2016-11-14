@@ -22,7 +22,7 @@
     width: 100%;
     position: relative;
     padding: 1em;
-    background-color: #052963;
+    background-color: #060;
     margin: 0;
 }
 .cal1 .clndr .clndr-controls .month {
@@ -88,7 +88,7 @@
 .cal1 .clndr .clndr-table .header-days {
        height: 60px;
     font-size: 1em;
-        background-color: #052963;
+        background-color: #060;
 }
 .cal1 .clndr .clndr-table .header-days .header-day {
   vertical-align: middle;

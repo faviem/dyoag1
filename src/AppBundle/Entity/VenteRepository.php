@@ -136,4 +136,76 @@ class VenteRepository extends \Doctrine\ORM\EntityRepository
  
         return $q->getResult();
     }
+    
+    //les actions de dashboard
+     public function getDashboardCountBrouillons($user) {
+        return $this->createQueryBuilder('v')
+                        ->select('COUNT(v)')
+                       ->where('v.user  =:user')
+                       ->andwhere('v.published  =:published')
+                       ->andwhere('v.deleted  =:deleted')
+                       ->andwhere('v.canceled  =:canceled')
+                       ->andwhere('v.available  =:available')
+                       ->setParameter('user', $user)
+                       ->setParameter('published', false)
+                       ->setParameter('available', true)
+                       ->setParameter('deleted', false)
+                       ->setParameter('canceled', false)
+                        ->getQuery()
+                        ->getSingleScalarResult();
+    }
+    
+     public function getDashboardCountPulibes($user) {
+        return $this->createQueryBuilder('v')
+                        ->select('COUNT(v)')
+                       ->where('v.user  =:user')
+                       ->andwhere('v.published  =:published')
+                       ->andwhere('v.deleted  =:deleted')
+                       ->andwhere('v.canceled  =:canceled')
+                       ->andwhere('v.available  =:available')
+                       ->setParameter('user', $user)
+                       ->setParameter('published', true)
+                       ->setParameter('available', true)
+                       ->setParameter('deleted', false)
+                       ->setParameter('canceled', false)
+                        ->getQuery()
+                        ->getSingleScalarResult();
+    }
+    
+     public function getDashboardCountResolus($user) {
+        return $this->createQueryBuilder('v')
+                        ->select('COUNT(v)')
+                       ->where('v.user  =:user')
+                       ->andwhere('v.published  =:published')
+                       ->andwhere('v.deleted  =:deleted')
+                       ->andwhere('v.canceled  =:canceled')
+                       ->andwhere('v.available  =:available')
+                       ->setParameter('user', $user)
+                       ->setParameter('published', false)
+                       ->setParameter('available', false)
+                       ->setParameter('deleted', false)
+                       ->setParameter('canceled', false)
+                        ->getQuery()
+                        ->getSingleScalarResult();
+    }
+    
+     public function getDashboardCountExpires($user) {
+        return $this->createQueryBuilder('v')
+                        ->select('COUNT(v)')
+                       ->where('v.user  =:user')
+                       ->andwhere('v.published  =:published')
+                       ->andwhere('v.deleted  =:deleted')
+                       ->andwhere('v.canceled  =:canceled')
+                       ->andwhere('v.available  =:available')
+                       ->andwhere('v.dateLimit  <= :datedujour')
+                       ->setParameter('user', $user)
+                       ->setParameter('published', false)
+                       ->setParameter('available', true)
+                       ->setParameter('deleted', false)
+                       ->setParameter('canceled', false)
+                       ->setParameter('datedujour', new \DateTime())
+                        ->getQuery()
+                        ->getSingleScalarResult();
+    }
+    
 }

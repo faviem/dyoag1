@@ -32,7 +32,7 @@ input {
     width:250px;
     position: relative;
     height:300px;
-    background: #00C6D7 url(../images/speed.png) no-repeat 10px 20px;
+    background: #00C6D7 url(../assets/images/speed.png) no-repeat 10px 20px;
 	margin-left:10px;
 }
 
@@ -97,7 +97,7 @@ input {
 		width: 200px;
 		position: relative;
 		height:288px;
-		background: #00C6D7 url(../images/speed.png) no-repeat 13px 20px;
+		background: #00C6D7 url(../assets/images/speed.png) no-repeat 13px 20px;
 		margin-left: 1px;
 		background-size: 86%;
 	}
@@ -145,7 +145,7 @@ input {
 		width: 300px;
 		position: relative;
 		height: 288px;
-		background: #00C6D7 url(../images/speed.png) no-repeat 15px 20px;
+		background: #00C6D7 url(../assets/images/speed.png) no-repeat 15px 20px;
 		margin-left: 0;
 		background-size: 89%;
 		margin-top: 1em;
@@ -206,7 +206,7 @@ input {
 		width: 200px;
 		position: relative;
 		height: 288px;
-		background: #00C6D7 url(../images/speed.png) no-repeat 15px 20px;
+		background: #00C6D7 url(../assets/images/speed.png) no-repeat 15px 20px;
 		margin-left: 0;
 		background-size:86%;
 		margin-top: 1em;

@@ -135,7 +135,7 @@ class Vente {
     private $canceled = false;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Product", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Product", cascade={"persist"}, inversedBy="ventes")
      */
     private $product;
 
