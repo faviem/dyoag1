@@ -14,7 +14,7 @@ use AppBundle\Entity\Product;
 /**
  * Vente controller.
  *
- * @Route("/market")
+ * @Route("/market/sale")
  */
 class VenteController extends Controller {
 
@@ -79,13 +79,13 @@ class VenteController extends Controller {
     /**
      * Creates a new Order entity.
      *
-     * @Route("/customer/new/", name="customer_commande_new")
+     * @Route("/order/new/", name="order_new")
      * @Method({"POST"})
      */
     public function newOrderAction(Request $request) {
-        if (!$request->isXmlHttpRequest()) {
-            return new JsonResponse(array('message' => 'You can access this only using Ajax!'), 400);
-        }
+//        if (!$request->isXmlHttpRequest()) {
+//            return new JsonResponse(array('message' => 'You can access this only using Ajax!'), 400);
+//        }
 
         $user = $this->getUser();
 
@@ -96,31 +96,38 @@ class VenteController extends Controller {
         $form = $this->createForm('AppBundle\Form\OrderType', $commande);
         $form->handleRequest($request);
 
-
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $commande->setUser($user);
+            $venteId = $request->request->get('vente_id');
+            $vente = $em->getRepository('AppBundle:Vente')->find($venteId);
+            $commande->setVente($vente);
             $em->persist($commande);
+            //update vente quantity
+            $commande->getVente()->setQuantite($commande->getVente()->getQuantite() - $commande->getQuantite());
             $em->flush();
 
-            return new JsonResponse(array(
-                'success' => true,
-                'email' => $email
-                    )
-                    , 200);
+//            return new JsonResponse(array(
+//                'success' => true,
+//                'email' => $email
+//                    )
+//                    , 200);
+            return $this->redirectToRoute('dashboard_index');
         }
 
-        $response = new JsonResponse(
-                array(
-            'message' => 'Error',
-//            'form' => $this->renderView('AcmeDemoBundle:Demo:form.html.twig',
-//                    array(
-//                'entity' => $entity,
-//                'form' => $form->createView(),
-//            ))
-                ), 400);
+        return $this->redirectToRoute('vente_index');
 
-        return $response;
+//        $response = new JsonResponse(
+//                array(
+//            'message' => 'Error',
+////            'form' => $this->renderView('AcmeDemoBundle:Demo:form.html.twig',
+////                    array(
+////                'entity' => $entity,
+////                'form' => $form->createView(),
+////            ))
+//                ), 400);
+//
+//        return $response;
     }
 
     /**
@@ -162,6 +169,32 @@ class VenteController extends Controller {
         }
 
         return $this->render('vente/edit.html.twig', array(
+                    'vente' => $vente,
+                    'edit_form' => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView(),
+        ));
+    }
+    
+    /**
+     * Displays a form to edit an existing Vente entity.
+     *
+     * @Route("/{id}/recap", name="vente_edit")
+     * @Method({"GET", "POST"})
+     */
+    public function recapitulationAction(Request $request, Vente $vente) {
+        $deleteForm = $this->createDeleteForm($vente);
+        $editForm = $this->createForm('AppBundle\Form\VenteRecapType', $vente);
+        $editForm->handleRequest($request);
+
+        if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($vente);
+            $em->flush();
+
+            return $this->redirectToRoute('vente_show', array('id' => $vente->getId()));
+        }
+
+        return $this->render('vente/recapitulation.html.twig', array(
                     'vente' => $vente,
                     'edit_form' => $editForm->createView(),
                     'delete_form' => $deleteForm->createView(),

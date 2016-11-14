@@ -281,6 +281,12 @@ easy_admin:
         User:
             class: AppBundle\Entity\User\User
 
+            edit:
+                fields:
+                    - { property: 'firstname'}
+                    - { property: 'lastname'}
+                    - { property: 'phone', type: 'Misd\PhoneNumberBundle\Form\Type\PhoneNumberType' }
+
 stof_doctrine_extensions:
 
     orm:
