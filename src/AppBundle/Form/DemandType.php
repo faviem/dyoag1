@@ -12,14 +12,13 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use EWZ\Bundle\RecaptchaBundle\Form\Type\EWZRecaptchaType;
 use EWZ\Bundle\RecaptchaBundle\Validator\Constraints\IsTrue as RecaptchaTrue;
 
-class VenteType extends AbstractType {
+class DemandType extends AbstractType {
 
     /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options) {
-
+        //$builder->add('lieu')->add('createAt')->add('quantite')->add('dateLimit')->add('dateLimitUpdate')->add('prixUnit')->add('description')->add('published')->add('canceledAt')->add('canceledReason')->add('available')->add('deleteAt')->add('deleted')->add('permanent')->add('canceled')->add('imageName')->add('updatedAt')->add('measure')->add('product')->add('user')->add('district')        ;
         $builder
                 ->add('product', EntityType::class, array(
                     'class' => 'AppBundle:Product',
@@ -51,6 +50,7 @@ class VenteType extends AbstractType {
 //            ))
                 ->add('prixUnit')
                 ->add('description')
+                ->add('permanent')
                 ->add('imageFile', VichFileType::class, array(
                     'required' => false,
                     'allow_delete' => true, // not mandatory, default is true
@@ -75,12 +75,19 @@ class VenteType extends AbstractType {
     }
 
     /**
-     * @param OptionsResolver $resolver
+     * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver) {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Vente'
+            'data_class' => 'AppBundle\Entity\Demand'
         ));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBlockPrefix() {
+        return 'appbundle_demand';
     }
 
 }

@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Demands list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Lieu</th>
+                <th>Createat</th>
+                <th>Quantite</th>
+                <th>Datelimit</th>
+                <th>Datelimitupdate</th>
+                <th>Prixunit</th>
+                <th>Description</th>
+                <th>Published</th>
+                <th>Canceledat</th>
+                <th>Canceledreason</th>
+                <th>Available</th>
+                <th>Deleteat</th>
+                <th>Deleted</th>
+                <th>Permanent</th>
+                <th>Canceled</th>
+                <th>Imagename</th>
+                <th>Updatedat</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for demand in demands %}
+            <tr>
+                <td><a href="{{ path('demand_show', { 'id': demand.id }) }}">{{ demand.id }}</a></td>
+                <td>{{ demand.lieu }}</td>
+                <td>{% if demand.createAt %}{{ demand.createAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ demand.quantite }}</td>
+                <td>{% if demand.dateLimit %}{{ demand.dateLimit|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if demand.dateLimitUpdate %}{{ demand.dateLimitUpdate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ demand.prixUnit }}</td>
+                <td>{{ demand.description }}</td>
+                <td>{% if demand.published %}Yes{% else %}No{% endif %}</td>
+                <td>{% if demand.canceledAt %}{{ demand.canceledAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ demand.canceledReason }}</td>
+                <td>{% if demand.available %}Yes{% else %}No{% endif %}</td>
+                <td>{% if demand.deleteAt %}{{ demand.deleteAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if demand.deleted %}Yes{% else %}No{% endif %}</td>
+                <td>{% if demand.permanent %}Yes{% else %}No{% endif %}</td>
+                <td>{% if demand.canceled %}Yes{% else %}No{% endif %}</td>
+                <td>{{ demand.imageName }}</td>
+                <td>{% if demand.updatedAt %}{{ demand.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('demand_show', { 'id': demand.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('demand_edit', { 'id': demand.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('demand_new') }}">Create a new demand</a>
+        </li>
+    </ul>
+{% endblock %}

@@ -1,0 +1,96 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Demand</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ demand.id }}</td>
+            </tr>
+            <tr>
+                <th>Lieu</th>
+                <td>{{ demand.lieu }}</td>
+            </tr>
+            <tr>
+                <th>Createat</th>
+                <td>{% if demand.createAt %}{{ demand.createAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Quantite</th>
+                <td>{{ demand.quantite }}</td>
+            </tr>
+            <tr>
+                <th>Datelimit</th>
+                <td>{% if demand.dateLimit %}{{ demand.dateLimit|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Datelimitupdate</th>
+                <td>{% if demand.dateLimitUpdate %}{{ demand.dateLimitUpdate|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Prixunit</th>
+                <td>{{ demand.prixUnit }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ demand.description }}</td>
+            </tr>
+            <tr>
+                <th>Published</th>
+                <td>{% if demand.published %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Canceledat</th>
+                <td>{% if demand.canceledAt %}{{ demand.canceledAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Canceledreason</th>
+                <td>{{ demand.canceledReason }}</td>
+            </tr>
+            <tr>
+                <th>Available</th>
+                <td>{% if demand.available %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Deleteat</th>
+                <td>{% if demand.deleteAt %}{{ demand.deleteAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Deleted</th>
+                <td>{% if demand.deleted %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Permanent</th>
+                <td>{% if demand.permanent %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Canceled</th>
+                <td>{% if demand.canceled %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Imagename</th>
+                <td>{{ demand.imageName }}</td>
+            </tr>
+            <tr>
+                <th>Updatedat</th>
+                <td>{% if demand.updatedAt %}{{ demand.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('demand_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('demand_edit', { 'id': demand.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}
