@@ -11,7 +11,8 @@
     "backbone.localStorage": null,
     "backbone-nested-model": "^2.0.4",
     "backbone-associations": "^0.6.2",
-    "backbone.paginator": "^2.0.5"
+    "backbone.paginator": "^2.0.5",
+    "datatables.net": "^1.10.12"
   },
   "devDependencies": {
     "jquery-ui": "^1.11.4",

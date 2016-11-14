@@ -6,8 +6,20 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use AppBundle\Entity\User\Particular;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use libphonenumber\PhoneNumberUtil;
 
-class FixturesUserParticular extends AbstractFixture implements OrderedFixtureInterface {
+class FixturesUserParticular extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface {
+
+    /**
+     * @var ContainerInterface
+     */
+    private $container;
+
+    public function setContainer(ContainerInterface $container = null) {
+        $this->container = $container;
+    }
 
     public function load(ObjectManager $em) {
         //  Create admin user1
@@ -19,7 +31,9 @@ class FixturesUserParticular extends AbstractFixture implements OrderedFixtureIn
         $useruserParticular1->setRoles(array('ROLE_PARTICULAR'));
         $useruserParticular1->setFirstName('Gisèle');
         $useruserParticular1->setLastName('Agassounon');
-        $useruserParticular1->setPhone('96610110');
+        $phone = '+22996610110';
+        $phoneNumber = $this->container->get('libphonenumber.phone_number_util')->parse($phone, PhoneNumberUtil::UNKNOWN_REGION);
+        $useruserParticular1->setPhone($phoneNumber);
         $useruserParticular1->setProfil('Particulier');
         $useruserParticular1->setUserCategory($this->getReference('userCategory2'));
         $useruserParticular1->addField($this->getReference('field2'));

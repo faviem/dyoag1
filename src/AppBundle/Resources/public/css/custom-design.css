@@ -33,6 +33,13 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;
 }
+form .input-group-addon {
+    background-color: #7D9F3B;
+    border-radius: 10px;
+    color: #b7b7b9;
+    line-height: 0;
+    padding: 10px 10px;
+}
 /*screen-sm*/
 @media (max-width: 768px) {
     .brand-name {

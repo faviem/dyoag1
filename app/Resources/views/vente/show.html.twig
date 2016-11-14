@@ -64,6 +64,7 @@
                 </div>
                 <div class="col-md-5 text-center text-md-left">
                     <h1 class="h1-variant-2">{{vente.product.name}}</h1>
+                    {#
                     <a class="rating" href="#">
                         <span class="material-design-mark1"></span>
                         <span class="material-design-mark1"></span>
@@ -71,13 +72,15 @@
                         <span class="material-design-halffilled1"></span>
                         <span class="material-design-bookmark45"></span>
                     </a>
-                    {{ form_start(form, {'method': 'POST', 'action': path('customer_commande_new'), 'attr':{'class': 'ajaxForm'}}) }}
+                    #}
+                    {{ form_start(form, {'method': 'POST', 'action': path('order_new'), 'attr':{'class': 'ajaxForm'}}) }}
                     <div class="caption">
                         <span class="text-uppercase txt-gray-light small">quantity</span>
                         <span class="quantity round-xl">
 
                             {{ form_widget(form.quantite, {'attr' : {'class' : 'form-control', 'min' : 1}} )}}
-
+                            
+                            <input type="hidden" name="vente_id" value="{{vente.id}}">
                             {#
                             <span class="fa-angle-left"></span>
                             <span class="num text-dark-variant-3">1</span>
@@ -90,7 +93,7 @@
                         <del>$24.99</del>
                         </span>
                         #}
-                        <span class="price sale">{{ vente.prixUnit }} FCFA</span>
+                        <span class="price sale">{{ vente.prixUnit }} FCFA / {{ vente.measure }}</span>
                         <button  type="submit" id="order" class="btn btn-primary round-xl btn-sm btn-block offset-6" href="#">
                             Commandez
                         </button>

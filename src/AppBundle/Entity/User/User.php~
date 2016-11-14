@@ -8,6 +8,7 @@ use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use FOS\Message\Model\PersonInterface;
 
 /**
  * A person (alive, dead, undead, or fictional).
@@ -30,7 +31,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *     }
  * )
  */
-class User extends BaseUser {
+class User extends BaseUser implements PersonInterface {
 
     /**
      * @var int
@@ -95,9 +96,7 @@ class User extends BaseUser {
     private $lastName;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="user_phone", type="string", length=45, nullable=false)
+     * @ORM\Column(type="phone_number")
      */
     private $phone;
 

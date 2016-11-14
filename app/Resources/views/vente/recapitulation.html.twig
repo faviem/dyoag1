@@ -1,0 +1,98 @@
+{% extends 'layout.html.twig' %}
+
+{% block header %}
+    <div class="page-footer footer-minimal dark text-center">
+        <div class="footer-content">
+            <div class="container">
+                <div class="pull-lg-left rd-navbar-brand">
+                    <a class="brand-name" href="{{ path('homepage') }}">BenAgro<span>agriculteurs-acheteurs</span></a>
+                </div>
+                <ul class="list-inline-2 pull-lg-right">
+                    <li class="active"><a href="{{ path('homepage') }}">Accueil</a></li>
+                    <li><a href="#">A propos</a></li>
+                    <li><a href="{{ path('vente_index') }}">Marché</a></li>
+                        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                        <li>{{ app.user.email }}</li>
+                        <li>
+                            <a href="{{ path("fos_user_security_logout") }}">
+                                {{ "Déconnexion"|trans }}
+                            </a>
+                        </li>
+                    {% else %}
+                        <li>
+                            <a href="{{ path("fos_user_security_login") }}">
+                                {{ "Connexion" | trans }}
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock header %}
+
+{% block container %}
+    {#
+            <section class="section-border text-center text-md-left">
+              <div class="container">
+                <ol class="breadcrumb">
+                  <li><a href="#">Home</a></li>
+                  <li><a href="#">Shop</a></li>
+                  <li class="active">Single product</li>
+                </ol>
+              </div>
+            </section>
+    #}
+    <section class="well well-sm section-border single-product">
+        <div class="container">
+            <div class="row product">
+                <div class="col-md-7 text-center">
+                    <div class="slider">
+                        <div class="swiper-container gallery-top swiper-container-horizontal" data-lightbox="gallery">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide rem_class" style="width: 653px; margin-right: 10px;">
+                                    <div class="swiper-slide-caption">
+                                        <a data-lightbox="image" href="{{ asset(product_images ~'/'~ vente.imageName) }}" class="mfp-image">
+                                            <img alt="" src="{{ asset(product_images ~'/'~ vente.imageName) }}">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-md-5 text-center text-md-left">
+                    <h1 class="h1-variant-2">{{vente.product.name}}</h1>
+
+                    {{ form_start(form, {'method': 'POST', 'action': path('order_new'), 'attr':{'class': 'ajaxForm'}}) }}
+                    <div class="caption">
+                        <span class="text-uppercase txt-gray-light small">quantity</span>
+                        <span class="price sale">{{ vente.prixUnit }} FCFA / {{ vente.measure }}</span>
+                        <button  type="submit" id="order" class="btn btn-primary round-xl btn-sm btn-block offset-6" href="#">
+                            Commandez
+                        </button>
+                        {{ form_end(form) }}
+                        <dl class="info-list offset-5">
+                            <dt>Categories</dt>
+                            <dd>{{ vente.product.category.name }}</dd>
+
+                            <dt>Agriculteur</dt>
+                            <dd> {{ vente.user }} </dd>
+
+                        </dl>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        require(['ventes/show']);
+    </script>
+{% endblock %}

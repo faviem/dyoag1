@@ -35,11 +35,12 @@
         "jms/serializer-bundle": "^1.1",
         "gos/web-socket-bundle": "^1.8",
         "knplabs/knp-paginator-bundle": "^2.5",
-        "zendframework/zendsearch" : "^2.0@rc",
-        "egeloen/lucene-search-bundle": "^2.0",
-        "friendsofsymfony/message": "1.0.x-dev",
         "zendframework/zendsearch": "^2.0@rc",
-        "javiereguiluz/easyadmin-bundle": "^1.15"
+        "friendsofsymfony/message": "1.0.x-dev",
+        "javiereguiluz/easyadmin-bundle": "^1.15",
+        "misd/phone-number-bundle": "^1.1",
+        "stof/doctrine-extensions-bundle": "^1.2",
+        "excelwebzone/recaptcha-bundle": "^1.4"
 
     },
     "require-dev": {
