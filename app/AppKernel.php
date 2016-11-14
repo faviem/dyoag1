@@ -25,6 +25,9 @@ class AppKernel extends Kernel {
             new Ben\WebServiceBundle\BenWebServiceBundle(),
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
             new JavierEguiluz\Bundle\EasyAdminBundle\EasyAdminBundle(),
+            new Misd\PhoneNumberBundle\MisdPhoneNumberBundle(),
+            new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
+            new EWZ\Bundle\RecaptchaBundle\EWZRecaptchaBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

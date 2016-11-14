@@ -8,7 +8,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
-
+use ZendSearch\Lucene\Lucene;
+use ZendSearch\Lucene\Document;
+use ZendSearch\Lucene\Document\Field;
 /**
  * Demand
  *
@@ -299,14 +301,14 @@ class Demand {
 
     static public function getLuceneIndex() {
         if (file_exists($index = self::getLuceneIndexFile())) {
-            return \Zend_Search_Lucene::open($index);
+            return Lucene::open($index);
         }
 
-        return \Zend_Search_Lucene::create($index);
+        return Lucene::create($index);
     }
 
     static public function getLuceneIndexFile() {
-        return __DIR__ . '/../../../web/data/vente.index';
+        return __DIR__ . '/../../../web/data/demand.index';
     }
 
     /**
@@ -320,25 +322,25 @@ class Demand {
 
         // remove existing entries
         foreach ($index->find('pk:' . $this->getId()) as $hit) {
-            $index->deleted($hit->id);
+            $index->delete($hit->id);
         }
 
-        // don't index expired and non-activated jobs
-//        if ($this->isExpired() || !$this->getIsActivated())
-//        {
-//          return;
-//        }
+        // don't index unavailable and non-published sale
+        if (!$this->getAvailable() || !$this->getPublished())
+        {
+          return;
+        }
 
-        $doc = new \Zend_Search_Lucene_Document();
+        $doc = new Document();
 
-        // store job primary key to identify it in the search results
-        $doc->addField(\Zend_Search_Lucene_Field::Keyword('pk', $this->getId()));
+        // store demand primary key to identify it in the search results
+        $doc->addField(Field::Keyword('pk', $this->getId()));
 
-        // index job fields
-        $doc->addField(\Zend_Search_Lucene_Field::UnStored('product', $this->getProduct(), 'utf-8'));
-        $doc->addField(\Zend_Search_Lucene_Field::UnStored('lieu', $this->getLieu(), 'utf-8'));
-
-        // add job to the index
+        // index demand fields
+        $doc->addField(Field::UnStored('product', $this->getProduct(), 'utf-8'));
+        $doc->addField(Field::UnStored('lieu', $this->getLieu(), 'utf-8'));
+        $doc->addField(Field::UnStored('district', $this->getDistrict(), 'utf-8'));
+        // add demand to the index
         $index->addDocument($doc);
         $index->commit();
     }
@@ -352,7 +354,7 @@ class Demand {
         $index = self::getLuceneIndex();
 
         foreach ($index->find('pk:' . $this->getId()) as $hit) {
-            $index->deleted($hit->id);
+            $index->delete($hit->id);
         }
     }
 

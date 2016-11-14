@@ -12,15 +12,15 @@ class FixturesMeasure extends AbstractFixture implements OrderedFixtureInterface
     public function load(ObjectManager $em) {
 
         $measure1 = new Measure();
-        $measure1->setName('kg');
+        $measure1->setName('Kg');
         $em->persist($measure1);
 
         $measure2 = new Measure();
-        $measure2->setName('l');
+        $measure2->setName('L');
         $em->persist($measure2);
 
         $measure3 = new Measure();
-        $measure3->setName('sac');
+        $measure3->setName('Sac');
         $em->persist($measure3);
 
         $measure4 = new Measure();

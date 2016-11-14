@@ -522,6 +522,7 @@ class Order {
         return $this->user;
     }
 
+<<<<<<< HEAD
 
     /**
      * Set deleted
@@ -546,4 +547,6 @@ class Order {
     {
         return $this->deleted;
     }
+=======
+>>>>>>> 60da85f01e96be5e9d97023cb1f50849e273d56c
 }

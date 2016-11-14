@@ -768,6 +768,7 @@ class Vente {
         return $this->product;
     }
 
+<<<<<<< HEAD
 
     /**
      * Set deleted
@@ -792,4 +793,6 @@ class Vente {
     {
         return $this->deleted;
     }
+=======
+>>>>>>> 60da85f01e96be5e9d97023cb1f50849e273d56c
 }

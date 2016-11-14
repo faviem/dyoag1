@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+
 //use AppBundle\Entity\Vente;
 //use Symfony\Component\HttpFoundation\JsonResponse;
 //use AppBundle\Entity\Commande;
@@ -15,18 +16,18 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
  *
  * @Route("/dashboard")
  */
-class DashboardController extends Controller
-{
+class DashboardController extends Controller {
+
     /**
      * View of dashboard.
      *
-     * @Route("/", name="index")
+     * @Route("/", name="dashboard_index")
      * @Method("GET")
      */
-    public function indexAction(Request $request)
-    {        
+    public function indexAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
 
+<<<<<<< HEAD
         $produits = $em->getRepository('AppBundle:Product')->findAll();
          return $this->render('dashboard/index.html.twig',array(
                     'produits' => $produits,
@@ -300,8 +301,20 @@ class DashboardController extends Controller
          return $this->render('dashboard/mesdemandesexpires.html.twig',array(
                     'demands' => $ventes,  'brouillons' => $CountBrouillons,   'expires' => $CountExpires,
                     'publies' => $CountPulibes,  'resolus' => $CountResolus,
+=======
+        $ventes = $em->getRepository('AppBundle:Vente')->findBy(array('user' => $this->getUser()->getId()), array(
+            'createAt' => 'ASC'
         ));
-        
-    }    
-    
+        $demands = $em->getRepository('AppBundle:Demand')->findBy(array('user' => $this->getUser()->getId()), array(
+            'createAt' => 'ASC'
+        ));
+        $produits = $em->getRepository('AppBundle:Product')->findAll();
+        return $this->render('dashboard/index.html.twig', array(
+                    'ventes' => $ventes,
+                    'demands' => $demands,
+                    'produits' => $produits,
+>>>>>>> 60da85f01e96be5e9d97023cb1f50849e273d56c
+        ));
+    }
+
 }

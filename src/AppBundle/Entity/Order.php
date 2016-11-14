@@ -94,7 +94,7 @@ class Order {
      * @var rating
      *
      *
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable = true)
      */
     private $rating;
 
@@ -151,14 +151,10 @@ class Order {
     /**
      * Set createAt
      *
-     * @param \DateTime $createAt
-     *
-     * @return Order
+     * @ORM\PrePersist
      */
-    public function setCreateAt($createAt) {
-        $this->createAt = $createAt;
-
-        return $this;
+    public function setCreateat() {
+        $this->createAt = new \DateTime();
     }
 
     /**
@@ -530,8 +526,9 @@ class Order {
      *
      * @return Order
      */
-    public function setDeleted($deleted)
-    {
+
+    public function setDeleted($deleted) {
+
         $this->deleted = $deleted;
 
         return $this;
@@ -542,8 +539,9 @@ class Order {
      *
      * @return boolean
      */
-    public function getDeleted()
-    {
+   
+    public function getDeleted() {
         return $this->deleted;
     }
+
 }

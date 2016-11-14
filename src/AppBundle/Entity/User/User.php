@@ -9,7 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use FOS\Message\Model\PersonInterface;
-
+use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber as AssertPhoneNumber;
 
 /**
  * A person (alive, dead, undead, or fictional).
@@ -84,7 +84,7 @@ class User extends BaseUser implements PersonInterface {
      * @var string
      *
      * @ORM\Column(name="user_firstName", type="string", length=45, nullable=false)
-     * @Assert\Length(min="2")
+     * @Assert\Length(min="3")
      */
     private $firstName;
 
@@ -92,14 +92,14 @@ class User extends BaseUser implements PersonInterface {
      * @var string
      *
      * @ORM\Column(name="user_lastName", type="string", length=45, nullable=false)
-     * @Assert\Length(min="2")
+     * @Assert\Length(min="3")
      */
     private $lastName;
 
     /**
-     * @var string
+     * @ORM\Column(type="phone_number")
      *
-     * @ORM\Column(name="user_phone", type="string", length=45, nullable=false)
+     * @AssertPhoneNumber(defaultRegion="BJ")
      */
     private $phone;
 

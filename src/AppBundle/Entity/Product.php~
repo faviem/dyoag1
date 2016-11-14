@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\File;
@@ -32,11 +33,16 @@ class Product {
 
     /**
      * @var string The name of the item.
-     *
-     * @ORM\Column(nullable=true)
+     * @ORM\Column(name="name")
      * @Assert\Type(type="string")
      */
     private $name;
+
+    /**
+     * @Gedmo\Slug(fields={"name"}, updatable=false)
+     * @ORM\Column(length=128, unique=true)
+     */
+    private $slug;
 
     /**
      * @ORM\ManyToOne(targetEntity="Category", inversedBy="products")
@@ -214,7 +220,10 @@ class Product {
         return '' . $this->getName();
     }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 60da85f01e96be5e9d97023cb1f50849e273d56c
     /**
      * Add measure
      *
@@ -222,8 +231,12 @@ class Product {
      *
      * @return Product
      */
+<<<<<<< HEAD
     public function addMeasure(\AppBundle\Entity\Measure $measure)
     {
+=======
+    public function addMeasure(\AppBundle\Entity\Measure $measure) {
+>>>>>>> 60da85f01e96be5e9d97023cb1f50849e273d56c
         $this->measures[] = $measure;
 
         return $this;
@@ -234,8 +247,12 @@ class Product {
      *
      * @param \AppBundle\Entity\Measure $measure
      */
+<<<<<<< HEAD
     public function removeMeasure(\AppBundle\Entity\Measure $measure)
     {
+=======
+    public function removeMeasure(\AppBundle\Entity\Measure $measure) {
+>>>>>>> 60da85f01e96be5e9d97023cb1f50849e273d56c
         $this->measures->removeElement($measure);
     }
 
@@ -244,6 +261,7 @@ class Product {
      *
      * @return \Doctrine\Common\Collections\Collection
      */
+<<<<<<< HEAD
     public function getMeasures()
     {
         return $this->measures;
@@ -282,4 +300,10 @@ class Product {
     {
         return $this->ventes;
     }
+=======
+    public function getMeasures() {
+        return $this->measures;
+    }
+
+>>>>>>> 60da85f01e96be5e9d97023cb1f50849e273d56c
 }

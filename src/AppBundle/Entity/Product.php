@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\File;
@@ -32,11 +33,16 @@ class Product {
 
     /**
      * @var string The name of the item.
-     *
-     * @ORM\Column(nullable=true)
+     * @ORM\Column(name="name")
      * @Assert\Type(type="string")
      */
     private $name;
+
+    /**
+     * @Gedmo\Slug(fields={"name"}, updatable=false)
+     * @ORM\Column(length=128, unique=true)
+     */
+    private $slug;
 
     /**
      * @ORM\ManyToOne(targetEntity="Category", inversedBy="products")
@@ -214,7 +220,6 @@ class Product {
         return '' . $this->getName();
     }
 
-
     /**
      * Add measure
      *
@@ -222,8 +227,7 @@ class Product {
      *
      * @return Product
      */
-    public function addMeasure(\AppBundle\Entity\Measure $measure)
-    {
+    public function addMeasure(\AppBundle\Entity\Measure $measure) {
         $this->measures[] = $measure;
 
         return $this;
@@ -234,8 +238,7 @@ class Product {
      *
      * @param \AppBundle\Entity\Measure $measure
      */
-    public function removeMeasure(\AppBundle\Entity\Measure $measure)
-    {
+    public function removeMeasure(\AppBundle\Entity\Measure $measure) {
         $this->measures->removeElement($measure);
     }
 
@@ -244,11 +247,9 @@ class Product {
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getMeasures()
-    {
+    public function getMeasures() {
         return $this->measures;
     }
-
     /**
      * Add vente
      *
@@ -293,11 +294,24 @@ class Product {
     public function addDemand(\AppBundle\Entity\Demand $demand)
     {
         $this->demands[] = $demand;
+    }
+
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     *
+     * @return Product
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
 
         return $this;
     }
 
     /**
+<<<<<<< HEAD
      * Remove demand
      *
      * @param \AppBundle\Entity\Demand $demand
@@ -315,5 +329,14 @@ class Product {
     public function getDemands()
     {
         return $this->demands;
+    }
+     /**
+     * Get slug
+     *
+     * @return string
+     */
+    public function getSlug()
+    {
+        return $this->slug;
     }
 }
