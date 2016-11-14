@@ -38,7 +38,7 @@ class DashboardController extends Controller {
     /**
      * View of dashboard.
      *
-     * @Route("/mesoffres", name="mesoffres")
+     * @Route("/mesoffres", name="dashboard_mesoffres")
      * @Method("GET")
      */
     public function mesoffresAction(Request $request)
@@ -65,7 +65,7 @@ class DashboardController extends Controller {
     /**
      * View of dashboard.
      *
-     * @Route("/mesoffres/brouillons", name="mesoffresBrouillons")
+     * @Route("/mesoffres/brouillons", name="dashboard_mesoffresBrouillons")
      * @Method("GET")
      */
     public function mesoffresBrouillonsAction(Request $request)
@@ -92,7 +92,7 @@ class DashboardController extends Controller {
     /**
      * View of dashboard.
      *
-     * @Route("/mesoffres/publications", name="mesoffresPublies")
+     * @Route("/mesoffres/publications", name="dashboard_mesoffresPublies")
      * @Method("GET")
      */
     public function mesoffresPubliesAction(Request $request)
@@ -119,7 +119,7 @@ class DashboardController extends Controller {
     /**
      * View of dashboard.
      *
-     * @Route("/mesoffres/resolus", name="mesoffresResolus")
+     * @Route("/mesoffres/resolus", name="dashboard_mesoffresResolus")
      * @Method("GET")
      */
     public function mesoffresResolusAction(Request $request)
@@ -146,7 +146,7 @@ class DashboardController extends Controller {
     /**
      * View of dashboard.
      *
-     * @Route("/mesoffres/expires", name="mesoffresExpires")
+     * @Route("/mesoffres/expires", name="dashboard_mesoffresExpires")
      * @Method("GET")
      */
     public function mesoffresExpiresAction(Request $request)
@@ -175,7 +175,7 @@ class DashboardController extends Controller {
     /**
      * View of dashboard.
      *
-     * @Route("/mesdemandes", name="mesdemandes")
+     * @Route("/mesdemandes", name="dashboard_mesdemandes")
      * @Method("GET")
      */
     public function mesdemandesAction(Request $request)
@@ -202,7 +202,7 @@ class DashboardController extends Controller {
     /**
      * View of dashboard.
      *
-     * @Route("/mesdemandes/brouillons", name="mesdemandesBrouillons")
+     * @Route("/mesdemandes/brouillons", name="dashboard_mesdemandesBrouillons")
      * @Method("GET")
      */
     public function mesdemandesBrouillonsAction(Request $request)
@@ -228,7 +228,7 @@ class DashboardController extends Controller {
     /**
      * View of dashboard.
      *
-     * @Route("/mesdemandes/publies", name="mesdemandesPublies")
+     * @Route("/mesdemandes/publies", name="dashboard_mesdemandesPublies")
      * @Method("GET")
      */
     public function mesdemandesPubliesAction(Request $request)
@@ -254,7 +254,7 @@ class DashboardController extends Controller {
     /**
      * View of dashboard.
      *
-     * @Route("/mesdemandes/resolus", name="mesdemandesResolus")
+     * @Route("/mesdemandes/resolus", name="dashboard_mesdemandesResolus")
      * @Method("GET")
      */
     public function mesdemandesResolusAction(Request $request)
@@ -280,7 +280,7 @@ class DashboardController extends Controller {
     /**
      * View of dashboard.
      *
-     * @Route("/mesdemandes/expires", name="mesdemandesExpires")
+     * @Route("/mesdemandes/expires", name="dashboard_mesdemandesExpires")
      * @Method("GET")
      */
     public function mesdemandesExpiresAction(Request $request)
