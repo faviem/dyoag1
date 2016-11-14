@@ -1,13 +1,13 @@
 {% extends '/dashboard/index.html.twig' %}
 
 {% block  haut %}  
-    <a href="{{ path('mesoffresBrouillons')}}" style="text-align: center;color: white;font-size: 16px;margin-bottom: 0%;background: #00c853;" class="badge">
+    <a href="{{ path('dashboard_mesoffresBrouillons')}}" style="text-align: center;color: white;font-size: 16px;margin-bottom: 0%;background: #00c853;" class="badge">
         <span class="fa fa-angle-double-right" ></span>  Brouillons <span style="font-size: 12px;color: #060;">{{ brouillons|number_format(0, ',', '.') }}</span> </a>
-    <a href="{{ path('mesoffresPublies')}}" style="text-align: center;color: white;font-size: 16px;margin-bottom: 0%;background: #00c853;" class="badge">
+    <a href="{{ path('dashboard_mesoffresPublies')}}" style="text-align: center;color: white;font-size: 16px;margin-bottom: 0%;background: #00c853;" class="badge">
          <span class="fa fa-angle-double-right" ></span> Publiés <span style="font-size: 12px;color: #060;"> {{  publies|number_format(0, ',', '.') }}</span> </a>
-    <a href="{{ path('mesoffresResolus')}}" style="text-align: center;color: white;font-size: 16px;margin-bottom: 0%;background: #00c853;" class="badge">
+    <a href="{{ path('dashboard_mesoffresResolus')}}" style="text-align: center;color: white;font-size: 16px;margin-bottom: 0%;background: #00c853;" class="badge">
         <span class="fa fa-angle-double-right" ></span> Résolus <span style="font-size: 12px;color: #060;"> {{ resolus|number_format(0, ',', '.') }}</span> </a>
-    <a href="{{ path('mesoffresExpires')}}" style="text-align: center;color: white;font-size: 16px;margin-bottom: 0%;background: #00c853;" class="badge">
+    <a href="{{ path('dashboard_mesoffresExpires')}}" style="text-align: center;color: white;font-size: 16px;margin-bottom: 0%;background: #00c853;" class="badge">
         <span class="fa fa-angle-double-right" ></span>  Expirés <span style="font-size: 12px;color: #060;"> {{ expires|number_format(0, ',', '.') }}</span> </a>
     {% endblock  haut %}
     {% block  corps %}

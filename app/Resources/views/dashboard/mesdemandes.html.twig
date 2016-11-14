@@ -1,13 +1,13 @@
 {% extends '/dashboard/index.html.twig' %}
 
 {% block  haut %}  
-    <a href="{{ path('mesdemandesBrouillons')}}" style="text-align: center;color: white;font-size: 16px;margin-bottom: 0%;background: #a6e22e;" class="badge">
+    <a href="{{ path('dashboard_mesdemandesBrouillons')}}" style="text-align: center;color: white;font-size: 16px;margin-bottom: 0%;background: #a6e22e;" class="badge">
         <span class="fa fa-angle-double-right" ></span>  Brouillons <span style="font-size: 12px;color: #060;;">{{ brouillons|number_format(0, ',', '.') }}</span> </a>
-    <a href="{{ path('mesdemandesPublies')}}" style="text-align: center;color: white;font-size: 16px;margin-bottom: 0%;background: #a6e22e;" class="badge">
+    <a href="{{ path('dashboard_mesdemandesPublies')}}" style="text-align: center;color: white;font-size: 16px;margin-bottom: 0%;background: #a6e22e;" class="badge">
          <span class="fa fa-angle-double-right" ></span> Publiées <span style="font-size: 12px;color: #060;;"> {{  publies|number_format(0, ',', '.') }}</span> </a>
-    <a href="{{ path('mesdemandesResolus')}}" style="text-align: center;color: white;font-size: 16px;margin-bottom: 0%;background: #a6e22e;" class="badge">
+    <a href="{{ path('dashboard_mesdemandesResolus')}}" style="text-align: center;color: white;font-size: 16px;margin-bottom: 0%;background: #a6e22e;" class="badge">
         <span class="fa fa-angle-double-right" ></span> Résolues <span style="font-size: 12px;color: #060;;"> {{ resolus|number_format(0, ',', '.') }}</span> </a>
-    <a href="{{ path('mesdemandesExpires')}}" style="text-align: center;color: white;font-size: 16px;margin-bottom: 0%;background: #a6e22e;" class="badge">
+    <a href="{{ path('dashboard_mesdemandesExpires')}}" style="text-align: center;color: white;font-size: 16px;margin-bottom: 0%;background: #a6e22e;" class="badge">
         <span class="fa fa-angle-double-right" ></span>  Expirées <span style="font-size: 12px;color: #060;"> {{ expires|number_format(0, ',', '.') }}</span> </a>
     {% endblock  haut %}
     {% block  corps %}
