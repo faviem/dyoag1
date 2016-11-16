@@ -32,7 +32,7 @@ define([
                                 </a>\
                                 <div class="caption">\
                                     <h6>\
-                                        <a href="#">{{ name }}</a>\
+                                        <a href="{{ url }}">{{ name }}</a>\
                                     </h6>\
                                     <span class="price sale">{{ prix }} FCFA / {{ measure }}</span>\
                                 </div>\

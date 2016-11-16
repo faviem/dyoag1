@@ -75,13 +75,23 @@ class VenteController extends Controller {
 
         $aResponses = array();
         foreach ($ventes as $vente) {
+            $url = $this->generateUrl('vente_show', array('id' => $vente->getId()));
+            ;
+            $image = $this->container->getParameter('app.path.product_images') . '/' . $vente->getImageName();
+            /** @var CacheManager */
+            $imagineCacheManager = $this->get('liip_imagine.cache.manager');
+
+            /** @var string */
+            $ImageResize = $imagineCacheManager->getBrowserPath($image, 'my_thumb');
+
             $aResponses[] = array(
                 'id' => $vente->getId(),
                 'lieu' => $vente->getLieu(),
-                'image' => $this->container->getParameter('app.path.product_images') . '/' . $vente->getImageName(),
+                'image' => $ImageResize,
                 'product' => $vente->getProduct()->getName(),
                 'prix' => $vente->getPrixUnit(),
-                'measure' => $vente->getMeasure()->getName()
+                'measure' => $vente->getMeasure()->getName(),
+                'url' => $url
             );
         }
         // return url for view the preview

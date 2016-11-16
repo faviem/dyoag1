@@ -34,7 +34,8 @@
             image: null,
             product: null,
             prix: null,
-            measure: null
+            measure: null,
+            url: null
         }
     });
     return App.model.TemplateSelector;
