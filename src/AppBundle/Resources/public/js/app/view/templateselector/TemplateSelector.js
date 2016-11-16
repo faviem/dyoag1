@@ -8,7 +8,7 @@ define([
 
     /**
      * A PRODUCT selector.
-     * 
+     *
      * @author Jacques Adjahoungbo <jtocson@gmail.com>
      */
     App.view.TemplateSelector = App.View.extend({
@@ -25,22 +25,28 @@ define([
             if (this.template === null) {
                 this.template = Twig.twig({
                     id: templateId,
-                    data: '<div data-id="{{ id }}" class="project_container" data-row={{ datarow }} data-col={{ datacol }}>\
-                        {% if image is string %}\
-                            <div class="thumbnailnew"><div class="templatethumbnail">\
-                            <div class="caption"> <h3 class="productprojectdashboard"> {{ product }}</h3><p class="imgpreviewdashboard"><img src="{{ image }}" style="max-width:239px; max-height:322px"></p></div></div>\
-                        {% else %}\
-                            <div class="thumbnailnew"><div class="templatethumbnail">\
-                            <div class="caption"> <h3 class="productprojectdashboard"> {{ product }}</h3><p class="imgpreviewdashboard"></p></div></div></div>\
-                        {% endif %}\
-                        </li>'
+                    data: '<div class="col-xs-6 col-xs-6--mod-1 col-md-3">\
+                            <div class="product tumbnail thumbnail-3">\
+                                <a href="#">\
+                                    <img alt="" src="{{ image }}">\
+                                </a>\
+                                <div class="caption">\
+                                    <h6>\
+                                        <a href="#">{{ name }}</a>\
+                                    </h6>\
+                                    <span class="price sale">{{ prix }} FCFA / {{ measure }}</span>\
+                                </div>\
+                            </div>\
+                        </div>'
                 });
             }
-            
+
+
+
             //  Exécuter la methode render à  chaque évènement sur l'objet
             _.bindAll(this, 'render');
             //  on exécute la fonction render à  chaque fois qu'on a un changement sur le model
-            this.model.on('change', this.render, this);            
+            this.model.on('change', this.render, this);
         },
         render: function () {
             this.$el.data('type', this.model.get('product'));
@@ -48,7 +54,7 @@ define([
             this.$el.data('img-src', this.model.get('image'));
             this.$el.data('datarow', this.model.get('datarow'));
             this.$el.data('datacol', this.model.get('datacol'));
-            
+
             var renderedContent = this.template.render(this.model.toJSON()).trim();
             this.$el.html(renderedContent);
             return this;
@@ -57,9 +63,9 @@ define([
             this.$el.addClass('hide');
         },
         events: {
-            'click .project_container': 'onClick'
+            'click .offer_container': 'onClick'
         },
-        onClick: function (e) {      
+        onClick: function (e) {
             e.preventDefault();
             this.container.selectItem(this, this.$el);
         }

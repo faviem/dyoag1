@@ -94,7 +94,7 @@ class Supply {
      * @var rating
      *
      *
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable = true)
      */
     private $rating;
 
@@ -151,14 +151,10 @@ class Supply {
     /**
      * Set createAt
      *
-     * @param \DateTime $createAt
-     *
-     * @return Supply
+     * @ORM\PrePersist
      */
-    public function setCreateAt($createAt) {
-        $this->createAt = $createAt;
-
-        return $this;
+    public function setCreateat() {
+        $this->createAt = new \DateTime();
     }
 
     /**
@@ -522,7 +518,6 @@ class Supply {
         return $this->user;
     }
 
-
     /**
      * Set deleted
      *
@@ -530,8 +525,7 @@ class Supply {
      *
      * @return Supply
      */
-    public function setDeleted($deleted)
-    {
+    public function setDeleted($deleted) {
         $this->deleted = $deleted;
 
         return $this;
@@ -542,8 +536,8 @@ class Supply {
      *
      * @return boolean
      */
-    public function getDeleted()
-    {
+    public function getDeleted() {
         return $this->deleted;
     }
+
 }

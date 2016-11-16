@@ -6,7 +6,7 @@
                 <span class="add-text">Ajoutez une offre</span>
             </span>
         </a>
-        <a class="itemadd" href="{{ path('vente_new') }}" id='demand-btn'>
+        <a class="itemadd" href="{{ path('demand_new') }}" id='demand-btn'>
             <span class="add-icon">
                 <span class="add-text">Formuler une demande</span>
             </span>
@@ -41,6 +41,11 @@
     <!--Start section-->
     <section class="text-center offset-1">
         <div class="container">
+            {% for flash_message in app.session.flashBag.get('success') %}
+                <div class="alert alert-success">
+                    <strong>Success!</strong> {{ flash_message }}
+                </div>
+            {% endfor %}
             {#
                         <h1>Les offres de produits disponibles</h1>
 
@@ -95,7 +100,6 @@
                         </div>
                     </form>
                 </div>
-
 
             </div>
 

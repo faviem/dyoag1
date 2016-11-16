@@ -16,37 +16,45 @@
  */
 
 define(
-    [
-    'jquery',
-    'chosen'
-],
-    function($) {
-        'use strict';
+        [
+            'jquery',
+            'chosen',
+            'jquery.spin'
+        ],
+        function ($) {
+            'use strict';
 
-        $(function(){
+            $(function () {
 
-$('select').chosen();
-$('.chosen-results li').css('text-align','left');
-//            $("#vente_province").change(function(){
-//                var data = {
-//                    province_id: $(this).val()
-//                };
-//
-//                $.ajax({
-//                    type: 'post',
-//                    url: Routing.generate('vente_select_cities'),
-//                    data: data,
-//                    success: function(data) {
-//                        var $city_selector = $('#vente_city');
-//                        $city_selector.html('<option>Ville</option>');
-//
-//                        for (var i=0, total = data.length; i < total; i++) {
-//                            $city_selector.append('<option value="' + data[i].id + '">' + data[i].name + '</option>');
-//                        }
-//                    }
-//                });
-//            });
-        });
-    }
+//                $('select').chosen();
+//                $('.chosen-results li').css('text-align', 'left');
+                $("#vente_product").change(function () {
+                    var data = {
+                        product_id: $(this).val()
+                    };
+                    $('form').spin();
+                    $.ajax({
+                        type: 'post',
+                        url: Routing.generate('vente_select_measures'),
+                        data: data
+                    }).done(function (data) {
+                        var $measures_selector = $('#vente_measure'),
+                                $product_mage_selector = $('#product_image'),
+                                measures = data[0].measures;
+                        $product_mage_selector.html('<img alt="" src="/uploads/images/products/' + data[0].imageName + '">');
+                        $measures_selector.html('<option>Unités de mesures</option>');
+                        for (var i = 0, total = measures.length; i < total; i++) {
+                            console.log(measures[i].id);
+                            $measures_selector.append('<option value="' + measures[i].id + '">' + measures[i].name + '</option>');
+                        }
+
+                    }).fail(function () {
+                        alert("error");
+                    }).always(function () {
+                        $('form').find('.spinner').hide()
+                    });
+                });
+            });
+        }
 );
 

@@ -11,6 +11,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use ZendSearch\Lucene\Lucene;
 use ZendSearch\Lucene\Document;
 use ZendSearch\Lucene\Document\Field;
+
 /**
  * Demand
  *
@@ -187,7 +188,7 @@ class Demand {
      * @var \DateTime
      */
     private $updatedAt;
-    
+
     /**
      * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
      * of 'UploadedFile' is injected into this setter to trigger the  update. If this
@@ -326,9 +327,8 @@ class Demand {
         }
 
         // don't index unavailable and non-published sale
-        if (!$this->getAvailable() || !$this->getPublished())
-        {
-          return;
+        if (!$this->getAvailable() || !$this->getPublished()) {
+            return;
         }
 
         $doc = new Document();
@@ -553,16 +553,12 @@ class Demand {
     }
 
     /**
-     * Set createAt
-     *
-     * @param \DateTime $createAt
-     *
-     * @return Demand
+     * Set createdAt
+     * *
+     * @ORM\PrePersist
      */
-    public function setCreateAt($createAt) {
-        $this->createAt = $createAt;
-
-        return $this;
+    public function setCreateat() {
+        $this->createAt = new \DateTime();
     }
 
     /**
@@ -774,7 +770,6 @@ class Demand {
         return $this->measure;
     }
 
-
     /**
      * Set deleted
      *
@@ -782,8 +777,7 @@ class Demand {
      *
      * @return Demand
      */
-    public function setDeleted($deleted)
-    {
+    public function setDeleted($deleted) {
         $this->deleted = $deleted;
 
         return $this;
@@ -794,8 +788,8 @@ class Demand {
      *
      * @return boolean
      */
-    public function getDeleted()
-    {
+    public function getDeleted() {
         return $this->deleted;
     }
+
 }

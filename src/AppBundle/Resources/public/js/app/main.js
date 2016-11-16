@@ -8,8 +8,7 @@
  *
  */
 
-requirejs.config({  
-    
+requirejs.config({
     baseUrl: '/js/app',
     paths: {
         'jquery': '/assets/js/jquery',
@@ -25,10 +24,11 @@ requirejs.config({
         'backbone.nested': '/assets/js/backbone-nested',
         'backbone.associations': '/assets/js/backbone-associations',
         'chosen': '/assets/js/chosen',
+        'jquery.spin': 'vendor/jquery.spin',
+        'spin': 'vendor/spin',
         //dashboard
         'jquery.nicescroll': 'vendor/jquery.nicescroll',
     },
-    
     shim: {
         'underscore': {
             exports: '_'
@@ -38,19 +38,20 @@ requirejs.config({
             exports: 'Backbone'
         },
         'jquery.ui': {
-            deps:    ['jquery'],
+            deps: ['jquery'],
             exports: '$'
         },
         'bootstrap': {
-            deps:    ['jquery'],
+            deps: ['jquery'],
         },
-        
-        'backbone.nested':{
-            deps:    ['backbone', 'backbone.associations']
+        'backbone.nested': {
+            deps: ['backbone', 'backbone.associations']
         },
-        
-          'chosen': {
-            deps:    ['jquery'],
+        'chosen': {
+            deps: ['jquery'],
+        },
+        'jquery.spin': {
+            deps: ['spin'],
         }
     }
 });
@@ -63,7 +64,7 @@ require([
 
     /**
      * Entry point of web application builder.
-     * 
+     *
      * @author Jacques Adjahoungbo <jtocson@gmail.com>
      */
     var initialize = function () {

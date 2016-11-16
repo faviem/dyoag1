@@ -41,6 +41,9 @@ form .input-group-addon {
     line-height: 0;
     padding: 10px 10px;
 }
+.dyo-nav{
+    background: #004d40;
+}
 /*screen-sm*/
 @media (max-width: 768px) {
     .brand-name {

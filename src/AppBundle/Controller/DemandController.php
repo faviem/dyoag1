@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Entity\Supply;
 
 /**
  * Demand controller.
@@ -41,12 +42,19 @@ class DemandController extends Controller {
         $demand = new Demand();
         $form = $this->createForm('AppBundle\Form\DemandType', $demand);
         $form->handleRequest($request);
+        $user = $this->getUser();
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            if (null === $demand->getImageName()) {
+                $demand->setImageName($demand->getProduct()->getImageName());
+            }
+            $demand->setUser($user);
             $em->persist($demand);
-            $em->flush($demand);
-
+            $em->flush();
+            $this->addFlash(
+                    'success', "Votre demande d'approvisionnement a été bien enregistrée!"
+            );
             return $this->redirectToRoute('demand_show', array('id' => $demand->getId()));
         }
 
@@ -63,11 +71,13 @@ class DemandController extends Controller {
      * @Method("GET")
      */
     public function showAction(Demand $demand) {
-        $deleteForm = $this->createDeleteForm($demand);
+
+        $supply = new Supply();
+        $form = $this->createForm('AppBundle\Form\SupplyType', $supply);
 
         return $this->render('demand/show.html.twig', array(
                     'demand' => $demand,
-                    'delete_form' => $deleteForm->createView(),
+                    'form' => $form->createView(),
         ));
     }
 

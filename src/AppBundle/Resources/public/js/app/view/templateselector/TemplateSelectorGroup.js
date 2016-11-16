@@ -20,7 +20,6 @@
             'CollectionType',
             'collection/Default',
             'model/templateselector/TemplateSelector',
-            'image.picker',
             'gridster'
         ], factory);
     } else {
@@ -40,15 +39,14 @@
         initialize: function (config) {
             this.swapp = config.swapp;
             this.baseUrl = config.baseUrl;
-            this.$createBtn = $("#speedwapp_frontendbundle_project_button");
             this.$el.html(
-                '<div class="gridster">'+
-                '<ul class="item-picker">' +
-                '</ul>' +
-                '<div>'+
-                '<nav>' +
-                '</nav>'
-            );
+                    '<div id="offers" class="row flow-offset-1 clearleft">' +
+                    '<ul class="item-picker">' +
+                    '</ul>' +
+                    '<div>' +
+                    '<nav>' +
+                    '</nav>'
+                    );
 
             this.templateThumbList = this.$el.find('ul.item-picker');
             this.thumbListPagination = this.$el.find('nav');
@@ -57,11 +55,11 @@
             this.sortedby = null;
 
             this.collection = new App.collection.Default(
-                [],
-                {
-                    name: 'swapp_componentselectorbox',
-                    model: App.model.TemplateSelector
-                });
+                    [],
+                    {
+                        name: 'swapp_componentselectorbox',
+                        model: App.model.TemplateSelector
+                    });
             this.loadTemplate();
 
             App.view.TemplateSelectorGroup.__super__.initialize.apply(this, arguments);
@@ -73,7 +71,7 @@
         sortedBy: function (sortedby) {
             this.sortedby = sortedby;
             this.loadTemplate(1);
-        },        
+        },
         loadTemplate: function (page) {
             var self = this;
             var data = {};
@@ -104,16 +102,16 @@
                     self.templateThumbList.data('template', settings.url);
                 },
                 success: function (response, status, xhr) {
-                    if (!response.offres) {
+                    if (!response.ventes) {
                         return;
                     }
 
-                    for (var j = 0, l = response.offres.length; j < l ; j++) {
-                        response.offres[j].datarow =  Math.floor(j/4);
-                        response.offres[j].datacol = j%4;
+                    for (var j = 0, l = response.ventes.length; j < l; j++) {
+                        response.ventes[j].datarow = Math.floor(j / 4);
+                        response.ventes[j].datacol = j % 4;
                     }
 
-                    self.collection.reset(response.offres);
+                    self.collection.reset(response.ventes);
                     self.$el.removeClass('loaderCollection');
 
                     var page = parseInt(response.pagination.page);
@@ -121,7 +119,7 @@
                     var pagination = '<ul class="pagination">';
                     if (page > 1) {
                         pagination += '<li><a data-page="1" href="' + self.baseUrl + '?page=1"><<</a></li>' +
-                            '<li><a data-page="' + (page - 1) + '" href="' + self.baseUrl + '?page=' + (page - 1) + '"><</a></li>';
+                                '<li><a data-page="' + (page - 1) + '" href="' + self.baseUrl + '?page=' + (page - 1) + '"><</a></li>';
                     }
 
                     // Calculate pagination and show
@@ -136,7 +134,7 @@
 
                     if (page < pages_count) {
                         pagination += '<li><a data-page="' + (page + 1) + '" href="' + self.baseUrl + '?page=' + (page + 1) + '">></a></li>' +
-                            '<li><a data-page="' + pages_count + '" href="' + self.baseUrl + '?page=' + pages_count + '">>></a></li>';
+                                '<li><a data-page="' + pages_count + '" href="' + self.baseUrl + '?page=' + pages_count + '">>></a></li>';
                     }
                     pagination += '</ul>';
 
@@ -170,18 +168,17 @@
             var clickedTemplateId;
             // Remove element from all template
             this.$el.find(".template")
-                .removeClass("template-selected")
-                .removeClass("selected")
-                .removeAttr("clicked");
+                    .removeClass("template-selected")
+                    .removeClass("selected")
+                    .removeAttr("clicked");
 
             $clickedTemplate.attr("clicked", "true")
-                .addClass('selected')
-                .addClass('template-selected');
+                    .addClass('selected')
+                    .addClass('template-selected');
 
             clickedTemplateId = $clickedTemplate.find('div.project_container').data('id');
             if (clickedTemplateId !== this.selectedTemplateId) {
                 this.selectedTemplateId = clickedTemplateId;
-                this.$createBtn.removeClass("disabled");
                 // TODO: Gérer la traduction
                 this.$el.trigger('change.itempicker');
             }

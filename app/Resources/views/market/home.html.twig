@@ -1,0 +1,40 @@
+{% extends 'layout.html.twig' %}
+
+{% block header %}
+    {% include 'header.html.twig' with {'style': 'background: #004d40;'} %}
+{% endblock header %}
+
+{% block container %}
+
+    <section class="well well-sm section-border">
+        <div class="container">
+            <div class="col-xs-12 offset-2">
+                <!--Tabs-->
+                <ul class="nav nav-tabs text-center product" role="tablist" id="myTabs">
+                    <li class="round-large text-dark-variant-3 active" role="presentation">
+                        <a class="round-large" role="tab" aria-controls="tab0" href="#tab0">Offres</a>
+                    </li>
+                    <li class="round-large text-dark-variant-3" role="presentation">
+                        <a class="round-large" role="tab" aria-controls="tab1" href="#tab1">Demandes</a>
+                    </li>
+                </ul>
+                <!--Tab panes-->
+                <div class="tab-content text-sm-left">
+                    <div class="tab-pane fade active in" id="tab0" role="tabpanel">
+                        <div id="tplContainer" class="row"></div>
+                    </div>
+                    <div class="tab-pane fade" id="tab1" role="tabpanel">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        require(['market/home']);
+    </script>
+{% endblock %}

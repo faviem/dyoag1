@@ -19,22 +19,22 @@
         // Browser globals:
         factory(window.App);
     }
-}(function(App) {
+}(function (App) {
     'use strict';
 
     /**
      * Model Button.
-     * 
+     *
      * @author Akambi Fagbohoun <contact@akambi-fagbohoun.com>
      */
     App.model.TemplateSelector = App.Model.extend({
-    
         defaults: {
             id: null,
             lieu: null,
             image: null,
             product: null,
-            prix: null
+            prix: null,
+            measure: null
         }
     });
     return App.model.TemplateSelector;

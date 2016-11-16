@@ -62,11 +62,12 @@ class VenteController extends Controller {
             if (null === $vente->getImageName()) {
                 $vente->setImageName($vente->getProduct()->getImageName());
             }
-            var_dump($vente->getImageName());
             $vente->setUser($user);
             $em->persist($vente);
             $em->flush();
-
+            $this->addFlash(
+                    'success', "Votre offre de produit a été bien enregistré!"
+            );
             return $this->redirectToRoute('vente_show', array('id' => $vente->getId()));
         }
 
@@ -106,7 +107,9 @@ class VenteController extends Controller {
             //update vente quantity
             $commande->getVente()->setQuantite($commande->getVente()->getQuantite() - $commande->getQuantite());
             $em->flush();
-
+            $this->addFlash(
+                    'success', "Votre commande a été bien enregistrée!"
+            );
 //            return new JsonResponse(array(
 //                'success' => true,
 //                'email' => $email
@@ -174,7 +177,7 @@ class VenteController extends Controller {
                     'delete_form' => $deleteForm->createView(),
         ));
     }
-    
+
     /**
      * Displays a form to edit an existing Vente entity.
      *
