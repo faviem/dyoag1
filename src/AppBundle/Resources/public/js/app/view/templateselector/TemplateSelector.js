@@ -27,12 +27,12 @@ define([
                     id: templateId,
                     data: '<div class="col-xs-6 col-xs-6--mod-1 col-md-3">\
                             <div class="product tumbnail thumbnail-3">\
-                                <a href="#">\
+                                <a href="{{ url }}">\
                                     <img alt="" src="{{ image }}">\
                                 </a>\
                                 <div class="caption">\
                                     <h6>\
-                                        <a href="{{ url }}">{{ name }}</a>\
+                                        <a href="{{ url }}">{{ product }}</a>\
                                     </h6>\
                                     <span class="price sale">{{ prix }} FCFA / {{ measure }}</span>\
                                 </div>\
