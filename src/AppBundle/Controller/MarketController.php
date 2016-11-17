@@ -21,7 +21,10 @@ class MarketController extends Controller {
      * @Method("GET")
      */
     public function indexAction() {
+        $em = $this->getDoctrine()->getManager();
+        $categories = $em->getRepository('AppBundle:Category')->findAll();
         return $this->render('market/home.html.twig', array(
+                    'categories' => $categories
         ));
     }
 

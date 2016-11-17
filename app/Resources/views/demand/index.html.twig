@@ -1,71 +1,24 @@
-{% extends 'base.html.twig' %}
+{% extends 'market.html.twig' %}
+{% block filter_search %}
+    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
 
-{% block body %}
-    <h1>Demands list</h1>
+        <div class="search">
+            <!--<h2>Recherchez un produit</h2>-->
+            <form action="{{ path('demand_search') }}" method="get">
+                <input type="text" name="query" value="{{ app.request.get('query') }}" id="search_keywords" placeholder="Recherchez une Demande">
+                <input type="submit" value="search" >
+                <img id="loader" src="{{ asset('/assets/images/ajax-loader.gif') }}" style="vertical-align: middle; display: none" />
+                <div class="help">
+                    Entrer une commune (Ouidah) ou un produit (Ananas)
+                </div>
+            </form>
+        </div>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Lieu</th>
-                <th>Createat</th>
-                <th>Quantite</th>
-                <th>Datelimit</th>
-                <th>Datelimitupdate</th>
-                <th>Prixunit</th>
-                <th>Description</th>
-                <th>Published</th>
-                <th>Canceledat</th>
-                <th>Canceledreason</th>
-                <th>Available</th>
-                <th>Deleteat</th>
-                <th>Deleted</th>
-                <th>Permanent</th>
-                <th>Canceled</th>
-                <th>Imagename</th>
-                <th>Updatedat</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for demand in demands %}
-            <tr>
-                <td><a href="{{ path('demand_show', { 'id': demand.id }) }}">{{ demand.id }}</a></td>
-                <td>{{ demand.lieu }}</td>
-                <td>{% if demand.createAt %}{{ demand.createAt|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{{ demand.quantite }}</td>
-                <td>{% if demand.dateLimit %}{{ demand.dateLimit|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{% if demand.dateLimitUpdate %}{{ demand.dateLimitUpdate|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{{ demand.prixUnit }}</td>
-                <td>{{ demand.description }}</td>
-                <td>{% if demand.published %}Yes{% else %}No{% endif %}</td>
-                <td>{% if demand.canceledAt %}{{ demand.canceledAt|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{{ demand.canceledReason }}</td>
-                <td>{% if demand.available %}Yes{% else %}No{% endif %}</td>
-                <td>{% if demand.deleteAt %}{{ demand.deleteAt|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{% if demand.deleted %}Yes{% else %}No{% endif %}</td>
-                <td>{% if demand.permanent %}Yes{% else %}No{% endif %}</td>
-                <td>{% if demand.canceled %}Yes{% else %}No{% endif %}</td>
-                <td>{{ demand.imageName }}</td>
-                <td>{% if demand.updatedAt %}{{ demand.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('demand_show', { 'id': demand.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('demand_edit', { 'id': demand.id }) }}">edit</a>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    </div>
+{% endblock %}
 
-    <ul>
-        <li>
-            <a href="{{ path('demand_new') }}">Create a new demand</a>
-        </li>
-    </ul>
+{% block content %}
+    <div id="offers" class="row flow-offset-1 clearleft">
+        {% include 'demand/list.html.twig' with {'pagination': pagination} %}
+    </div>
 {% endblock %}

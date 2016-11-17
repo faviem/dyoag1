@@ -35,7 +35,8 @@
             product: null,
             prix: null,
             measure: null,
-            url: null
+            url: null,
+            stock: null
         }
     });
     return App.model.TemplateSelector;

@@ -22,13 +22,25 @@ class DemandController extends Controller {
      * @Route("/", name="demand_index")
      * @Method("GET")
      */
-    public function indexAction() {
+    public function indexAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
-
         $demands = $em->getRepository('AppBundle:Demand')->findAll();
-
+        $categories = $em->getRepository('AppBundle:Category')->findAll();
+        $dql = "SELECT o FROM AppBundle:Demand o";
+        $query = $em->createQuery($dql);
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+                $query, // query NOT result
+                $request->query->getInt('page', 1), //page number
+                24 // limit per page
+        );
         return $this->render('demand/index.html.twig', array(
-                    'demands' => $demands,
+                    'pagination' => $pagination,
+                    'categories' => $categories
+        ));
+        return $this->render('demand/index.html.twig', array(
+                    'pagination' => $pagination,
+                    'categories' => $categories
         ));
     }
 
@@ -137,6 +149,48 @@ class DemandController extends Controller {
                         ->setMethod('DELETE')
                         ->getForm()
         ;
+    }
+
+    /**
+     * Search a Demand entity.
+     *
+     * @Route("/search", name="demand_search")
+     * @Method({"GET", "POST"})
+     */
+    public function searchAction(Request $request) {
+        $em = $this->getDoctrine()->getManager();
+        $query = $request->get('query');
+
+        if (!$query) {
+            if (!$request->isXmlHttpRequest()) {
+                return $this->redirect($this->generateUrl('demand_index'));
+            } else {
+                return new JsonResponse('No results.');
+            }
+        }
+
+        $demands = $em->getRepository('AppBundle:Demand')->getForLuceneQuery($query);
+        $categories = $em->getRepository('AppBundle:Category')->findAll();
+
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+                $demands, /* query NOT result */ $request->query->getInt('page', 1)/* page number */, 24/* limit per page */
+        );
+
+        if ($request->isXmlHttpRequest()) {
+            if ('*' == $query || !$demands || $query == '') {
+                return new JsonResponse('No results.');
+            }
+            return $this->render('demand/searchAjax.html.twig', array(
+                        'pagination' => $pagination,
+                        'categories' => $categories
+            ));
+        }
+
+        return $this->render('demand/search.html.twig', array(
+                    'pagination' => $pagination,
+                    'categories' => $categories
+        ));
     }
 
 }

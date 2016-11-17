@@ -68,7 +68,7 @@ class VenteController extends Controller {
             $this->addFlash(
                     'success', "Votre offre de produit a été bien enregistré!"
             );
-            return $this->redirectToRoute('vente_show', array('id' => $vente->getId()));
+            return $this->redirectToRoute('vente_index');
         }
 
         return $this->render('vente/new.html.twig', array(
@@ -249,9 +249,9 @@ class VenteController extends Controller {
     }
 
     /**
-     * Deletes a Vente entity.
+     * Search a Vente entity.
      *
-     * @Route("/v/search", name="vente_search")
+     * @Route("/search", name="vente_search")
      * @Method({"GET", "POST"})
      */
     public function searchAction(Request $request) {

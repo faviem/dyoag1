@@ -40,7 +40,6 @@ class VenteController extends Controller {
     public function cgetAction($category, $sortedby, $page) {
 
         $mappingSortedby = array(
-            'location' => 'location',
             'product' => 'product',
             'createAt' => 'createAt',
         );
@@ -91,7 +90,8 @@ class VenteController extends Controller {
                 'product' => $vente->getProduct()->getName(),
                 'prix' => $vente->getPrixUnit(),
                 'measure' => $vente->getMeasure()->getName(),
-                'url' => $url
+                'url' => $url,
+                'stock' => $vente->getQuantite()
             );
         }
         // return url for view the preview

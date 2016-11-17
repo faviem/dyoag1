@@ -52,9 +52,7 @@ class VenteRepository extends \Doctrine\ORM\EntityRepository {
         if (!$sortedBy) {
             $query->addOrderBy('v.createDate', 'DESC');
         } else {
-            if ($sortedBy == 'location') {
-                $query->addOrderBy("v.lieu", 'DESC');
-            } else if ($sortedBy == 'product') {
+            if ($sortedBy == 'product') {
                 $query->innerJoin('v.product', 'p');
                 $query->addOrderBy("p", 'ASC');
             } else {

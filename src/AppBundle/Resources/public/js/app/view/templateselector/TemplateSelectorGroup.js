@@ -40,16 +40,20 @@
             this.swapp = config.swapp;
             this.baseUrl = config.baseUrl;
             this.$el.html(
-                    '<div id="offers" class="row flow-offset-1 clearleft">' +
-                    '<ul class="item-picker">' +
-                    '</ul>' +
+                    '<div id="offers" class="row flow-offset-1 clearleft gridster">' +
+                    '<div class="offers-container">' +
+                    '</div>' +
                     '<div>' +
-                    '<nav>' +
-                    '</nav>'
+                    '<div class="container">' +
+                    '<div class="col-inset-2 text-center btn-group" role="group" aria-label="First group">' +
+                    '<div id="pagination" class="navigation">' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>'
                     );
 
-            this.templateThumbList = this.$el.find('ul.item-picker');
-            this.thumbListPagination = this.$el.find('nav');
+            this.templateThumbList = this.$el.find('.offers-container');
+            this.thumbListPagination = this.$el.find('#pagination');
             this.$el = this.templateThumbList;
 
             this.sortedby = null;
@@ -190,7 +194,8 @@
         },
         render: function () {
             App.view.TemplateSelectorGroup.__super__.render.call(this);
-            this.$el.find(".gridster ul").gridster({
+            console.log(this.$el.find(".gridster .offers-container"));
+            this.$el.find(".gridster .offers-container").gridster({
                 widget_margins: [10, 10],
                 widget_base_dimensions: [250, 378]
             });

@@ -12,8 +12,8 @@ define([
      * @author Jacques Adjahoungbo <jtocson@gmail.com>
      */
     App.view.TemplateSelector = App.View.extend({
-        tagName: 'li',
-        className: 'template',
+        tagName: 'div',
+        className: 'col-xs-6 col-md-3',
         constructor: function (options) {
             App.View.prototype.constructor.call(this, options);
         },
@@ -25,8 +25,7 @@ define([
             if (this.template === null) {
                 this.template = Twig.twig({
                     id: templateId,
-                    data: '<div class="col-xs-6 col-xs-6--mod-1 col-md-3">\
-                            <div class="product tumbnail thumbnail-3">\
+                    data: '<div class="product tumbnail thumbnail-3" data-row={{ datarow }} data-col={{ datacol }}>\
                                 <a href="{{ url }}">\
                                     <img alt="" src="{{ image }}">\
                                 </a>\
@@ -34,14 +33,12 @@ define([
                                     <h6>\
                                         <a href="{{ url }}">{{ product }}</a>\
                                     </h6>\
-                                    <span class="price sale">{{ prix }} FCFA / {{ measure }}</span>\
+                                    <span class="price sale">{{ prix }} FCFA / {{ measure }}</span><br>\
+                                    <span class="stock">{{ stock }} {{ measure }}s en stock.</span>\
                                 </div>\
-                            </div>\
-                        </div>'
+                            </div>'
                 });
             }
-
-
 
             //  Exécuter la methode render à  chaque évènement sur l'objet
             _.bindAll(this, 'render');

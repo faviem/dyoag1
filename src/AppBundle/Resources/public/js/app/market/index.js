@@ -11,24 +11,30 @@
 /**
  * Home page
  *
- * @version 1.0 [17 Mai 2016]
+ * @version 1.0 [17 Novembre 2016]
  * @author Jacques Adjahoungbo <jtocson@gmail.com>
  */
 
 define(
-    [
-    'jquery',
-    'FloatingSocialButton',
-    'app',
-],
-    function($, FloatingSocialButton, App) {
-        'use strict';
+        [
+            'jquery',
+            'bootstrap'
+        ],
+        function ($) {
+            'use strict';
+            $(function () {
 
-        $(function() {
-            this.templateSelectorGroup = new TemplateSelectorGroup({
-                el: this.$tplContainer2,
-                baseUrl: Routing.generate('get_publicprojects')
+                /**
+                 * @module       Tabs
+                 * @description  Bootstrap tabs
+                 */
+
+                $("#myTabs a").each(function () {
+                    if (this.href == window.location.href) {
+                        $(this).parent().addClass("active");
+                    }
+                });
             });
-        });
-    }
+        }
 );
+
