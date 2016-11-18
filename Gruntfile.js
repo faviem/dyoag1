@@ -21,7 +21,7 @@ module.exports = function (grunt) {
                     'js/backbone-associations.js': 'backbone-associations/backbone-associations-min.js',
                     'js/chosen.js': 'chosen-bower/chosen.jquery.min.js',
                     'js/datatable.js': 'datatables.net/js/jquery.dataTables.min.js',
-                    //pour le dashboard 
+                    //pour le dashboard
                 }
             },
             stylesheets: {
@@ -36,7 +36,7 @@ module.exports = function (grunt) {
                 }
             }
 
-            
+
         },
         cssmin: {
             bundled: {
@@ -47,12 +47,11 @@ module.exports = function (grunt) {
                 src: 'web/assets/css/dashboard.css',
                 dest: 'web/assets/css/dashboard.min.css'
             },
-            
         },
         uglify: {
             options: {
                 compress: {
-                    drop_console: true 
+                    drop_console: true
                 }
             },
             js: {
@@ -74,13 +73,12 @@ module.exports = function (grunt) {
                 dest: 'web/assets/css/benagro.css'
             },
             dashboardCSS: {
-                src: "src/AppBundle/Resources/public/css/dashboard/*.css",            
+                src: "src/AppBundle/Resources/public/css/dashboard/*.css",
                 dest: "web/assets/css/dashboard.css"
             },
-
             js: {
                 src: [
-                    //'src/AppBundle/Resources/public/js/*.js',
+                    'src/AppBundle/Resources/public/js/script.js',
                     'web/bundles/fosjsrouting/js/router.js',
                     'web/js/fos_js_routes.js'
                 ],

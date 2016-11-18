@@ -1,0 +1,82 @@
+<header class="page-header">
+
+    <!--RD Navbar-->
+    <div class="rd-navbar-wrap">
+        <nav data-md-layout="rd-navbar-static" data-sm-layout="rd-navbar-fullwidth" data-stick-up="false" data-hover-on="false" data-layout="rd-navbar-fixed" class="rd-navbar top-panel-none-items rd-navbar-static"  style="{{ style }}">
+            <div class="rd-navbar-top-panel">
+                <div class="rd-navbar-inner">
+                    <button class="rd-navbar-collapse-toggle" data-rd-navbar-toggle=".list-inline, .fa-envelope, .fa-phone, .fl-bigmug-line-shopping204">
+                        <span></span>
+                    </button>
+                    <a class="fa-envelope" href="mailto:#">contact@benagro.org</a>
+                    <a class="fa-phone" href="callto:#">(+299) 97 50-24-47</a>
+                    <ul class="list-inline pull-right">
+                        <li><a class="material-design-facebook56" href="#"></a></li>
+                        <li><a class="material-design-twitter47" href="#"></a></li>
+                            {#<li><a class="material-design-google119" href="#"></a></li>
+                            <li><a class="material-design-linkedin24" href="#"></a></li>
+                            <li><a class="material-design-pinterest33" href="#"></a></li>#}
+                    </ul>
+                </div>
+            </div>
+            <div class="rd-navbar-inner">
+
+                <!--RD Navbar Panel-->
+                <div class="rd-navbar-panel">
+
+                    <!--RD Navbar Toggle-->
+                    <button class="rd-navbar-toggle" data-rd-navbar-toggle=".rd-navbar"><span></span></button>
+                    <!--END RD Navbar Toggle-->
+
+                    <!--RD Navbar Brand-->
+                    <div class="rd-navbar-brand">
+                        <a class="brand-name" href="{{ path('homepage') }}">BenAgro<span>agriculteurs-acheteurs</span></a>
+                    </div>
+                    <!--END RD Navbar Brand-->
+                </div>
+                <!--END RD Navbar Panel-->
+
+                <div class="rd-navbar-nav-wrap">
+                    {#
+                      <a class="fl-bigmug-line-shopping204" href="shop-cart.html"></a>
+
+                    Connexion
+                    <!--RD Navbar Search-->
+                    <div class="rd-navbar-search">
+                      <form class="rd-navbar-search-form" method="GET" action="search.php">
+                        <label class="rd-navbar-search-form-input">
+                          <input type="text" autocomplete="off" placeholder="Search.." name="s">
+                        </label>
+                        <button class="rd-navbar-search-form-submit" type="submit"></button>
+                      </form><span class="rd-navbar-live-search-results"></span>
+                      <button class="rd-navbar-search-toggle" data-rd-navbar-toggle=".rd-navbar-search, .rd-navbar-live-search-results"></button>
+                    </div>
+                    <!--END RD Navbar Search-->
+                   #}
+                    <!--RD Navbar Nav-->
+                    <ul class="rd-navbar-nav">
+                        <li class="active"><a href="{{ path('homepage') }}">Accueil</a></li>
+                        <li><a href="#">A propos</a></li>
+                        <li><a href="{{ path('vente_index') }}">Marché</a></li>
+                            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                            <li><a href="{{ path('dashboard_index')}}">Mon espace</a></li>
+                            <li>
+                                <a href="{{ path("fos_user_security_logout") }}">
+                                    {{ "Déconnexion"|trans }}
+                                </a>
+                            </li>
+                        {% else %}
+                            <li>
+                                <a href="{{ path("fos_user_security_login") }}">
+                                    {{ "Connexion" | trans }}
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+    </div>
+
+</header>

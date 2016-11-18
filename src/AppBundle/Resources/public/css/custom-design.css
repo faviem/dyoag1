@@ -29,7 +29,20 @@ span.required{
 input[type='number'] {
     -moz-appearance:textfield;
 }
-
+.swiper-container{
+    height: auto!important;
+    margin-top: 6%!important;
+}
+.dyo-blue{
+    color: #004d40;
+}
+#load{
+    width:100%;
+    height:100%;
+    position:fixed;
+    z-index:9999;
+    background:url("https://www.creditmutuel.fr/cmne/fr/banques/webservices/nswr/images/loading.gif") no-repeat center center rgba(0,0,0,0.25)
+}
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;
@@ -40,6 +53,9 @@ form .input-group-addon {
     color: #b7b7b9;
     line-height: 0;
     padding: 10px 10px;
+}
+.dyo-nav{
+    background: #004d40;
 }
 /*screen-sm*/
 @media (max-width: 768px) {

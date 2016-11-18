@@ -62,12 +62,13 @@ class VenteController extends Controller {
             if (null === $vente->getImageName()) {
                 $vente->setImageName($vente->getProduct()->getImageName());
             }
-            var_dump($vente->getImageName());
             $vente->setUser($user);
             $em->persist($vente);
             $em->flush();
-
-            return $this->redirectToRoute('vente_show', array('id' => $vente->getId()));
+            $this->addFlash(
+                    'success', "Votre offre de produit a été bien enregistré!"
+            );
+            return $this->redirectToRoute('vente_index');
         }
 
         return $this->render('vente/new.html.twig', array(
@@ -106,7 +107,9 @@ class VenteController extends Controller {
             //update vente quantity
             $commande->getVente()->setQuantite($commande->getVente()->getQuantite() - $commande->getQuantite());
             $em->flush();
-
+            $this->addFlash(
+                    'success', "Votre commande a été bien enregistrée!"
+            );
 //            return new JsonResponse(array(
 //                'success' => true,
 //                'email' => $email
@@ -174,7 +177,7 @@ class VenteController extends Controller {
                     'delete_form' => $deleteForm->createView(),
         ));
     }
-    
+
     /**
      * Displays a form to edit an existing Vente entity.
      *
@@ -246,9 +249,9 @@ class VenteController extends Controller {
     }
 
     /**
-     * Deletes a Vente entity.
+     * Search a Vente entity.
      *
-     * @Route("/v/search", name="vente_search")
+     * @Route("/search", name="vente_search")
      * @Method({"GET", "POST"})
      */
     public function searchAction(Request $request) {

@@ -1,1 +1,24 @@
 {% extends 'market.html.twig' %}
+{% block search %}
+    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+
+        <div class="search">
+            <!--<h2>Recherchez un produit</h2>-->
+            <form action="{{ path('vente_search') }}" method="get">
+                <input type="text" name="query" value="{{ app.request.get('query') }}" id="search_keywords" placeholder="Recherchez une offre">
+                <input type="submit" value="search" >
+                <img id="loader" src="{{ asset('/assets/images/ajax-loader.gif') }}" style="vertical-align: middle; display: none" />
+                <div class="help">
+                    Entrer une commune (Ouidah) ou un produit (Ananas)
+                </div>
+            </form>
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div id="offers" class="row flow-offset-1 clearleft">
+        {% include 'vente/list.html.twig' with {'pagination': pagination} %}
+    </div>
+{% endblock %}
