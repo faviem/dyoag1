@@ -2,214 +2,198 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Form\Model\ReplyMessageModel;
-use AppBundle\Form\Model\StartConversationModel;
-use AppBundle\Form\Type\EmptyType;
-use AppBundle\Form\Type\ReplyMessageType;
-use AppBundle\Form\Type\StartConversationType;
-use FOS\Message\Driver\Doctrine\ORM\Entity\Conversation;
-use FOS\Message\Model\MessageInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
+use FOS\MessageBundle\Provider\ProviderInterface;
+use Symfony\Component\HttpFoundation\Response;
 
-class MessageController extends Controller
+class MessageController implements ContainerAwareInterface
 {
-    const MESSAGES_PER_PAGE = 5;
     /**
-     * @Route("/dashboard/message", name="message")
+     * @var ContainerInterface
      */
-    public function indexAction()
-    {
-       return $this->render('dashboard/default/index.html.twig');
-    }
-    
-        /**
-     * @Route("/dashboard/messages/conversations", name="messages_conversations")
+    protected $container;
+
+    /**
+     * Displays the authenticated participant inbox.
+     *
+     * @return Response
+     * 
+     * @Route("/dashboard/boite_reception", name="fos_message_inbox")
+     * @Method("GET")
+     *
      */
-    public function conversationsAction()
+    public function inboxAction()
     {
-        /** @var Conversation[] $conversations */
-        $conversations = $this->get('fos_message.repository')->getPersonConversations($this->getUser());
-        $forms = [];
+        $threads = $this->getProvider()->getInboxThreads();
 
-        foreach ($conversations as $conversation) {
-            $forms[$conversation->getId()] = $this->createForm(EmptyType::class)->createView();
-        }
-
-        return $this->render('dashboard/messages/conversations.html.twig', [
-            'conversations' => $conversations,
-            'forms' => $forms,
-        ]);
+        return $this->container->get('templating')->renderResponse('dashboard/Message/inbox.html.twig', array(
+            'threads' => $threads,
+        ));
     }
 
     /**
-     * @Route("/dashboard/messages/start", name="messages_start")
+     * Displays the authenticated participant messages sent.
+     *
+     * @return Response
+     * 
+     * @Route("/dashboard/boite_envoi", name="fos_message_sent")
+     * @Method("GET")
      */
-    public function startAction(Request $request)
+    public function sentAction()
     {
-        $model = new StartConversationModel();
+        $threads = $this->getProvider()->getSentThreads();
 
-        $form = $this->createForm(StartConversationType::class, $model);
-        $form->handleRequest($request);
+        return $this->container->get('templating')->renderResponse('dashboard/Message/sent.html.twig', array(
+            'threads' => $threads,
+        ));
+    }
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $conversation = $this->get('fos_message.sender')->startConversation(
-                $this->getUser(),
-                $model->getRecipients(),
-                $model->getBody(),
-                $model->getSubject()
-            );
+    /**
+     * Displays the authenticated participant deleted threads.
+     *
+     * @return Response
+     * 
+     * @Route("/dashboard/suppression_message", name="fos_message_deleted")
+     * @Method("GET")
+     */
+    public function deletedAction()
+    {
+        $threads = $this->getProvider()->getDeletedThreads();
 
-            return $this->redirectToRoute('messages_conversation', [
-                'id' => $conversation->getId(),
-                'page' => 1
-            ]);
+        return $this->container->get('templating')->renderResponse('dashboard/Message/deleted.html.twig', array(
+            'threads' => $threads,
+        ));
+    }
+
+    /**
+     * Displays a thread, also allows to reply to it.
+     *
+     * @param string $threadId the thread id
+     *
+     * @return Response
+     * 
+     * @Route("/dashboard/messagerie/{threadId}", name="fos_message_thread_view")
+     * @Method("GET")
+     */
+    public function threadAction($threadId)
+    {
+        $thread = $this->getProvider()->getThread($threadId);
+        $form = $this->container->get('fos_message.reply_form.factory')->create($thread);
+        $formHandler = $this->container->get('fos_message.reply_form.handler');
+
+        if ($message = $formHandler->process($form)) {
+            return new RedirectResponse($this->container->get('router')->generate('fos_message_thread_view', array(
+                'threadId' => $message->getThread()->getId(),
+            )));
         }
 
-        return $this->render('dashboard/messages/start.html.twig', [
+        return $this->container->get('templating')->renderResponse('dashboard/Message/thread.html.twig', array(
             'form' => $form->createView(),
-        ]);
+            'thread' => $thread,
+        ));
     }
 
     /**
-     * @Route(
-     *     "/dashboard/messages/{id}/{page}",
-     *     requirements={"id"="\d+", "page"="\d+"},
-     *     name="messages_conversation"
-     * )
+     * Create a new message thread.
+     *
+     * @return Response
+     * 
+     * @Route("/dashboard/nouveau_message", name="fos_message_thread_new")
+     * @Method({"GET", "POST"})
      */
-    public function conversationAction(Request $request, $id, $page)
+    public function newThreadAction()
     {
-        $manager = $this->getDoctrine()->getManager();
-        $repository = $this->get('fos_message.repository');
+        $form = $this->container->get('fos_message.new_thread_form.factory')->create();
+        $formHandler = $this->container->get('fos_message.new_thread_form.handler');
 
-        // Find the conversation
-        $conversation = $repository->getConversation($id);
-
-        if (! $conversation) {
-            throw $this->createNotFoundException();
+        if ($message = $formHandler->process($form)) {
+            return new RedirectResponse($this->container->get('router')->generate('fos_message_thread_view', array(
+                'threadId' => $message->getThread()->getId(),
+            )));
         }
 
-        if (! $conversation->isPersonInConversation($this->getUser())) {
-            throw $this->createAccessDeniedException();
-        }
-
-        // Retrieve the messages of this page
-        $total = $conversation->getMessages()->count();
-        $offset = ($page - 1) * self::MESSAGES_PER_PAGE;
-
-        if ($offset >= $total) {
-            throw $this->createNotFoundException();
-        }
-
-        $totalPages = ceil($total / self::MESSAGES_PER_PAGE);
-
-        /** @var MessageInterface[] $messages */
-        $messages = $repository->getMessages($conversation, $offset, self::MESSAGES_PER_PAGE);
-
-        foreach ($messages as $message) {
-            $messagePerson = $message->getMessagePerson($this->getUser());
-
-            if (! $messagePerson->isRead()) {
-                $messagePerson->setRead();
-                $manager->persist($messagePerson);
-            }
-        }
-
-        $manager->flush();
-
-        // Reply form
-        $model = new ReplyMessageModel();
-
-        $replyForm = $this->createForm(ReplyMessageType::class, $model);
-        $replyForm->handleRequest($request);
-
-        if ($replyForm->isSubmitted() && $replyForm->isValid()) {
-            $message = $this->get('fos_message.sender')->sendMessage(
-                $conversation,
-                $this->getUser(),
-                $model->getBody()
-            );
-
-            // Go to last page and last message
-            $lastPage = ceil(($total + 1) / self::MESSAGES_PER_PAGE);
-
-            $url = $this->generateUrl('messages_conversation', [
-                'id' => $conversation->getId(),
-                'page' => $lastPage
-            ]);
-
-            $url .= '#message-' . $message->getId();
-
-            return $this->redirect($url);
-        }
-
-        return $this->render('dashboard/messages/conversation.html.twig', [
-            'conversation' => $conversation,
-            'messages' => $messages,
-            'total' => $total,
-            'totalPages' => $totalPages,
-            'page' => $page,
-            'replyForm' => $replyForm->createView(),
-        ]);
+        return $this->container->get('templating')->renderResponse('dashboard/Message/newThread.html.twig', array(
+            'form' => $form->createView(),
+            'data' => $form->getData(),
+        ));
     }
 
     /**
-     * @Route("/dashboard/messages/{id}/set-read", name="messages_conversation_set_read")
-     * @Method("POST")
+     * Deletes a thread.
+     *
+     * @param string $threadId the thread id
+     *
+     * @return RedirectResponse
+     * 
+     * @Route("/dashboard/suppression_thread", name="fos_message_thread_delete")
+     * @Method({"GET", "POST"})
      */
-    public function setReadAction(Request $request, $id)
+    public function deleteAction($threadId)
     {
-        $form = $this->createForm(EmptyType::class);
-        $form->handleRequest($request);
+        $thread = $this->getProvider()->getThread($threadId);
+        $this->container->get('fos_message.deleter')->markAsDeleted($thread);
+        $this->container->get('fos_message.thread_manager')->saveThread($thread);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $manager = $this->getDoctrine()->getManager();
-            $conversation = $this->get('fos_message.repository')->getConversation($id);
-
-            foreach ($conversation->getMessages() as $message) {
-                $messagePerson = $message->getMessagePerson($this->getUser());
-
-                if (! $messagePerson->isRead()) {
-                    $messagePerson->setRead();
-                    $manager->persist($messagePerson);
-                }
-            }
-
-            $manager->flush();
-        }
-
-        return $this->redirectToRoute('messages_conversations');
+        return new RedirectResponse($this->container->get('router')->generate('fos_message_inbox'));
     }
 
     /**
-     * @Route("/dashboard/messages/{id}/set-unread", name="messages_conversation_set_unread")
-     * @Method("POST")
+     * Undeletes a thread.
+     *
+     * @param string $threadId
+     *
+     * @return RedirectResponse
+     * 
+     * @Route("/dashboard/suppression_annuler_message", name="fos_message_thread_undelete")
+     * @Method({"GET", "POST"})
      */
-    public function setUnreadAction(Request $request, $id)
+    public function undeleteAction($threadId)
     {
-        $form = $this->createForm(EmptyType::class);
-        $form->handleRequest($request);
+        $thread = $this->getProvider()->getThread($threadId);
+        $this->container->get('fos_message.deleter')->markAsUndeleted($thread);
+        $this->container->get('fos_message.thread_manager')->saveThread($thread);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $manager = $this->getDoctrine()->getManager();
-            $conversation = $this->get('fos_message.repository')->getConversation($id);
-
-            foreach ($conversation->getMessages() as $message) {
-                $messagePerson = $message->getMessagePerson($this->getUser());
-
-                if ($messagePerson->isRead()) {
-                    $messagePerson->setNotRead();
-                    $manager->persist($messagePerson);
-                }
-            }
-
-            $manager->flush();
-        }
-
-        return $this->redirectToRoute('messages_conversations');
+        return new RedirectResponse($this->container->get('router')->generate('fos_message_inbox'));
     }
-    
+
+    /**
+     * Searches for messages in the inbox and sentbox.
+     *
+     * @return Response
+     * 
+     * @Route("/dashboard/recherche_message", name="fos_message_search")
+     * @Method({"GET", "POST"})
+     */
+    public function searchAction()
+    {
+        $query = $this->container->get('fos_message.search_query_factory')->createFromRequest();
+        $threads = $this->container->get('fos_message.search_finder')->find($query);
+
+        return $this->container->get('templating')->renderResponse('dashboard/Message/search.html.twig', array(
+            'query' => $query,
+            'threads' => $threads,
+        ));
+    }
+
+    /**
+     * Gets the provider service.
+     *
+     * @return ProviderInterface
+     */
+    protected function getProvider()
+    {
+        return $this->container->get('fos_message.provider');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setContainer(ContainerInterface $container = null)
+    {
+        $this->container = $container;
+    }
 }

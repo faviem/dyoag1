@@ -305,4 +305,101 @@ class DashboardController extends Controller {
         ));
     }
 
+    //les demandes et offres en cours pour un produit
+    /**
+     * View of dashboard.
+     *
+     * @Route("/dashboard/demandesEncoursproduit/{id}", name="dashborad_demandesEncoursproduit")
+     * @Method("GET")
+     */
+    public function demandesEncoursproduitAction(Request $request, $id)
+    {        
+        $product = $this->getDoctrine()->getManager()->getRepository('AppBundle:Product')->find($id);
+        $em = $this->getDoctrine()->getManager();
+        
+        $demands = $em->getRepository('AppBundle:Demand')
+                ->findBy(array ('deleted' => false,'canceled' => false,'available'=>true,'published'=>true,'product' => $product),array(
+                    'createAt' => 'ASC'
+        ));
+        $count = 0;
+        foreach ($demands as $i){ $count++; }
+        return $this->render('dashboard/demandesEncoursproduit.html.twig',array(
+                    'demands' => $demands,  'product' => $product,  'id' => $id,  'count' => $count
+        
+        ));
+    }
+    
+    /**
+     * View of dashboard.
+     *
+     * @Route("/dashboard/offreEncoursproduit/{id}", name="dashborad_offreEncoursproduit")
+     * @Method("GET")
+     */
+    public function offreEncoursproduitAction(Request $request, $id)
+    {  
+        $product = $this->getDoctrine()->getManager()->getRepository('AppBundle:Product')->find($id);
+        $em = $this->getDoctrine()->getManager();
+        
+        $demands = $em->getRepository('AppBundle:Vente')
+                ->findBy(array ('deleted' => false,'canceled' => false,'available'=>true,'published'=>true,'product' => $id),array(
+                    'createAt' => 'ASC'
+        ));
+        $count = 0;
+        foreach ($demands as $i){ $count++; }
+       
+        return $this->render('dashboard/offreEncoursproduit.html.twig',array(
+                    'demands' => $demands,  'product' => $product,  'id' => $id,  'count' => $count
+        
+        ));
+    }
+    
+    //les commandes et souscriptions des offres et demandes
+    /**
+     * View of dashboard.
+     *
+     * @Route("/dashboard/commandesOffre/{id}", name="dashborad_commandesOffre")
+     * @Method("GET")
+     */
+    public function commandesOffreAction(Request $request, $id)
+    {  
+        $vente = $this->getDoctrine()->getManager()->getRepository('AppBundle:Vente')->find($id);
+        $em = $this->getDoctrine()->getManager();
+        
+        $commandes = $em->getRepository('AppBundle:Order')
+                ->findBy(array ('deleted' => false,'canceled' => false,'vente' => $id),array(
+                    'createAt' => 'ASC'
+        ));
+        $count = 0;
+        foreach ($commandes as $i){ $count++; }
+       
+        return $this->render('dashboard/commandesOffre.html.twig',array(
+                    'commandes' => $commandes,  'vente' => $vente,  'id' => $id,  'count' => $count
+        
+        ));
+    }
+    
+    /**
+     * View of dashboard.
+     *
+     * @Route("/dashboard/souscriptionsDemande/{id}", name="dashborad_souscriptionsDemande")
+     * @Method("GET")
+     */
+    public function souscriptionsDemandeAction(Request $request, $id)
+    {  
+        $vente = $this->getDoctrine()->getManager()->getRepository('AppBundle:Demand')->find($id);
+        $em = $this->getDoctrine()->getManager();
+        
+        $commandes = $em->getRepository('AppBundle:Supply')
+                ->findBy(array ('deleted' => false,'canceled' => false,'demand' => $id),array(
+                    'createAt' => 'ASC'
+        ));
+        $count = 0;
+        foreach ($commandes as $i){ $count++; }
+       
+        return $this->render('dashboard/souscriptionsDemande.html.twig',array(
+                    'commandes' => $commandes,  'vente' => $vente,  'id' => $id,  'count' => $count
+        
+        ));
+    }
+    
 }

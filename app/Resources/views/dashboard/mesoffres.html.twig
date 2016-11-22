@@ -12,7 +12,7 @@
     {% endblock  haut %}
     {% block  corps %}
         
-         {% block  corpstitre %} <p style="font-style: italic;font-size: 14px;text-align: left;"> <a href="{{ path('index')}}">/ Dashboard </a> <a href="{{ path('mesoffres')}}">/ Mes Offres /</a></p>   {% endblock  corpstitre %}
+         {% block  corpstitre %} <p style="font-style: italic;font-size: 14px;text-align: left;"> <a href="{{ path('dashboard_index')}}">/ Dashboard </a> <a href="{{ path('dashboard_mesoffres')}}">/ Mes Offres /</a></p>   {% endblock  corpstitre %}
         {% set nbre=0 %}
         {% for element in ventes %}
             
@@ -33,7 +33,7 @@
                          {% set nbre=nbre+1 %}
                          {% set qte=qte+souscrption.quantites %}
                       {% endfor %}
-                      <a href="#" title="souscriptions et disponibilité" style="color: yellow;text-decoration: none;">
+                      <a href="{{ path('dashborad_commandesOffre', {'id': element.id })}}" title="commandes et disponibilité" style="color: yellow;text-decoration: none;">
                         <i class="fa-comments-o"></i> : {{ nbre }} —  Disponible  : {{ (element.quantite-qte)|number_format(0, ',', '.') }} {{ element.measure.name }} 
                     </a>
                     

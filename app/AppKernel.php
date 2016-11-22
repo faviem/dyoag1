@@ -28,6 +28,7 @@ class AppKernel extends Kernel {
             new Misd\PhoneNumberBundle\MisdPhoneNumberBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new EWZ\Bundle\RecaptchaBundle\EWZRecaptchaBundle(),
+            new FOS\MessageBundle\FOSMessageBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
