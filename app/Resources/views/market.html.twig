@@ -75,43 +75,120 @@
 
                         <br>
             #}
-
-            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                <div class="dropdown">
-                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuCategory" data-toggle="dropdown">
-                        {{ 'Filtrer par' | trans }}
-                        <span class="caret"></span>
-                    </button>
-                    <ul id="template_category" class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuCategory">
-
-                        {% for category in categories %}
-                            <li role="presentation">
-                                <a data-name="{{ category.name }}" role="menuitem" tabindex="-1" href="#">{{ category.name }}</a>
-                            </li>
-                        {% endfor %}
-
-                    </ul>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <i class="fa fa-filter"></i>
+                        Filtrer
+                    </h3>
                 </div>
+                <form class="panel-body" action="/posts" accept-charset="UTF-8" method="get"><input name="utf8" type="hidden" value="✓">
+                    <div class="form-group">
+                        <select name="product" id="product" class="form-control select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true"><option value="">Select Product</option><option value="44">Dry Maize</option>
+                            <option value="45">Green Maize</option>
+                            <option value="46">Finger Millet</option>
+                            <option value="47">Sorghum</option>
+                            <option value="48">Wheat</option>
+                            <option value="49">Beans Canadian</option>
+                            <option value="50">Beans Rosecoco</option>
+                            <option value="51">Beans Mwitemania</option>
+                            <option value="52">Mwezi Moja</option>
+                            <option value="53">Beans Dolichos (Njahi)</option>
+                            <option value="54">Green Gram</option>
+                            <option value="55">Cowpeas</option>
+                            <option value="56">Fresh Peas</option>
+                            <option value="57">Groundnuts</option>
+                            <option value="58">Red Irish Potatoes</option>
+                            <option value="59">White Irish Potatoes</option>
+                            <option value="60">Cassava Fresh</option>
+                            <option value="61">Sweet Potatoes</option>
+                            <option value="62">Cabbages</option>
+                            <option value="63">Cooking Bananas</option>
+                            <option value="64">Ripe Bananas</option>
+                            <option value="65">Carrots</option>
+                            <option value="66">Tomatoes</option>
+                            <option value="67">Onions Dry</option>
+                            <option value="68">Spring Onions</option>
+                            <option value="69">Chillies</option>
+                            <option value="70">Cucumber</option>
+                            <option value="71">Capsicums</option>
+                            <option value="72">Brinjals</option>
+                            <option value="73">Cauliflower</option>
+                            <option value="74">Lettuce</option>
+                            <option value="75">Passion Fruits</option>
+                            <option value="76">Oranges</option>
+                            <option value="77">Lemons</option>
+                            <option value="78">Mangoes Local</option>
+                            <option value="79">Mangoes Apple</option>
+                            <option value="80">Limes</option>
+                            <option value="81">Pineapples</option>
+                            <option value="82">Pawpaw</option>
+                            <option value="83">Avocado</option>
+                            <option value="84">Kales</option>
+                            <option value="92">Eggs(Grade)</option>
+                            <option value="93">Eggs(local/kienyeji)</option>
+                            <option value="94">Watermelons</option>
+                            <option value="95">Arrow Roots</option>
+                            <option value="96">Coriander</option>
+                            <option value="97">French Beans</option>
+                            <option value="98">Potatoes shangi</option>
+                            <option value="99">Yellow Capsicums</option>
+                            <option value="101">Colored capsicums</option>
+                            <option value="102">Rice</option>
+                            <option value="103">Strawberries</option>
+                            <option value="104">Garden Peas</option>
+                            <option value="105">RoseMary</option>
+                            <option value="107">Snow Peas</option>
+                            <option value="108">Sugar Snap</option>
+                            <option value="109">Mushroom</option>
+                            <option value="110">Courgettes</option>
+                            <option value="111">Beetroot</option>
+                            <option value="112">Yellow Beans</option>
+                            <option value="113">Pumpkin</option>
+                            <option value="114">Aloe Vera Leaves</option>
+                            <option value="115">Butternut</option>
+                            <option value="116">Pigeon peas</option>
+                            <option value="117">Yellow Passion Fruit</option>
+                            <option value="118">Chia Seeds</option>
+                            <option value="119">Spinach</option>
+                            <option value="120">Okra</option>
+                            <option value="121">Horned Melon/ Kiwano</option>
+                            <option value="122">Tamarind Fruit</option>
+                            <option value="123">Tree Tomatoes</option>
+                            <option value="124">soya bean</option>
+                            <option value="125">Managu / African nightshade</option>
+                            <option value="126">Amaranthus/ Terere</option>
+                            <option value="127">Oat </option>
+                            <option value="128">Rhodes grass </option>
+                            <option value="129">Sagaa/ Spider plant</option>
+                            <option value="130">Kunde/ Cowpea leaves </option>
+                            <option value="131">Mrenda/ Jute </option>
+                            <option value="132">Mitoo / Crotolaria</option>
+                            <option value="133">Nderema/ Bacella alba </option>
+                            <option value="134">Broccoli</option>
+                            <option value="135">Garlic</option>
+                            <option value="138">Coconut</option>
+                            <option value="141">Simsim</option>
+                            <option value="142">Thorn Melon</option></select><span class="select2 select2-container select2-container--default select2-container--below" dir="ltr" style="width: 231px;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-product-container"><span class="select2-selection__rendered" id="select2-product-container" title="Select Product">Select Product</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input type="text" name="start_date" id="start_date" class="form-control start_date hasDatepicker" placeholder="start date">
+                            <span class="fa fa-calendar-o input-group-addon" aria-hidden="true" onclick="$(this).prev().focus();"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input type="text" name="end_date" id="end_date" class="form-control end_date hasDatepicker" placeholder="end date">
+                            <span class="fa fa-calendar-o input-group-addon" aria-hidden="true" onclick="$(this).prev().focus();"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" name="commit" value="Filter" disable_with="Filtering..." class="btn btn-block btn-default">
+                    </div>
+                </form>
             </div>
-
-            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-
-                <div class="dropdown">
-                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
-                        {{ 'Trier par' | trans }}
-                        <span class="caret"></span>
-                    </button>
-                    <ul id="template_sorteby" class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                        <li role="presentation">
-                            <a data-id="author" role="menuitem" tabindex="-1" href="#">
-                                {{ 'agriculteur' | trans }}
-                            </a>
-                            {{ knp_pagination_sortable(pagination, 'Date', 'o.createAt') }}
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            {% block search %}
+            {% block dyofilter %}
 
             {% endblock %}
 

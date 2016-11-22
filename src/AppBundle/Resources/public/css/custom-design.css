@@ -47,6 +47,16 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;
 }
+.product .caption dl{
+    display: inline-block;
+}
+.product a img{
+    width: 200px;
+    height: 150px
+}
+.product .caption{
+    font-weight: 600;
+}
 form .input-group-addon {
     background-color: #7D9F3B;
     border-radius: 10px;

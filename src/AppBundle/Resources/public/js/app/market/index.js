@@ -34,6 +34,19 @@ define(
                         $(this).parent().addClass("active");
                     }
                 });
+
+                /**
+                 * @module       Menu
+                 * @description  Active menu
+                 */
+
+                $(".rd-navbar-nav li a").each(function () {
+                    if (this.href == window.location.href) {
+//                        $(this).siblings().parent().removeClass("active");
+                        $(this).parent().addClass("active");
+
+                    }
+                });
             });
         }
 );
