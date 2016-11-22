@@ -8,7 +8,7 @@ use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use FOS\Message\Model\PersonInterface;
+use FOS\MessageBundle\Model\ParticipantInterface;
 use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber as AssertPhoneNumber;
 
 /**
@@ -32,7 +32,7 @@ use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber as AssertPhoneNumbe
  *     }
  * )
  */
-class User extends BaseUser implements PersonInterface {
+class User extends BaseUser implements ParticipantInterface {
 
     /**
      * @var int
@@ -181,6 +181,11 @@ class User extends BaseUser implements PersonInterface {
         $this->demands = new ArrayCollection();
     }
 
+    public function getId()
+    {
+        return $this->id;
+    }
+    
     /**
      * Set birthDate
      *

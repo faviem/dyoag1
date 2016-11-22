@@ -311,7 +311,6 @@ class Product {
     }
 
     /**
-<<<<<<< HEAD
      * Remove demand
      *
      * @param \AppBundle\Entity\Demand $demand
