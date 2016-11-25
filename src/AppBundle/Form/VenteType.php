@@ -70,6 +70,7 @@ class VenteType extends AbstractType {
                     'constraints' => array(
                         new RecaptchaTrue()
                     )
+                    , 'required' => true
                 ))
         ;
     }

@@ -28,10 +28,21 @@ class VenteController extends Controller {
         $em = $this->getDoctrine()->getManager();
 
         $categories = $em->getRepository('AppBundle:Category')->findAll();
-
+        $filter = array();
+        $form = $this->createForm('AppBundle\Form\FilterType', $filter);
+        $form->handleRequest($request);
+//        $filter = array();
+//        $form = $this->createFormBuilder($filter)
+//                ->add('serviceChoice', 'choice', array('choices' => array(
+//                        'site' => $this->get('translator')->trans('services.choice.1', array(), 'SpeedwappFrontendBundle'),
+//                        'logo' => $this->get('translator')->trans('services.choice.2', array(), 'SpeedwappFrontendBundle'),
+//                        'suivi' => $this->get('translator')->trans('services.choice.3', array(), 'SpeedwappFrontendBundle')
+//                    ), 'label' => ' ', 'expanded' => true, 'multiple' => false))
+//                ->add('next', 'submit', array('label' => $this->get('translator')->trans('services.next', array(), 'SpeedwappFrontendBundle')))
+//                ->getForm();
 // pagination http://stackoverflow.com/questions/14817817/symfony-knppaginator-query-with-custom-filters-from-form-fields
 // http://achreftlili.github.io/2015/08/23/Ajaxify-Knp-Bundle-pagination/
-        $dql = "SELECT o FROM AppBundle:Vente o";
+        $dql = "SELECT o FROM AppBundle:Vente o ORDER BY o.createAt";
         $query = $em->createQuery($dql);
 
         $paginator = $this->get('knp_paginator');
@@ -41,7 +52,7 @@ class VenteController extends Controller {
         return $this->render('vente/index.html.twig', array(
 //            'ventes' => $ventes,
                     'pagination' => $pagination,
-                    'categories' => $categories
+                    'form' => $form->createView(),
         ));
     }
 
@@ -58,6 +69,10 @@ class VenteController extends Controller {
         $user = $this->getUser();
 
         if ($form->isSubmitted() && $form->isValid()) {
+            //check if the submit is draft or publish
+            if (null !== $request->request->get('publish')) {
+                $vente->setPublished(true);
+            }
             $em = $this->getDoctrine()->getManager();
             if (null === $vente->getImageName()) {
                 $vente->setImageName($vente->getProduct()->getImageName());

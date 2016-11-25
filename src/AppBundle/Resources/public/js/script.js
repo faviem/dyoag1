@@ -1,15 +1,25 @@
-document.onreadystatechange = function () {
-    var state = document.readyState
-    if (state == 'interactive') {
-        document.getElementById('contents').style.visibility = "hidden";
-    } else if (state == 'complete') {
-        setTimeout(function () {
-            document.getElementById('interactive');
-            document.getElementById('load').style.visibility = "hidden";
-            document.getElementById('contents').style.visibility = "visible";
-        }, 1000);
+
+/**
+ * @module       Loader
+ * @description  Dsipaly a loader while page loading
+ */
+
+$(window).load(function () {
+    // Animate loader off screen
+    $(".se-pre-con").fadeOut("slow");
+});
+
+
+/**
+ * @module       Menu
+ * @description  Active menu
+ */
+
+$(".rd-navbar-nav li a").each(function () {
+    if (this.href == window.location.href) {
+        $(this).parent().addClass("active");
     }
-}
+});
 
 ///**
 // * @function      Include

@@ -18,9 +18,10 @@
 define(
         [
             'jquery',
-            'bootstrap'
+            'bootstrap',
+            'FloatingSocialButton',
         ],
-        function ($) {
+        function ($, FloatingSocialButton) {
             'use strict';
             $(function () {
 
@@ -35,18 +36,6 @@ define(
                     }
                 });
 
-                /**
-                 * @module       Menu
-                 * @description  Active menu
-                 */
-
-                $(".rd-navbar-nav li a").each(function () {
-                    if (this.href == window.location.href) {
-//                        $(this).siblings().parent().removeClass("active");
-                        $(this).parent().addClass("active");
-
-                    }
-                });
             });
         }
 );
