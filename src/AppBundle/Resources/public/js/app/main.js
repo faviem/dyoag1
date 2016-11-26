@@ -28,6 +28,7 @@ requirejs.config({
         'spin': 'vendor/spin',
         //dashboard
         'jquery.nicescroll': 'vendor/jquery.nicescroll',
+        'datatable': '/assets/js/datatable',
     },
     shim: {
         'underscore': {
@@ -52,7 +53,11 @@ requirejs.config({
         },
         'jquery.spin': {
             deps: ['spin'],
-        }
+        },
+        'datatable': {
+            deps: ['jquery'],
+            export: 'DataTable',
+        },
     }
 });
 
