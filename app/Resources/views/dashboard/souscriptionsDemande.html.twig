@@ -1,0 +1,47 @@
+{% extends '/dashboard/index.html.twig' %}
+
+{% block  haut %}  
+{% endblock  haut %}
+{% block  corps %}
+    {% set qte=0 %}{% set nbre=0%}
+    {% for souscrptions in vente %}
+        {% set qte=qte+souscrption.quantites %}
+    {% endfor %}
+       {% block  corpstitre %} <p style="font-style: italic;font-size: 14px;text-align: left;"> <a href="{{ path('dashboard_index')}}">/ Dashboard </a> <a href="{{ path('dashboard_mesdemandes')}}">/ Mes Demandes </a> <a href="{{ path('dashborad_souscriptionsDemande', {'id': id })}}">/ <span style="color: red;font-weight: bold;font-size: 12px;"> ({{ count }}) </span>  Commandes de l'Offre  : <span style="color: black;font-weight: bold;font-size: 16px;"> {{ vente.product.name }} — {{ vente.quantite|number_format(0, ',', '.') }} {{ vente.measure.name }}  —  PU  :  {{ vente.prixUnit|number_format(0, ',', '.') }}  F CFA  — Du  :   {{ vente.createAt|date('d/m/Y') }} — Etat: {% if vente.available ==0 %} Résolu {% else %} {% if vente.published ==1 %} Publié {% else %}  Brouillon {% endif %} {% endif %}</span> </a></p>   {% endblock  corpstitre %}
+    {% set nbre=0 %}
+    {% for element in commandes %}
+
+        <div class="col-md-4 " style="margin-bottom: 2%;">
+            <div class="stats-left" >
+                <h6 style="text-align: left;"> 
+                    <a href="#" style="color: white;text-decoration: none;">
+                        <i class="fa fa-cube" ></i>  Offre: {{ element.quantite|number_format(0, ',', '.') }} {{ element.measure.name }}  
+                    </a>
+                    <br/><br/>
+                    <a href="#" style="color: white;text-decoration: none;font-style: normal;">
+                        <i class="fa fa-calendar" ></i>  Du  :   {{ element.createAt|date('d/m/Y') }} — {% if element.delivered ==1 %} Délivrée {% else %} {% if element.accepted ==1 %} Acceptée {% else %}  {% if element.approuved ==1 %} Approuvée {% else %} En attente {% endif %}{% endif %} {% endif %} 
+                    </a>
+                    <br/><br/>
+
+                </h6>
+                <img src="{{ asset('uploads/images/products/')}}{{ element.vente.imageName }}" style="width:150px;height: 120px;" class="img img-circle"   />
+
+                <h6 style="margin-bottom: -1px;color: white;">Commandée par : {{ element.user.lastName }} {{ element.user.firstName }} <br/><br/>
+                    <a href="#" style="color: yellow;text-decoration: none;font-style: normal;">
+                        <i class="fa fa-phone" ></i>  {{ element.user.phone }} —  {{ element.user.email }} 
+                    </a><br/> <br/>
+                    <a href="#" title="Accepter" style="font-size: 14px;text-align: center;color: cyan;">
+                        <i class="fa fa-cogs" ></i> 
+                    </a>
+                    <a href="#" title="Annuler" style="font-size: 14px;text-align: center;color: cyan;">
+                        <i class="fa fa-trash" ></i> 
+                    </a>
+                    <a href="#" title="Imprimer" style="font-size: 14px;text-align: center;color: cyan;margin-left: 10px;">
+                        <i class="fa fa-file-pdf-o" ></i> 
+                    </a>
+                </h6>
+
+            </div>
+        </div>
+    {% endfor %}
+{% endblock  corps %}

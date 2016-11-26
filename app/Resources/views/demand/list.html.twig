@@ -1,0 +1,17 @@
+{% for demand in pagination %}
+
+    <div class="col-xs-6 col-xs-6--mod-1 col-md-3">
+        <div class="product tumbnail thumbnail-3">
+            <a href="{{ path('demand_show', { 'id': demand.id }) }}">
+                <img alt="" src="{{ asset(product_images ~'/'~ demand.imageName)|imagine_filter('my_thumb') }}">
+            </a>
+            <div class="caption">
+                <h6>
+                    <a href="#">{{ demand.product.name }}</a>
+                </h6>
+                <span class="price sale">{{ demand.prixUnit }} FCFA / {{ demand.measure }}</span>
+            </div>
+        </div>
+    </div>
+
+{% endfor %}

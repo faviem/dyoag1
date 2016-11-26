@@ -41,4 +41,6 @@ security:
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/, role: ROLE_ADMIN }
-        - { path: ^/market/new, role: ROLE_PROFESSIONAL }
+        - { path: ^/dashboard/, role: ROLE_USER }
+        - { path: ^/market/sale/new, role: ROLE_USER }
+        - { path: ^/market/sale/order/new/, role: ROLE_USER }

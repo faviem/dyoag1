@@ -1,0 +1,91 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/*
+    Created on : 11 juil. 2016, 10:50:22
+    Author     : Jacques
+*/
+.no-js #loader { display: none;  }
+.js #loader { display: block; position: absolute; left: 100px; top: 0; }
+.se-pre-con {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    background: url(/assets/images/preloader_4.gif) center no-repeat #fff;
+}
+.pagination > li > a, .pagination > li > span{
+    padding: 8px 20px;
+}
+.dropdown {
+    text-align: left;
+}
+
+form .form-group .checkbox-group{
+    margin-left: 60px;
+    text-align: left;
+}
+form label.form-control{
+    text-align: left;
+}
+
+span.required{
+    color: red
+}
+input[type='number'] {
+    -moz-appearance:textfield;
+}
+.swiper-container{
+    height: auto!important;
+    margin-top: 6%!important;
+}
+.dyo-blue{
+    color: #004d40;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+.product .caption dl{
+    display: inline-block;
+}
+.product a img{
+    width: 200px;
+    height: 150px
+}
+.product .caption{
+    font-weight: 600;
+}
+form .input-group-addon {
+    background-color: #7D9F3B;
+    border-radius: 10px;
+    color: #b7b7b9;
+    line-height: 0;
+    padding: 10px 10px;
+}
+.dyo-nav{
+    background: #004d40;
+}
+/*screen-sm*/
+@media (max-width: 768px) {
+    .brand-name {
+        font-size: 26px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 992px) {
+
+}
+/*screen-md*/
+@media (min-width: 992px) and (max-width: 1200px) {
+
+}
+/*screen-lg corresponds with col-lg*/
+@media (min-width: 1200px) {
+
+}

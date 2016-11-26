@@ -12,20 +12,25 @@
 
                         <div class="form-group col-sm-6 ">
 
-                            {{ form_label(form.product.name, label|default(null), { 'label_attr': { 'class': 'font-secondary' } }) }}
-                            {{ form_widget(form.product.name, {'attr' : {'class' : 'form-control'}} )}}
-                            {{ form_errors(form.product.name) }}
+                            {{ form_label(form.product, label|default('Nom du produit'), { 'label_attr': { 'class': 'font-secondary' } }) }}
+                            <span class="required">*</span>
+                            {{ form_widget(form.product, {'attr' : {'class' : 'form-control'}} )}}
+                            {{ form_errors(form.product) }}
+                        </div>
+                        <div id="product_image" class="col-sm-6 ">
                         </div>
 
                         <div class="form-group col-sm-6 ">
-                            {{ form_label(form.product.measures, label|default(null), { 'label_attr': { 'class': 'font-secondary' } }) }}
-                            {{ form_widget(form.product.measures, {'attr' : {'class' : 'form-control'}} )}}
-                            {{ form_errors(form.product.measures) }}
+                            {{ form_label(form.measure, label|default(null), { 'label_attr': { 'class': 'font-secondary' } }) }}
+                            <span class="required">*</span>
+                            {{ form_widget(form.measure, {'attr' : {'class' : 'form-control'}} )}}
+                            {{ form_errors(form.measure) }}
                         </div>
 
                         <div class="form-group col-sm-6 ">
                             {{ form_label(form.quantite, label|default(null), { 'label_attr': { 'class': 'font-secondary' } }) }}
-                            {{ form_widget(form.quantite, {'attr' : {'class' : 'form-control'}} )}}
+                            <span class="required">*</span>
+                            {{ form_widget(form.quantite, {'attr' : {'class' : 'form-control', min: 0}} )}}
                             {{ form_errors(form.quantite) }}
                         </div>
 
@@ -38,12 +43,19 @@
                         #}
                         <div class="form-group col-sm-6 ">
                             {{ form_label(form.prixUnit, label|default('Prix unitaire'), { 'label_attr': { 'class': 'font-secondary' } }) }}
-                            {{ form_widget(form.prixUnit, {'attr' : {'class' : 'form-control'}} )}}
+                            <span class="required">*</span>
+                            <div class="input-group">
+                                {{ form_widget(form.prixUnit, {'attr' : {'class' : 'form-control', min: 0}} )}}
+                                <span class="input-group-addon">FCFA</span>
+                            </div>
+
                             {{ form_errors(form.prixUnit) }}
                         </div>
 
+                        <div class="clearfix visible-sm"></div>
                         <div class="form-group">
                             {{ form_label(form.description, label|default(null), { 'label_attr': { 'class': 'font-secondary' } }) }}
+                            <span class="required">*</span>
                             {{ form_widget(form.description, {'attr' : {'class' : 'form-control'}} )}}
                             {{ form_errors(form.description) }}
                         </div>
@@ -52,25 +64,32 @@
                                {{ form_errors(form.province) }}
                            </div> #}
                         <div class="form-group col-sm-6 ">
+                            {{ form_label(form.district, label|default('Votre arrondissement'), { 'label_attr': { 'class': 'font-secondary' } }) }}
+                            <span class="required">*</span>
                             {{ form_widget(form.district, {'attr' : {'class' : 'form-control'}} )}}
                             {{ form_errors(form.district) }}
                         </div>
 
-
                         <div class="form-group col-sm-6 ">
                             {{ form_label(form.lieu, label|default('Quartier/Village'), { 'label_attr': { 'class': 'font-secondary' } }) }}
+                            <span class="required">*</span>
                             {{ form_widget(form.lieu, {'attr' : {'class' : 'form-control'}} )}}
                             {{ form_errors(form.lieu) }}
                         </div>
 
-
-                        <div class="form-group">
-                            {{ form_label(form.imageFile, label|default('Image'), { 'label_attr': { 'class': 'font-secondary' } }) }}
+                        <div class="form-group col-sm-12">
+                            {{ form_label(form.district, label|default("Changer l'image du produit si vous en avez"), { 'label_attr': { 'class': 'font-secondary' } }) }}
                             {{ form_widget(form.imageFile, {'attr' : {'class' : 'form-control'}} )}}
                             {{ form_errors(form.imageFile) }}
                         </div>
-
-                        <button class="btn btn-primary btn-xs round-xl btn-block form-el-offset-1" type="submit">Ajouter</button>
+                        <div class="form-group col-sm-12">
+                            {{ form_widget(form.recaptcha) }}
+                        </div>
+                        <div class="col-sm-12">
+                            <button class="btn btn-danger btn-xs round-xl form-el-offset-1" type="reset">Cancel</button>
+                            <button class="btn btn-default btn-xs round-xl form-el-offset-1" name="draft" type="submit">Ajouter au brouillon</button>
+                            <button class="btn btn-primary btn-xs round-xl form-el-offset-1" name="publish" type="submit">Publier</button>
+                        </div>
 
                         {{ form_end(form) }}
                     </div>
