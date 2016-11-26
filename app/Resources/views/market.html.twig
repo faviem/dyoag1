@@ -75,43 +75,45 @@
 
                         <br>
             #}
-
-            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                <div class="dropdown">
-                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuCategory" data-toggle="dropdown">
-                        {{ 'Filtrer par' | trans }}
-                        <span class="caret"></span>
-                    </button>
-                    <ul id="template_category" class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuCategory">
-
-                        {% for category in categories %}
-                            <li role="presentation">
-                                <a data-name="{{ category.name }}" role="menuitem" tabindex="-1" href="#">{{ category.name }}</a>
-                            </li>
-                        {% endfor %}
-
-                    </ul>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <i class="fa fa-filter"></i>
+                        Filtrer
+                    </h3>
                 </div>
-            </div>
+                <form class="" action=""  method="get">
 
-            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                    <div class="form-group">
 
-                <div class="dropdown">
-                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
-                        {{ 'Trier par' | trans }}
-                        <span class="caret"></span>
-                    </button>
-                    <ul id="template_sorteby" class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                        <li role="presentation">
-                            <a data-id="author" role="menuitem" tabindex="-1" href="#">
-                                {{ 'agriculteur' | trans }}
-                            </a>
-                            {{ knp_pagination_sortable(pagination, 'Date', 'o.createAt') }}
-                        </li>
-                    </ul>
-                </div>
+                        {{ form_widget(form.product, {'attr' : {'class' : 'form-control'}} )}}
+                        {{ form_errors(form.product) }}
+
+                    </div>
+                    <div class="form-group">
+
+                        {{ form_widget(form.category, {'attr' : {'class' : 'form-control'}} )}}
+                        {{ form_errors(form.category) }}
+
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input type="text" name="start_date" id="start_date" class="form-control start_date hasDatepicker" placeholder="start date">
+                            <span class="fa fa-calendar-o input-group-addon" aria-hidden="true" onclick="$(this).prev().focus();"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input type="text" name="end_date" id="end_date" class="form-control end_date hasDatepicker" placeholder="end date">
+                            <span class="fa fa-calendar-o input-group-addon" aria-hidden="true" onclick="$(this).prev().focus();"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" name="commit" value="Filter" disable_with="Filtering..." class="btn btn-block btn-default">
+                    </div>
+                </form>
             </div>
-            {% block search %}
+            {% block dyofilter %}
 
             {% endblock %}
 

@@ -78,6 +78,7 @@ module.exports = function (grunt) {
             },
             js: {
                 src: [
+                    'bower_components/jquery/dist/jquery.js',
                     'src/AppBundle/Resources/public/js/script.js',
                     'web/bundles/fosjsrouting/js/router.js',
                     'web/js/fos_js_routes.js'
