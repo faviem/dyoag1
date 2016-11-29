@@ -16,15 +16,16 @@
  */
 
 define(
-    [
-    'jquery',
-    'datatable'
-],
-    function($, DataTable) {
-        'use strict';
-        
-        console.log('OK');
-        $('#dataTables-example').DataTable();
-    }
+        [
+            'jquery',
+            // 'bootstrap',
+            'datatable'
+        ],
+        function ($, DataTable) {
+            'use strict';
+            console.log('OK');
+            $('#dataTables-example').DataTable();
+            
+        }
 );
 

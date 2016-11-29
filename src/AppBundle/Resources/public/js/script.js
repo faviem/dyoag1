@@ -21,6 +21,8 @@ $(".rd-navbar-nav li a").each(function () {
     }
 });
 
+$('.dropdown-toggle').dropdown();
+
 ///**
 // * @function      Include
 // * @description   Includes an external scripts to the page

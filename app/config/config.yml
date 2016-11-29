@@ -298,7 +298,7 @@ ewz_recaptcha:
     private_key: 6Lf4pQsUAAAAAJpte8c3z85FdcUxfy2AJ0_kqHhs
     locale_from_request: true
     #ajax: true
-    #enabled: false #uncomment to desactivate it
+    enabled: false #uncomment to desactivate it
     
 fos_message:
     db_driver:              orm
