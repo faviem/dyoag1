@@ -24,12 +24,10 @@ class DemandController extends Controller {
      */
     public function indexAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
-        $categories = $em->getRepository('AppBundle:Category')->findAll();
         $filter = array();
         $form = $this->createForm('AppBundle\Form\FilterType', $filter);
         $form->handleRequest($request);
-
-        $dql = "SELECT d FROM AppBundle:Demand d";
+        $dql = "SELECT d FROM AppBundle:Demand d WHERE d.published = 1 ORDER BY d.createAt";
         $query = $em->createQuery($dql);
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
