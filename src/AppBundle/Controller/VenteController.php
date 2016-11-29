@@ -26,14 +26,12 @@ class VenteController extends Controller {
      */
     public function indexAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
-
-        $categories = $em->getRepository('AppBundle:Category')->findAll();
         $filter = array();
         $form = $this->createForm('AppBundle\Form\FilterType', $filter);
         $form->handleRequest($request);
 // pagination http://stackoverflow.com/questions/14817817/symfony-knppaginator-query-with-custom-filters-from-form-fields
 // http://achreftlili.github.io/2015/08/23/Ajaxify-Knp-Bundle-pagination/
-        $dql = "SELECT o FROM AppBundle:Vente o ORDER BY o.createAt";
+        $dql = "SELECT v FROM AppBundle:Vente v  WHERE v.published = 1 ORDER BY v.createAt";
         $query = $em->createQuery($dql);
 
         $paginator = $this->get('knp_paginator');
