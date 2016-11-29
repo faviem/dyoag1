@@ -518,7 +518,6 @@ class Order {
         return $this->user;
     }
 
-
     /**
      * Set deleted
      *
@@ -526,7 +525,6 @@ class Order {
      *
      * @return Order
      */
-
     public function setDeleted($deleted) {
 
         $this->deleted = $deleted;
@@ -539,9 +537,12 @@ class Order {
      *
      * @return boolean
      */
-   
     public function getDeleted() {
         return $this->deleted;
+    }
+
+    public function __toString() {
+
     }
 
 }

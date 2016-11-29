@@ -11,6 +11,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use ZendSearch\Lucene\Lucene;
 use ZendSearch\Lucene\Document;
 use ZendSearch\Lucene\Document\Field;
+
 /**
  * Vente
  *
@@ -335,9 +336,8 @@ class Vente {
         }
 
         // don't index unavailable and non-published sale
-        if (!$this->getAvailable() || !$this->getPublished())
-        {
-          return;
+        if (!$this->getAvailable() || !$this->getPublished()) {
+            return;
         }
 
         $doc = new Document();
@@ -770,7 +770,6 @@ class Vente {
         return $this->product;
     }
 
-
     /**
      * Set deleted
      *
@@ -778,8 +777,7 @@ class Vente {
      *
      * @return Vente
      */
-    public function setDeleted($deleted)
-    {
+    public function setDeleted($deleted) {
         $this->deleted = $deleted;
 
         return $this;
@@ -790,8 +788,12 @@ class Vente {
      *
      * @return boolean
      */
-    public function getDeleted()
-    {
+    public function getDeleted() {
         return $this->deleted;
     }
+
+    public function __toString() {
+
+    }
+
 }
