@@ -540,4 +540,8 @@ class Supply {
         return $this->deleted;
     }
 
+    public function __toString() {
+
+    }
+
 }

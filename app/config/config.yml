@@ -299,7 +299,7 @@ ewz_recaptcha:
     locale_from_request: true
     #ajax: true
     enabled: false #uncomment to desactivate it
-    
+
 fos_message:
     db_driver:              orm
     thread_class:           AppBundle\Entity\Thread
