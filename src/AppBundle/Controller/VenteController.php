@@ -31,15 +31,6 @@ class VenteController extends Controller {
         $filter = array();
         $form = $this->createForm('AppBundle\Form\FilterType', $filter);
         $form->handleRequest($request);
-//        $filter = array();
-//        $form = $this->createFormBuilder($filter)
-//                ->add('serviceChoice', 'choice', array('choices' => array(
-//                        'site' => $this->get('translator')->trans('services.choice.1', array(), 'SpeedwappFrontendBundle'),
-//                        'logo' => $this->get('translator')->trans('services.choice.2', array(), 'SpeedwappFrontendBundle'),
-//                        'suivi' => $this->get('translator')->trans('services.choice.3', array(), 'SpeedwappFrontendBundle')
-//                    ), 'label' => ' ', 'expanded' => true, 'multiple' => false))
-//                ->add('next', 'submit', array('label' => $this->get('translator')->trans('services.next', array(), 'SpeedwappFrontendBundle')))
-//                ->getForm();
 // pagination http://stackoverflow.com/questions/14817817/symfony-knppaginator-query-with-custom-filters-from-form-fields
 // http://achreftlili.github.io/2015/08/23/Ajaxify-Knp-Bundle-pagination/
         $dql = "SELECT o FROM AppBundle:Vente o ORDER BY o.createAt";
