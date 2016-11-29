@@ -152,7 +152,7 @@ class VenteRepository extends \Doctrine\ORM\EntityRepository {
                         ->getSingleScalarResult();
     }
 
-    public function getDashboardCountExpires($user) {
+    public function getDashboardCountCorbeille($user) {
         return $this->createQueryBuilder('v')
                         ->select('COUNT(v)')
                         ->where('v.user  =:user')
@@ -160,9 +160,27 @@ class VenteRepository extends \Doctrine\ORM\EntityRepository {
                         ->andwhere('v.deleted  =:deleted')
                         ->andwhere('v.canceled  =:canceled')
                         ->andwhere('v.available  =:available')
-                        ->andwhere('v.dateLimit  <= :datedujour')
                         ->setParameter('user', $user)
                         ->setParameter('published', false)
+                        ->setParameter('available', true)
+                        ->setParameter('deleted', false)
+                        ->setParameter('canceled', true)
+                        ->getQuery()
+                        ->getSingleScalarResult();
+    }
+
+    public function getDashboardCountExpires($user) {
+        return $this->createQueryBuilder('v')
+                        ->select('COUNT(v)')
+                        ->where('v.user  =:user')
+                       // ->andwhere('v.published  =:published')
+                        ->andwhere('v.deleted  =:deleted')
+                        ->andwhere('v.canceled  =:canceled')
+                        ->andwhere('v.available  =:available')
+                        ->andwhere('v.dateLimit  <= :datedujour')
+                        ->orWhere('v.dateLimitUpdate  <= :datedujour')
+                        ->setParameter('user', $user)
+                       // ->setParameter('published', false)
                         ->setParameter('available', true)
                         ->setParameter('deleted', false)
                         ->setParameter('canceled', false)

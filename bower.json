@@ -13,7 +13,14 @@
     "backbone-associations": "^0.6.2",
     "backbone.paginator": "^2.0.5",
     "datatables.net": "^1.10.12",
-    "select2-bootstrap-theme": "^0.1.0-beta.9"
+    "select2-bootstrap-theme": "^0.1.0-beta.9",
+    "datatables.net-bs": "^1.10.12",
+    "datatables-autofill-bootstrap": "datatables.net-autofill-bs#^2.1.2",
+    "datatables.net-buttons-bs": "^1.2.2",
+    "datatables.net-colreorder-bs": "^1.3.2",
+    "datatables.net-fixedcolumns-bs": "^3.2.2",
+    "datatables.net-responsive-bs": "^2.1.0",
+    "datatables.net-scroller-bs": "^1.4.2"
   },
   "devDependencies": {
     "jquery-ui": "^1.11.4",
