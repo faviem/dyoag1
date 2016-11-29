@@ -119,8 +119,8 @@ class VenteController extends Controller {
             $vente = $em->getRepository('AppBundle:Vente')->find($venteId);
             $commande->setVente($vente);
             $em->persist($commande);
-            //update vente quantity
-            $commande->getVente()->setQuantite($commande->getVente()->getQuantite() - $commande->getQuantite());
+            //update vente quantity. Will be updated on approvement by the user
+            //$commande->getVente()->setQuantite($commande->getVente()->getQuantite() - $commande->getQuantite());
             $em->flush();
             $this->addFlash(
                     'success', "Votre commande a été bien enregistrée!"

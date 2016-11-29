@@ -39,12 +39,15 @@ span.required{
 input[type='number'] {
     -moz-appearance:textfield;
 }
-.swiper-container{
+section > .swiper-container{
     height: auto!important;
     margin-top: 6%!important;
 }
 .dyo-blue{
     color: #004d40;
+}
+.single-product .product a img{
+    height: 350px
 }
 
 input::-webkit-outer-spin-button,

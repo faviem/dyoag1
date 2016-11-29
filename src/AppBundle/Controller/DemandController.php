@@ -67,7 +67,7 @@ class DemandController extends Controller {
             $this->addFlash(
                     'success', "Votre demande d'approvisionnement a été bien enregistrée!"
             );
-            return $this->redirectToRoute('demand_show', array('id' => $demand->getId()));
+            return $this->redirectToRoute('demand_index');
         }
 
         return $this->render('demand/new.html.twig', array(
