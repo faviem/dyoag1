@@ -792,4 +792,8 @@ class Demand {
         return $this->deleted;
     }
 
+    public function __toString() {
+
+    }
+
 }
