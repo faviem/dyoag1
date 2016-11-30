@@ -12,7 +12,7 @@ use AppBundle\Form\SupplyType;
 /**
  * Supply controller.
  *
- * @Route("/supply")
+ * @Route("/market/supply")
  */
 class SupplyController extends Controller {
 

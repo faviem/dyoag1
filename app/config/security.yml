@@ -45,4 +45,4 @@ security:
         - { path: ^/market/sale/new, role: ROLE_USER }
         - { path: ^/market/sale/order/new/, role: ROLE_USER }
         - { path: ^/market/demand/new, role: ROLE_USER }
-        - { path: ^/market/demand/order/new/, role: ROLE_USER }
+        - { path: ^/market/supply/new/, role: ROLE_USER }
