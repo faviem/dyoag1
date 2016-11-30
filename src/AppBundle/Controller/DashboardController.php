@@ -96,9 +96,7 @@ class DashboardController extends Controller {
         $em = $this->getDoctrine()->getManager();
 
         $ventes = $em->getRepository('AppBundle:Vente')
-                ->findBy(array('deleted' => false, 'canceled' => false, 'available' => true, 'user' => $userId), array(
-            'createAt' => 'ASC'
-        ));
+                ->getDashboardExpires($userId);
         $CountBrouillons = $em->getRepository('AppBundle:Vente')->getDashboardCountBrouillons($userId);
         $CountPulibes = $em->getRepository('AppBundle:Vente')->getDashboardCountPulibes($userId);
         $CountResolus = $em->getRepository('AppBundle:Vente')->getDashboardCountResolus($userId);
@@ -297,9 +295,9 @@ class DashboardController extends Controller {
     }
 
     /**
-     * Approuver les commandes.
+     * Accepter les commandes.
      *
-     * @Route("/mesoffres/offre/approuver", name="dashboard_approuvercmde")
+     * @Route("/mesoffres/offre/accepter", name="dashboard_approuvercmde")
      * @Method({"GET", "POST"})
      */
     public function dashboard_approuvercmdeAction(Request $request) {
@@ -307,8 +305,8 @@ class DashboardController extends Controller {
         if ($request->getMethod() == 'POST') {
             $em = $this->getDoctrine()->getManager();
             $cmde = $em->getRepository('AppBundle:Order')->find($request->get('id'));
-            $cmde->setApprouvedAt(new \DateTime());
-            $cmde->setApprouved(true);
+            $cmde->setAcceptedAt(new \DateTime());
+            $cmde->setAccepted(true);
             $em->flush();
             return $this->redirectToRoute('dashboard_commandesoffre',array(
                     'id' => $cmde->getVente()->getId(),
@@ -380,9 +378,7 @@ class DashboardController extends Controller {
         $em = $this->getDoctrine()->getManager();
 
         $demandes = $em->getRepository('AppBundle:Demand')
-                ->findBy(array('deleted' => false, 'canceled' => false, 'available' => true, 'user' => $userId), array(
-            'createAt' => 'ASC'
-        ));
+                ->getDashboardExpires($userId);
         $CountBrouillons = $em->getRepository('AppBundle:Demand')->getDashboardCountBrouillons($userId);
         $CountPulibes = $em->getRepository('AppBundle:Demand')->getDashboardCountPulibes($userId);
         $CountResolus = $em->getRepository('AppBundle:Demand')->getDashboardCountResolus($userId);
@@ -578,9 +574,9 @@ class DashboardController extends Controller {
     }
 
     /**
-     * Approuver les souscriptions.
+     * Accepter les souscriptions.
      *
-     * @Route("/mesdemandes/demande/approuver", name="dashboard_approuversous")
+     * @Route("/mesdemandes/demande/accepter", name="dashboard_approuversous")
      * @Method({"GET", "POST"})
      */
     public function dashboard_approuversousAction(Request $request) {
@@ -588,12 +584,173 @@ class DashboardController extends Controller {
         if ($request->getMethod() == 'POST') {
             $em = $this->getDoctrine()->getManager();
             $sous = $em->getRepository('AppBundle:Supply')->find($request->get('id'));
-            $sous->setApprouvedAt(new \DateTime());
-            $sous->setApprouved(true);
+            $sous->setAcceptedAt(new \DateTime());
+            $sous->setAccepted(true);
             $em->flush();
             return $this->redirectToRoute('dashboard_souscriptionsdemande',array(
                     'id' => $sous->getDemand()->getId(),
             ));
         }
     }
+    
+    //les operations sur mes souscriptions effectuées
+    /**
+     * Consulter mes souscriptions (proposition d'offres) aux demandes des autres clients.
+     *
+     * @Route("/souscriptions/views", name="dashboard_souscriptionsviews")
+     * @Method({"GET"})
+     */
+    public function dashboard_souscriptionsviewsAction(Request $request) {
+
+        $userId = $this->getUser()->getId();
+        $em = $this->getDoctrine()->getManager();
+
+        $supplies = $em->getRepository('AppBundle:Supply')
+                ->findBy(array('deleted' => false, 'user' => $userId), array(
+            'createAt' => 'ASC'
+        ));
+
+        return $this->render('dashboard/souscription/dashboard_souscriptionsviews.html.twig', array(
+                    'supplies' => $supplies,
+        ));
+    }
+    
+    /**
+     * Annuler la souscription pendant qu'elle n'est pas encore acceptées par l'acheteur.
+     *
+     * @Route("/souscription/annuler", name="dashboard_annulersouscription")
+     * @Method({"GET", "POST"})
+     */
+    public function dashboard_annulersouscriptionAction(Request $request) {
+
+        if ($request->getMethod() == 'POST') {
+            $em = $this->getDoctrine()->getManager();
+            $supply = $em->getRepository('AppBundle:Supply')->find($request->get('id'));
+            $supply->setCanceledAt(new \DateTime());
+            $supply->setCanceled(true);
+            $supply->setCanceledReason($request->get('canceledReason'));
+            $em->flush();
+            return $this->redirectToRoute('dashboard_souscriptionsviews');
+        }
+    }
+    
+    /**
+     * Restauration de la souscription annulée sur le marché.
+     *
+     * @Route("/souscription/restaurer", name="dashboard_restaurersouscription")
+     * @Method({"GET", "POST"})
+     */
+    public function dashboard_restaurersouscriptionAction(Request $request) {
+
+        if ($request->getMethod() == 'POST') {
+            $em = $this->getDoctrine()->getManager();
+            $supply = $em->getRepository('AppBundle:Supply')->find($request->get('id'));
+            $supply->setCanceledAt(null);
+            $supply->setCanceled(false);
+            $supply->setCanceledReason(null);
+            $em->flush();
+            return $this->redirectToRoute('dashboard_souscriptionsviews');
+        }
+    }
+    
+    /**
+     * Enregistrer la conclusion de la souscription après.
+     *
+     * @Route("/souscription/conclusion", name="dashboard_concluresouscription")
+     * @Method({"GET", "POST"})
+     */
+    public function dashboard_concluresouscriptionAction(Request $request) {
+
+        if ($request->getMethod() == 'POST') {
+            $em = $this->getDoctrine()->getManager();
+            $supply = $em->getRepository('AppBundle:Supply')->find($request->get('id'));
+            $supply->setDeliveredAt(new \DateTime());
+            $supply->setDelivered(true);
+            $supply->setRating($request->get('rating'));
+            $supply->setDeliverConclusion($request->get('deliverConclusion'));
+            $em->flush();
+            return $this->redirectToRoute('dashboard_souscriptionsviews');
+        }
+    }
+    
+    //les operations sur mes commandes émises
+    /**
+     * Consulter mes commandes (proposition de demande) aux offres après des autres vendeurs.
+     *
+     * @Route("/commandes/views", name="dashboard_commandesviews")
+     * @Method({"GET"})
+     */
+    public function dashboard_commandesviewsAction(Request $request) {
+
+        $userId = $this->getUser()->getId();
+        $em = $this->getDoctrine()->getManager();
+
+        $orders = $em->getRepository('AppBundle:Order')
+                ->findBy(array('deleted' => false, 'user' => $userId), array(
+            'createAt' => 'ASC'
+        ));
+
+        return $this->render('dashboard/commande/dashboard_commandesviews.html.twig', array(
+                    'orders' => $orders,
+        ));
+    }
+    
+    /**
+     * Annuler la commande pendant qu'elle n'est pas encore acceptées par le vendeur.
+     *
+     * @Route("/commande/annuler", name="dashboard_annulercommande")
+     * @Method({"GET", "POST"})
+     */
+    public function dashboard_annulercommandeAction(Request $request) {
+
+        if ($request->getMethod() == 'POST') {
+            $em = $this->getDoctrine()->getManager();
+            $order = $em->getRepository('AppBundle:Order')->find($request->get('id'));
+            $order->setCanceledAt(new \DateTime());
+            $order->setCanceled(true);
+            $order->setCanceledReason($request->get('canceledReason'));
+            $em->flush();
+            return $this->redirectToRoute('dashboard_commandesviews');
+        }
+    }
+      
+    /**
+     * Restauration de la commande annulée sur le marché.
+     *
+     * @Route("/commande/restaurer", name="dashboard_restaurercommande")
+     * @Method({"GET", "POST"})
+     */
+    public function dashboard_restaurercommandeAction(Request $request) {
+
+        if ($request->getMethod() == 'POST') {
+            $em = $this->getDoctrine()->getManager();
+            $order = $em->getRepository('AppBundle:Order')->find($request->get('id'));
+            $order->setCanceledAt(null);
+            $order->setCanceled(false);
+            $order->setCanceledReason(null);
+            $em->flush();
+            return $this->redirectToRoute('dashboard_commandesviews');
+        }
+    }
+    
+    /**
+     * Enregistrer la conclusion de la commande après.
+     *
+     * @Route("/commande/conclusion", name="dashboard_conclurecommande")
+     * @Method({"GET", "POST"})
+     */
+    public function dashboard_conclurecommandeAction(Request $request) {
+
+        if ($request->getMethod() == 'POST') {
+            $em = $this->getDoctrine()->getManager();
+            $order = $em->getRepository('AppBundle:Order')->find($request->get('id'));
+            $order->setDeliveredAt(new \DateTime());
+            $order->setDelivered(true);
+            $order->setRating($request->get('rating'));
+            $order->setDeliverConclusion($request->get('deliverConclusion'));
+            $em->flush();
+            return $this->redirectToRoute('dashboard_commandesviews');
+        }
+    }
+    
 }
