@@ -76,6 +76,9 @@
                                                                     <h6 class="modal-title" id="myModalLabel"> APPROBATION DE LA SOUSCRIPTION </h6>
                                                                 </div>
                                                                 <div class="modal-body">
+                                                                    <div class="col-xs-6  col-md-3">
+                                                                        <img class="img-circle img-sm" alt="" src="{{ asset(product_images ~'/'~ souscrptions.demand.imageName)|imagine_filter('my_thumb') }}">
+                                                                    </div>
                                                                     <span class="stock" style="text-align: left;">Vendeur : {{ souscrptions.user.lastName }} </span>
                                                                     <br/>
                                                                     <span class="stock" style="color: black;text-align: left;"> {{ souscrptions.quantite|number_format(0, ',', '.') }} {{ souscrptions.demand.measure }}s. Prix : {{ souscrptions.demand.prixUnit|number_format(0, ',', '.') }} FCFA / {{ souscrptions.demand.measure }}  </span>
