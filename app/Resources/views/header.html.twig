@@ -30,7 +30,7 @@
 
                     <!--RD Navbar Brand-->
                     <div class="rd-navbar-brand">
-                        <a class="brand-name" href="{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %} {{ path('dashboard_mesoffresPublies')}} {% else %} {{ path('homepage') }} {% endif %}">BenAgro<span>agriculteurs-acheteurs</span></a>
+                        <a class="brand-name" href="{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %} {{ path('dashboard_index')}} {% else %} {{ path('homepage') }} {% endif %}">BenAgro<span>agriculteurs-acheteurs</span></a>
                     </div>
                     <!--END RD Navbar Brand-->
                 </div>
@@ -64,7 +64,7 @@
                                 <i class="fa fa-user"> </i>  Mon Emplacement <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li>  <a href="{{ path('dashboard_mesoffresPublies') }}"> <i class="fa fa-share-alt" aria-hidden="true"> </i> Mes Offres</a></li>
-                                <li>  <a href="{{ path('dashboard_mesdemandes') }}"> <i class="fa fa-hand-o-up" aria-hidden="true"> </i> Mes demandes</a></li>
+                                <li>  <a href="{{ path('dashboard_mesdemandesPublies') }}"> <i class="fa fa-hand-o-up" aria-hidden="true"> </i> Mes demandes</a></li>
                                 <li role="separator" class="divider"></li>
                                  <li><a href="#"> <i class="fa fa-envelope-o"> </i> Ma méssagerie</a></li>
                                  <li><a href="#"> <i class="fa fa-user-md"> </i> Mon compte</a></li>

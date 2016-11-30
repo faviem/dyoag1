@@ -1,0 +1,112 @@
+{% extends '/dashboard/demand/dashboard_mesdemandesPublies.html.twig' %}
+{% block  menuentete %}
+{% endblock %}
+
+{% block  corps %}
+    {% set compte=0%}
+    {% set qte=0 %}{% set nbre=0%}
+    {% for souscrptions in demande.supplies %}
+        {% if souscrptions.canceled==0 and souscrptions.deleted==0 %}
+            {% set nbre=nbre+1 %}
+            {% if  souscrptions.approuved==1 and souscrptions.accepted==1 %}
+                {% set qte=qte+souscrption.quantites %}
+            {% endif %}
+
+        {% endif %}
+    {% endfor %}
+    <div class="col-xs-6  col-md-3" style="min-height: 355px;">
+        <div class="product tumbnail thumbnail-3">
+            <a href="#">
+                <img class="img-circle" alt="" src="{{ asset(product_images ~'/'~ demande.imageName)|imagine_filter('my_thumb') }}">
+            </a>
+            <div class="caption">
+                <h6>
+                    <a href="{{ path('demand_show', { 'id': demande.id }) }}">{{ demande.product.name }}</a>
+                </h6>
+                <i class="fa fa-money" aria-hidden="true"></i> <span class="price sale" style="font-size: 13px;color: #005074;">{{ demande.prixUnit|number_format(0, ',', '.') }} FCFA / {{ demande.measure }}</span>
+                <br>
+                <span class="stock" style="font-size: 13px;color: black;">{{ (demande.quantite-qte)|number_format(0, ',', '.') }} {{ demande.measure }}s en stock. </span>
+                <dl>
+                    <dt style="font-size: 13px;color: black;">  <i class="fa fa-calendar" aria-hidden="true"> </i> {{ demande.createat|date('d M y') }}</dt>
+                </dl><br/>
+                <a class="btn btn-default round-xl btn-xs"  href="{{ path('dashboard_mesdemandesPublies') }}" title=""> <i class="fa fa-share-alt" > RETOUR </i> 
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-9" style="min-height: 355px;">
+        <div class="product tumbnail">
+            <div class="table-responsive">
+                <table class="table .table-hover">
+                    <caption> {{ nbre|number_format(0, ',', '.') }}  SOUSCRIPTIONS RECUES </caption>
+
+                    <thead> <!-- En-tête du tableau -->
+                        <tr>
+                            <th style="text-align: center;font-size: 12px;">Nom du vendeur</th>
+                            <th style="text-align: center;font-size: 12px;">Quantité vendue</th>
+                            <th style="text-align: center;font-size: 12px;">Date effectuée</th>
+                            <th style="text-align: center;font-size: 12px;">Etat</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Corps du tableau -->
+                        {% set nbre=0%}
+
+                        {% for souscrptions in demande.supplies %}
+                            {% if souscrptions.canceled==0 and souscrptions.deleted==0 %}
+                                {% set nbre=nbre+1 %}
+                                <tr>
+                                    <td style="text-align: left;"> {{ souscrptions.user.lastName }}</td>
+                                    <td> {{ souscrptions.quantite|number_format(0, ',', '.') }}</td>
+                                    <td> {{ souscrptions.createAt|date('d M y') }}</td>
+                                    <td> 
+                                        {% if souscrptions.accepted==1 %} Conclue 
+                                        {% else %} 
+                                            {% if souscrptions.approuved==1 %} Approuvée 
+                                            {% else %} 
+                                                <a class="btn btn-default round-xl btn-xs" data-toggle="modal" data-target="#{{ souscrptions.id }}" href="#" title="Approuver la souscription"> <i class="fa fa-share-alt"> </i>  </a>
+                                                <form  action="{{ path('dashboard_approuversous', { 'id': souscrptions.id  }) }}" method="post"  >
+                                                    <!-- Modal -->
+                                                    <div class="modal fade" id="{{ souscrptions.id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                                        <div class="modal-dialog" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                                    <h6 class="modal-title" id="myModalLabel"> APPROBATION DE LA SOUSCRIPTION </h6>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <span class="stock" style="text-align: left;">Vendeur : {{ souscrptions.user.lastName }} </span>
+                                                                    <br/>
+                                                                    <span class="stock" style="color: black;text-align: left;"> {{ souscrptions.quantite|number_format(0, ',', '.') }} {{ souscrptions.demand.measure }}s. Prix : {{ souscrptions.demand.prixUnit|number_format(0, ',', '.') }} FCFA / {{ souscrptions.demand.measure }}  </span>
+                                                                    <br/>
+                                                                    <i class="fa fa-share-alt" > </i>   Approuvez - vous cette souscription ?
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-default round-xl btn-xs" data-dismiss="modal">Non</button>
+                                                                    <button type="submit" class="btn btn-primary round-xl btn-xs">Oui</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div> 
+                                                </form>
+                                            {% endif %} 
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if  nbre==0 %}
+                            <tr>
+                                <td colspan="4">AUCUNE SOUSCRIPTION N'EXISTE DANS LA TABLE !!!</td>
+                            </tr>
+                        {% endif %}
+
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock  corps %}
