@@ -66,13 +66,13 @@ class DemandRepository extends \Doctrine\ORM\EntityRepository
         return $this->createQueryBuilder('d')
                         ->select('COUNT(d)')
                        ->where('d.user  =:user')
-                       ->andwhere('d.published  =:published')
+                      // ->andwhere('d.published  =:published')
                        ->andwhere('d.deleted  =:deleted')
                        ->andwhere('d.canceled  =:canceled')
                        ->andwhere('d.available  =:available')
                        ->andwhere('d.dateLimit  <= :datedujour')
                        ->setParameter('user', $user)
-                       ->setParameter('published', false)
+                     //  ->setParameter('published', false)
                        ->setParameter('available', true)
                        ->setParameter('deleted', false)
                        ->setParameter('canceled', false)
@@ -80,4 +80,22 @@ class DemandRepository extends \Doctrine\ORM\EntityRepository
                         ->getQuery()
                         ->getSingleScalarResult();
     }
+       
+     public function getDashboardCountCorbeille($user) {
+        return $this->createQueryBuilder('d')
+                        ->select('COUNT(d)')
+                        ->where('d.user  =:user')
+                        ->andwhere('d.published  =:published')
+                        ->andwhere('d.deleted  =:deleted')
+                        ->andwhere('d.canceled  =:canceled')
+                        ->andwhere('d.available  =:available')
+                        ->setParameter('user', $user)
+                        ->setParameter('published', false)
+                        ->setParameter('available', true)
+                        ->setParameter('deleted', false)
+                        ->setParameter('canceled', true)
+                        ->getQuery()
+                        ->getSingleScalarResult();
+    }
+    
 }

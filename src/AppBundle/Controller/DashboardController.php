@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Entity\Vente;
+use AppBundle\Entity\Demand;
 use AppBundle\Entity\Order;
 use AppBundle\Entity\Product;
 
@@ -21,6 +22,16 @@ use AppBundle\Entity\Product;
  */
 class DashboardController extends Controller {
 
+     /**
+     * View of dashboard.
+     *
+     * @Route("/", name="dashboard_index")
+     * @Method("GET")
+     */
+    public function dashboard_indexAction(Request $request) {
+        return $this->redirectToRoute('dashboard_mesoffresPublies');
+    }
+    
     //les actions pour les offres
     /**
      * View of dashboard.
@@ -155,10 +166,10 @@ class DashboardController extends Controller {
     /**
      * Créer des offres au brouillon.
      *
-     * @Route("/mesoffres/brouillon/new", name="dashboard_newbrouillon")
+     * @Route("/mesoffres/brouillon/new", name="dashboard_newoffrebrouillon")
      * @Method({"GET", "POST"})
      */
-    public function dashboard_newbrouillonAction(Request $request) {
+    public function dashboard_newoffrebrouillonAction(Request $request) {
         $vente = new Vente();
         $form = $this->createForm('AppBundle\Form\VenteType', $vente);
         $form->handleRequest($request);
@@ -229,7 +240,7 @@ class DashboardController extends Controller {
     }
 
     /**
-     * Restaurer les offres de la corbeille.
+     * Publier les offres annulés de la corbeille.
      *
      * @Route("/mesoffres/offre/publier", name="dashboard_publieroffre")
      * @Method({"GET", "POST"})
@@ -259,6 +270,8 @@ class DashboardController extends Controller {
         if ($request->getMethod() == 'POST') {
             $em = $this->getDoctrine()->getManager();
             $vente = $em->getRepository('AppBundle:Vente')->find($request->get('id'));
+            $vente->setDateLimitUpdate(new \DateTime());
+            $vente->setDateLimit(new \DateTime());
             $vente->getDateLimitUpdate()->add(new \DateInterval('P30D'));
             $vente->getDateLimit()->add(new \DateInterval('P30D'));
             $vente->setPublished(true);
@@ -303,32 +316,33 @@ class DashboardController extends Controller {
         }
     }
     
-    //les actions de demandes
+    //les actions de demandes   
     /**
      * View of dashboard.
      *
-     * @Route("/mesdemandes", name="dashboard_mesdemandes")
+     * @Route("/mesdemandes/publies", name="dashboard_mesdemandesPublies")
      * @Method("GET")
      */
-    public function mesdemandesAction(Request $request) {
-        $userId = $this->getUser()->getId();
+    public function mesdemandesPubliesAction(Request $request) {
+         $userId = $this->getUser()->getId();
         $em = $this->getDoctrine()->getManager();
 
-        $ventes = $em->getRepository('AppBundle:Demand')
-                ->findBy(array('deleted' => false, 'canceled' => false, 'available' => false, 'published' => true, 'user' => $userId), array(
+        $demandes = $em->getRepository('AppBundle:Demand')
+                ->findBy(array('deleted' => false, 'canceled' => false, 'available' => true, 'published' => true, 'user' => $userId), array(
             'createAt' => 'ASC'
         ));
         $CountBrouillons = $em->getRepository('AppBundle:Demand')->getDashboardCountBrouillons($userId);
         $CountPulibes = $em->getRepository('AppBundle:Demand')->getDashboardCountPulibes($userId);
         $CountResolus = $em->getRepository('AppBundle:Demand')->getDashboardCountResolus($userId);
         $CountExpires = $em->getRepository('AppBundle:Demand')->getDashboardCountExpires($userId);
+        $CountCorbeille = $em->getRepository('AppBundle:Demand')->getDashboardCountCorbeille($userId);
 
-        return $this->render('dashboard/mesdemandes.html.twig', array(
-                    'demands' => $ventes, 'brouillons' => $CountBrouillons, 'expires' => $CountExpires,
-                    'publies' => $CountPulibes, 'resolus' => $CountResolus,
+        return $this->render('dashboard/demand/dashboard_mesdemandesPublies.html.twig', array(
+                    'demandes' => $demandes, 'brouillons' => $CountBrouillons, 'expires' => $CountExpires,
+                    'publies' => $CountPulibes, 'resolus' => $CountResolus, 'corbeille' => $CountCorbeille
         ));
     }
-
+    
     /**
      * View of dashboard.
      *
@@ -339,7 +353,7 @@ class DashboardController extends Controller {
         $userId = $this->getUser()->getId();
         $em = $this->getDoctrine()->getManager();
 
-        $ventes = $em->getRepository('AppBundle:Demand')
+        $demandes = $em->getRepository('AppBundle:Demand')
                 ->findBy(array('deleted' => false, 'canceled' => false, 'available' => true, 'published' => false, 'user' => $userId), array(
             'createAt' => 'ASC'
         ));
@@ -347,35 +361,37 @@ class DashboardController extends Controller {
         $CountPulibes = $em->getRepository('AppBundle:Demand')->getDashboardCountPulibes($userId);
         $CountResolus = $em->getRepository('AppBundle:Demand')->getDashboardCountResolus($userId);
         $CountExpires = $em->getRepository('AppBundle:Demand')->getDashboardCountExpires($userId);
+        $CountCorbeille = $em->getRepository('AppBundle:Demand')->getDashboardCountCorbeille($userId);
 
-        return $this->render('dashboard/mesdemandesbrouillons.html.twig', array(
-                    'demands' => $ventes, 'brouillons' => $CountBrouillons, 'expires' => $CountExpires,
-                    'publies' => $CountPulibes, 'resolus' => $CountResolus,
+        return $this->render('dashboard/demand/dashboard_mesdemandesBrouillons.html.twig', array(
+                    'demandes' => $demandes, 'brouillons' => $CountBrouillons, 'expires' => $CountExpires,
+                    'publies' => $CountPulibes, 'resolus' => $CountResolus,'corbeille' => $CountCorbeille
         ));
     }
-
+    
     /**
      * View of dashboard.
      *
-     * @Route("/mesdemandes/publies", name="dashboard_mesdemandesPublies")
+     * @Route("/mesdemandes/expires", name="dashboard_mesdemandesExpires")
      * @Method("GET")
      */
-    public function mesdemandesPubliesAction(Request $request) {
+    public function mesdemandesExpiresAction(Request $request) {
         $userId = $this->getUser()->getId();
         $em = $this->getDoctrine()->getManager();
 
-        $ventes = $em->getRepository('AppBundle:Demand')
-                ->findBy(array('deleted' => false, 'canceled' => false, 'available' => true, 'published' => false, 'user' => $userId), array(
+        $demandes = $em->getRepository('AppBundle:Demand')
+                ->findBy(array('deleted' => false, 'canceled' => false, 'available' => true, 'user' => $userId), array(
             'createAt' => 'ASC'
         ));
         $CountBrouillons = $em->getRepository('AppBundle:Demand')->getDashboardCountBrouillons($userId);
         $CountPulibes = $em->getRepository('AppBundle:Demand')->getDashboardCountPulibes($userId);
         $CountResolus = $em->getRepository('AppBundle:Demand')->getDashboardCountResolus($userId);
         $CountExpires = $em->getRepository('AppBundle:Demand')->getDashboardCountExpires($userId);
+        $CountCorbeille = $em->getRepository('AppBundle:Demand')->getDashboardCountCorbeille($userId);
 
-        return $this->render('dashboard/mesdemandespublies.html.twig', array(
-                    'demands' => $ventes, 'brouillons' => $CountBrouillons, 'expires' => $CountExpires,
-                    'publies' => $CountPulibes, 'resolus' => $CountResolus,
+        return $this->render('dashboard/demand/dashboard_mesdemandesExpires.html.twig', array(
+                    'demandes' => $demandes, 'brouillons' => $CountBrouillons, 'expires' => $CountExpires,
+                    'publies' => $CountPulibes, 'resolus' => $CountResolus,'corbeille' => $CountCorbeille
         ));
     }
 
@@ -389,141 +405,195 @@ class DashboardController extends Controller {
         $userId = $this->getUser()->getId();
         $em = $this->getDoctrine()->getManager();
 
-        $ventes = $em->getRepository('AppBundle:Demand')
-                ->findBy(array('deleted' => false, 'canceled' => false, 'available' => true, 'published' => false, 'user' => $userId), array(
+        $demandes = $em->getRepository('AppBundle:Demand')
+                ->findBy(array('deleted' => false, 'canceled' => false, 'available' => false, 'user' => $userId), array(
             'createAt' => 'ASC'
         ));
         $CountBrouillons = $em->getRepository('AppBundle:Demand')->getDashboardCountBrouillons($userId);
         $CountPulibes = $em->getRepository('AppBundle:Demand')->getDashboardCountPulibes($userId);
         $CountResolus = $em->getRepository('AppBundle:Demand')->getDashboardCountResolus($userId);
         $CountExpires = $em->getRepository('AppBundle:Demand')->getDashboardCountExpires($userId);
+        $CountCorbeille = $em->getRepository('AppBundle:Demand')->getDashboardCountCorbeille($userId);
 
-        return $this->render('dashboard/mesdemandesresolus.html.twig', array(
-                    'demands' => $ventes, 'brouillons' => $CountBrouillons, 'expires' => $CountExpires,
-                    'publies' => $CountPulibes, 'resolus' => $CountResolus,
+        return $this->render('dashboard/demand/dashboard_mesdemandesResolus.html.twig', array(
+                    'demandes' => $demandes, 'brouillons' => $CountBrouillons, 'expires' => $CountExpires,
+                    'publies' => $CountPulibes, 'resolus' => $CountResolus,'corbeille' => $CountCorbeille
         ));
     }
 
     /**
      * View of dashboard.
      *
-     * @Route("/mesdemandes/expires", name="dashboard_mesdemandesExpires")
+     * @Route("/mesdemandes/corbeille", name="dashboard_mesdemandesCorbeille")
      * @Method("GET")
      */
-    public function mesdemandesExpiresAction(Request $request) {
+    public function mesdemandesCorbeilleAction(Request $request) {
         $userId = $this->getUser()->getId();
         $em = $this->getDoctrine()->getManager();
 
-        $ventes = $em->getRepository('AppBundle:Demand')
-                ->findBy(array('deleted' => false, 'canceled' => false, 'available' => true, 'published' => false, 'user' => $userId), array(
+        $demandes = $em->getRepository('AppBundle:Demand')
+                ->findBy(array('deleted' => false, 'canceled' => true, 'available' => true, 'published' => false, 'user' => $userId), array(
             'createAt' => 'ASC'
         ));
         $CountBrouillons = $em->getRepository('AppBundle:Demand')->getDashboardCountBrouillons($userId);
         $CountPulibes = $em->getRepository('AppBundle:Demand')->getDashboardCountPulibes($userId);
         $CountResolus = $em->getRepository('AppBundle:Demand')->getDashboardCountResolus($userId);
         $CountExpires = $em->getRepository('AppBundle:Demand')->getDashboardCountExpires($userId);
+        $CountCorbeille = $em->getRepository('AppBundle:Demand')->getDashboardCountCorbeille($userId);
 
-        return $this->render('dashboard/mesdemandesexpires.html.twig', array(
-                    'demands' => $ventes, 'brouillons' => $CountBrouillons, 'expires' => $CountExpires,
-                    'publies' => $CountPulibes, 'resolus' => $CountResolus,
+        return $this->render('dashboard/demand/dashboard_mesdemandesCorbeille.html.twig', array(
+                    'demandes' => $demandes, 'brouillons' => $CountBrouillons, 'expires' => $CountExpires,
+                    'publies' => $CountPulibes, 'resolus' => $CountResolus, 'corbeille' => $CountCorbeille
         ));
     }
-
-    //les demandes et offres en cours pour un produit
+    
     /**
-     * View of dashboard.
+     * Créer des demandes au brouillon.
      *
-     * @Route("/dashboard/demandesEncoursproduit/{id}", name="dashborad_demandesEncoursproduit")
-     * @Method("GET")
+     * @Route("/mesdemandes/brouillon/new", name="dashboard_newdemandebrouillon")
+     * @Method({"GET", "POST"})
      */
-    public function demandesEncoursproduitAction(Request $request, $id) {
-        $product = $this->getDoctrine()->getManager()->getRepository('AppBundle:Product')->find($id);
-        $em = $this->getDoctrine()->getManager();
+    public function dashboard_newdemandebrouillonAction(Request $request) {
+        $demand = new Demand();
+        $form = $this->createForm('AppBundle\Form\DemandType', $demand);
+        $form->handleRequest($request);
+        $user = $this->getUser();
 
-        $demands = $em->getRepository('AppBundle:Demand')
-                ->findBy(array('deleted' => false, 'canceled' => false, 'available' => true, 'published' => true, 'product' => $product), array(
-            'createAt' => 'ASC'
-        ));
-        $count = 0;
-        foreach ($demands as $i) {
-            $count++;
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            if (null === $demand->getImageName()) {
+                $demand->setImageName($demand->getProduct()->getImageName());
+            }
+            $demand->setPublished(false);
+            $demand->setUser($user);
+            $em->persist($demand);
+            $em->flush();
+            $this->addFlash(
+                    'success', "Votre demande d'approvisionnement a été bien enregistrée!"
+            );
+            return $this->redirectToRoute('dashboard_mesdemandesBrouillons');
         }
-        return $this->render('dashboard/demandesEncoursproduit.html.twig', array(
-                    'demands' => $demands, 'product' => $product, 'id' => $id, 'count' => $count
+
+        return $this->render('dashboard/demand/dashboard_newbrouillon.html.twig', array(
+                    'demand' => $demand,
+                    'form' => $form->createView(),
         ));
     }
-
+    
     /**
-     * View of dashboard.
+     * Annuler les demandes qui ne sont pas encore souscrites.
      *
-     * @Route("/dashboard/offreEncoursproduit/{id}", name="dashborad_offreEncoursproduit")
-     * @Method("GET")
+     * @Route("/mesdemandes/demande/annuler", name="dashboard_annulerdemande")
+     * @Method({"GET", "POST"})
      */
-    public function offreEncoursproduitAction(Request $request, $id) {
-        $product = $this->getDoctrine()->getManager()->getRepository('AppBundle:Product')->find($id);
-        $em = $this->getDoctrine()->getManager();
+    public function dashboard_annulerdemandeAction(Request $request) {
 
-        $demands = $em->getRepository('AppBundle:Vente')
-                ->findBy(array('deleted' => false, 'canceled' => false, 'available' => true, 'published' => true, 'product' => $id), array(
-            'createAt' => 'ASC'
-        ));
-        $count = 0;
-        foreach ($demands as $i) {
-            $count++;
+        if ($request->getMethod() == 'POST') {
+            $em = $this->getDoctrine()->getManager();
+            $demand = $em->getRepository('AppBundle:Demand')->find($request->get('id'));
+            $demand->setCanceledAt(new \DateTime());
+            $demand->setPublished(false);
+            $demand->setCanceled(true);
+            $demand->setCanceledReason($request->get('canceledReason'));
+            $em->flush();
+            return $this->redirectToRoute('dashboard_mesdemandesCorbeille');
         }
-
-        return $this->render('dashboard/offreEncoursproduit.html.twig', array(
-                    'demands' => $demands, 'product' => $product, 'id' => $id, 'count' => $count
-        ));
-    }
-
-    //les commandes et souscriptions des offres et demandes
-    /**
-     * View of dashboard.
-     *
-     * @Route("/dashboard/commandesOffre/{id}", name="dashborad_commandesOffre")
-     * @Method("GET")
-     */
-    public function commandesOffreAction(Request $request, $id) {
-        $vente = $this->getDoctrine()->getManager()->getRepository('AppBundle:Vente')->find($id);
-        $em = $this->getDoctrine()->getManager();
-
-        $commandes = $em->getRepository('AppBundle:Order')
-                ->findBy(array('deleted' => false, 'canceled' => false, 'vente' => $id), array(
-            'createAt' => 'ASC'
-        ));
-        $count = 0;
-        foreach ($commandes as $i) {
-            $count++;
-        }
-
-        return $this->render('dashboard/commandesOffre.html.twig', array(
-                    'commandes' => $commandes, 'vente' => $vente, 'id' => $id, 'count' => $count
-        ));
     }
 
     /**
-     * View of dashboard.
+     * Restaurer les demandes annulées de la corbeille.
      *
-     * @Route("/dashboard/souscriptionsDemande/{id}", name="dashborad_souscriptionsDemande")
-     * @Method("GET")
+     * @Route("/mesdemandes/demande/restaurer", name="dashboard_restaurerdemande")
+     * @Method({"GET", "POST"})
      */
-    public function souscriptionsDemandeAction(Request $request, $id) {
-        $vente = $this->getDoctrine()->getManager()->getRepository('AppBundle:Demand')->find($id);
-        $em = $this->getDoctrine()->getManager();
+    public function dashboard_restaurerdemandeAction(Request $request) {
 
-        $commandes = $em->getRepository('AppBundle:Supply')
-                ->findBy(array('deleted' => false, 'canceled' => false, 'demand' => $id), array(
-            'createAt' => 'ASC'
-        ));
-        $count = 0;
-        foreach ($commandes as $i) {
-            $count++;
+        if ($request->getMethod() == 'POST') {
+            $em = $this->getDoctrine()->getManager();
+            $demand = $em->getRepository('AppBundle:Demand')->find($request->get('id'));
+            $demand->setCanceledAt(null);
+            $demand->setPublished(false);
+            $demand->setCanceled(false);
+            $demand->setCanceledReason(null);
+            $em->flush();
+            return $this->redirectToRoute('dashboard_mesdemandesBrouillons');
         }
+    }
 
-        return $this->render('dashboard/souscriptionsDemande.html.twig', array(
-                    'commandes' => $commandes, 'vente' => $vente, 'id' => $id, 'count' => $count
+    /**
+     * Publier les demandes créées au brouillon.
+     *
+     * @Route("/mesdemandes/demande/publier", name="dashboard_publierdemande")
+     * @Method({"GET", "POST"})
+     */
+    public function dashboard_publierdemandeAction(Request $request) {
+
+        if ($request->getMethod() == 'POST') {
+            $em = $this->getDoctrine()->getManager();
+            $demand = $em->getRepository('AppBundle:Demand')->find($request->get('id'));
+            $demand->setCanceledAt(null);
+            $demand->setPublished(true);
+            $demand->setCanceled(false);
+            $demand->setCanceledReason(null);
+            $em->flush();
+            return $this->redirectToRoute('dashboard_mesdemandesPublies');
+        }
+    }
+
+    /**
+     * Relancer la publication des demandes expirées.
+     *
+     * @Route("/mesdemandes/demande/relancer", name="dashboard_relancerdemande")
+     * @Method({"GET", "POST"})
+     */
+    public function dashboard_relancerdemandeAction(Request $request) {
+
+        if ($request->getMethod() == 'POST') {
+            $em = $this->getDoctrine()->getManager();
+            $demand = $em->getRepository('AppBundle:Demand')->find($request->get('id'));
+            $demand->setDateLimitUpdate(new \DateTime());
+            $demand->setDateLimit(new \DateTime());
+            $demand->getDateLimitUpdate()->add(new \DateInterval('P30D'));
+            $demand->getDateLimit()->add(new \DateInterval('P30D'));
+            $demand->setPublished(true);
+            $em->flush();
+            return $this->redirectToRoute('dashboard_mesdemandesPublies');
+        }
+    }
+    
+    /**
+     * Consulter les souscriptions d'une demande.
+     *
+     * @Route("/mesdemandes/demande/souscriptions", name="dashboard_souscriptionsdemande")
+     * @Method({"GET"})
+     */
+    public function dashboard_souscriptionsdemandeAction(Request $request) {
+
+        $em = $this->getDoctrine()->getManager();
+        $demand = $em->getRepository('AppBundle:Demand')->find($request->get('id'));
+
+        return $this->render('dashboard/demand/dashboard_souscriptionsdemande.html.twig', array(
+                    'demande' => $demand,
         ));
     }
 
+    /**
+     * Approuver les souscriptions.
+     *
+     * @Route("/mesdemandes/demande/approuver", name="dashboard_approuversous")
+     * @Method({"GET", "POST"})
+     */
+    public function dashboard_approuversousAction(Request $request) {
+
+        if ($request->getMethod() == 'POST') {
+            $em = $this->getDoctrine()->getManager();
+            $sous = $em->getRepository('AppBundle:Supply')->find($request->get('id'));
+            $sous->setApprouvedAt(new \DateTime());
+            $sous->setApprouved(true);
+            $em->flush();
+            return $this->redirectToRoute('dashboard_souscriptionsdemande',array(
+                    'id' => $sous->getDemand()->getId(),
+            ));
+        }
+    }
 }

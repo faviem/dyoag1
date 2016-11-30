@@ -1,0 +1,70 @@
+{% extends '/dashboard/demand/dashboard_mesdemandesPublies.html.twig' %}
+
+{% set compte=0%}
+{% block  corps %}
+    {% for element in demandes %}
+        {% set compte=compte+1 %}
+        {% set qte=0 %}
+        {% for souscrptions in element.supplies %}
+            {% if souscrptions.canceled==0 and souscrptions.deleted==0 and souscrptions.approuved==1 and souscrptions.accepted==1 %}
+                {% set qte=qte+souscrption.quantites %}
+            {% endif %}
+        {% endfor %}
+        <div class="col-xs-6  col-md-3">
+            <div class="product tumbnail thumbnail-3">
+                <a href="{{ path('demand_show', { 'id': element.id }) }}">
+                    <img class="img-circle" alt="" src="{{ asset(product_images ~'/'~ element.imageName)|imagine_filter('my_thumb') }}">
+                </a>
+                <div class="caption">
+                    <h6>
+                        <a href="{{ path('demand_show', { 'id': element.id }) }}">{{ element.product.name }}</a>
+                    </h6>
+                    <i class="fa fa-money" aria-hidden="true"></i> <span class="price sale" style="font-size: 13px;color: #005074;">{{ element.prixUnit|number_format(0, ',', '.') }} FCFA / {{ element.measure }}</span>
+                    <br>
+                    <span class="stock" style="font-size: 13px;color: black;">{{ (element.quantite-qte)|number_format(0, ',', '.') }} {{ element.measure }}s. </span>
+                    <dl>
+                        <dt style="font-size: 13px;color: black;">  <i class="fa fa-calendar" aria-hidden="true"> </i> {{ element.createat|date('d M y') }}</dt>
+                    </dl><br/>
+
+                    <a class="btn btn-default round-xl btn-xs" href="#" title="Restaurer la demande" data-toggle="modal" data-target="#{{ element.id }}"> <i class="fa fa-book"> </i>  </a>
+                    <form  action="{{ path('dashboard_restaurerdemande', { 'id': element.id }) }}" method="post"  >
+                        <!-- Modal -->
+                        <div class="modal fade" id="{{ element.id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h6 class="modal-title" id="myModalLabel">RESTAURATION DE LA DEMANDE </h6>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="col-xs-6  col-md-3">
+                                            <img class="img-circle img-sm" alt="" src="{{ asset(product_images ~'/'~ element.imageName)|imagine_filter('my_thumb') }}">
+                                        </div>
+                                        <span class="stock" style="color: black;text-align: left;">{{ (element.quantite-qte)|number_format(0, ',', '.') }} {{ element.measure }}s. Prix : {{ element.prixUnit|number_format(0, ',', '.') }} FCFA / {{ element.measure }} </span>
+                                        <br/>
+                                        
+                                        <i class="fa fa-book"> </i>   Confirmez - vous la restauration de la demande ?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default round-xl btn-xs" data-dismiss="modal">Non</button>
+                                        <button type="submit" class="btn btn-primary round-xl btn-xs">Oui</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> 
+                    </form>
+                                        
+                </div>
+                                        
+            </div>
+        </div>
+    {% endfor %}
+    {% if compte==0 %}
+        <div class="col-xs-6  col-md-12 text-center" style="min-height: 280px;">
+            <div class="product tumbnail thumbnail-3">
+                <a class="btn btn-default round-xl btn-xs" href="#" > AUCUNE DEMANDE N'EXISTE DANS LA CORBEILLE ... </a>
+            </div>
+        </div>
+    </div>
+{% endif %}
+{% endblock  corps %}

@@ -2,12 +2,11 @@
 
 {% block container %}
     <section class="add-buttons button-right hidden-phone hidden-tablet">
-        <a class="itemadd" href="{{ path('dashboard_newoffrebrouillon') }}" id='vente-btn'>
+        <a class="itemadd" href="{{ path('dashboard_newdemandebrouillon') }}" id='demand-btn'>
             <span class="add-icon">
                 <span class="add-text">Ajoutez un brouillon</span>
             </span>
         </a>
-
     </section>
 
     <section >
@@ -15,7 +14,7 @@
         <div class="swiper-container">
             <div class="jumbotron text-center">
                 <h1>
-                    <span class="text-bold dyo-blue" >Mes Offres</span>
+                    <span class="text-bold dyo-blue" >Mes Demandes</span>
                 </h1>
                 <p class="big"></p>
             </div>
@@ -27,23 +26,23 @@
                 <!--Tabs-->
                 <ul class="nav nav-tabs text-center product" role="tablist" id="myTabs">
                     <li class="round-large text-dark-variant-3" role="presentation">
-                        <a class="round-large" role="tab" aria-controls="tab0" href="{{ path('dashboard_mesoffresPublies')}}">
+                        <a class="round-large" role="tab" aria-controls="tab0" href="{{ path('dashboard_mesdemandesPublies')}}">
                             {{  publies|number_format(0, ',', '.') }} <i class="fa fa-share-alt"> </i>    Publications </a>
                     </li>
                     <li class="round-large text-dark-variant-3" role="presentation">
-                        <a class="round-large" role="tab" aria-controls="tab1" href="{{ path('dashboard_mesoffresBrouillons')}}">
+                        <a class="round-large" role="tab" aria-controls="tab1" href="{{ path('dashboard_mesdemandesBrouillons')}}">
                             {{ brouillons|number_format(0, ',', '.') }} <i class="fa fa-book"> </i>     Brouillons </a>
                     </li>
                     <li class="round-large text-dark-variant-3" role="presentation">
-                        <a class="round-large" role="tab" aria-controls="tab1" href="{{ path('dashboard_mesoffresExpires')}}">
+                        <a class="round-large" role="tab" aria-controls="tab1" href="{{ path('dashboard_mesdemandesExpires')}}">
                             {{ expires|number_format(0, ',', '.') }}  <i class="fa fa-calendar"> </i>  Expirées  </a>
                     </li>
                     <li class="round-large text-dark-variant-3" role="presentation">
-                        <a class="round-large" role="tab" aria-controls="tab1" href="{{ path('dashboard_mesoffresResolus')}}">
+                        <a class="round-large" role="tab" aria-controls="tab1" href="{{ path('dashboard_mesdemandesResolus')}}">
                             {{ resolus|number_format(0, ',', '.') }}  <i class="fa fa-desktop"> </i>  Résolues </a>
                     </li>
                     <li class="round-large text-dark-variant-3" role="presentation">
-                        <a class="round-large" role="tab" aria-controls="tab1" href="{{ path('dashboard_mesoffresCorbeille')}}">
+                        <a class="round-large" role="tab" aria-controls="tab1" href="{{ path('dashboard_mesdemandesCorbeille')}}">
                             {{ corbeille|number_format(0, ',', '.') }} <i class="fa fa-trash-o"> </i>  Corbeille </a>
                     </li>
                 </ul>
@@ -54,10 +53,10 @@
         <div class="container">
             {% set compte=0%}
             {% block  corps %}
-                {% for element in ventes %}
+                {% for element in demandes %}
                     {% set compte=compte+1 %}
                     {% set qte=0 %}{% set nbre=0%}
-                    {% for souscrptions in element.orders %}
+                    {% for souscrptions in element.supplies %}
                         {% if souscrptions.canceled==0 and souscrptions.deleted==0 %}
                             {% set nbre=nbre+1 %}
                             {% if  souscrptions.approuved==1 and souscrptions.accepted==1 %}
@@ -69,12 +68,12 @@
 
                     <div class="col-xs-6  col-md-3">
                         <div class="product tumbnail thumbnail-3">
-                            <a href="{{ path('vente_show', { 'id': element.id }) }}">
+                            <a href="{{ path('demand_show', { 'id': element.id }) }}">
                                 <img class="img-circle" alt="" src="{{ asset(product_images ~'/'~ element.imageName)|imagine_filter('my_thumb') }}">
                             </a>
                             <div class="caption">
                                 <h6>
-                                    <a href="{{ path('vente_show', { 'id': element.id }) }}">{{ element.product.name }}</a>
+                                    <a href="{{ path('demand_show', { 'id': element.id }) }}">{{ element.product.name }}</a>
                                 </h6>
                                 <i class="fa fa-money" aria-hidden="true"></i> <span class="price sale" style="font-size: 13px;color: #005074;">{{ element.prixUnit|number_format(0, ',', '.') }} FCFA / {{ element.measure }}</span>
                                 <br>
@@ -83,20 +82,20 @@
                                     <dt style="font-size: 13px;color: black;">  <i class="fa fa-calendar" aria-hidden="true"> </i> {{ element.createat|date('d M y') }}</dt>
                                 </dl><br/>
 
-                                <a title="Consulter les commandes" href="{{ path('dashboard_commandesoffre', { 'id': element.id }) }}">  {{ nbre|number_format(0, ',', '.') }}  <i class="fa fa-hand-o-right" > </i> Commandes  </a>
-                                
+                                <a title="Consulter les souscriptions" href="{{ path('dashboard_souscriptionsdemande', { 'id': element.id }) }}">  {{ nbre|number_format(0, ',', '.') }}  <i class="fa fa-hand-o-right" > </i> Souscriptions  </a>
+
                                 {% if  nbre<=0 %} 
                                     —
-                                    <a class="btn btn-default round-xl btn-xs" data-toggle="modal" data-target="#{{ element.id }}" href="#" title="Annuler l'offre"> <i class="fa fa-trash-o" > </i> 
+                                    <a class="btn btn-default round-xl btn-xs" data-toggle="modal" data-target="#{{ element.id }}" href="#" title="Annuler la demande"> <i class="fa fa-trash-o" > </i> 
                                     </a>
-                                    <form  action="{{ path('dashboard_annuleroffre', { 'id': element.id }) }}" method="post"  >
+                                    <form  action="{{ path('dashboard_annulerdemande', { 'id': element.id }) }}" method="post"  >
                                         <!-- Modal -->
                                         <div class="modal fade" id="{{ element.id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                                        <h6 class="modal-title" id="myModalLabel">ANNULATION DE L'OFFRE </h6>
+                                                        <h6 class="modal-title" id="myModalLabel">ANNULATION DE LA DEMANDE </h6>
                                                     </div>
                                                     <div class="modal-body">
                                                         <div class="col-xs-6  col-md-3">
@@ -105,9 +104,9 @@
                                                         <span class="stock" style="color: black;text-align: left;">{{ (element.quantite-qte)|number_format(0, ',', '.') }} {{ element.measure }}s. Prix : {{ element.prixUnit|number_format(0, ',', '.') }} FCFA / {{ element.measure }}  </span>
                                                         <br/>
                                                         <div class="form-group">
-                                                            <textarea class="form-control" id="exampleTextarea" rows="3" name="canceledReason" placeholder="Entrer le motif de l'annulation de l'offre ici" required="true"></textarea>
+                                                            <textarea class="form-control" id="exampleTextarea" rows="3" name="canceledReason" placeholder="Entrer le motif de l'annulation de la demande ici" required="true"></textarea>
                                                         </div>
-                                                        <i class="fa fa-trash-o" > </i>   Confirmez - vous l'annulation de l'offre du marché ?
+                                                        <i class="fa fa-trash-o" > </i>   Confirmez - vous l'annulation de la demande du marché ?
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-default round-xl btn-xs" data-dismiss="modal">Non</button>
@@ -126,7 +125,7 @@
                 {% if compte==0 %}
                     <div class="col-xs-6  col-md-12 text-center" style="min-height: 280px;">
                         <div class="product tumbnail thumbnail-3">
-                            <a class="btn btn-default round-xl btn-xs" href="#" > AUCUN OFFRE N'A ETE PUBLIE ... </a>
+                            <a class="btn btn-default round-xl btn-xs" href="#" > AUCUNE DEMANDE N'A ETE PUBLIEE ... </a>
                         </div>
                     </div>
                 {% endif %}
@@ -139,7 +138,7 @@
 {% block javascripts %}
     {{ parent() }}
     <script>
-        require(['dashboard/mesoffres']);
+        require(['dashboard/mesdemandes']);
     </script>
 {% endblock %}
 
