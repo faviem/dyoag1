@@ -1,4 +1,4 @@
-{% if demand is defined and not null %}
+{% if pagination.getTotalItemCount > 0 %}
     {% for demand in pagination %}
 
         <div class="col-xs-6  col-md-3">
