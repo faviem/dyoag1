@@ -25,7 +25,16 @@ define(
             'use strict';
             console.log('OK');
             $('#dataTables-example').DataTable();
-            
+            /**
+             * @module       Tabs
+             * @description  Bootstrap tabs
+             */
+
+            $('#myTabs a').click(function (e) {
+                e.preventDefault()
+                $(this).tab('show')
+            });
+
         }
 );
 
