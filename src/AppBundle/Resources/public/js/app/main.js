@@ -23,12 +23,13 @@ requirejs.config({
         'twig': 'vendor/twig',
         'backbone.nested': '/assets/js/backbone-nested',
         'backbone.associations': '/assets/js/backbone-associations',
-        'chosen': '/assets/js/chosen',
         'jquery.spin': 'vendor/jquery.spin',
         'spin': 'vendor/spin',
         //dashboard
         'jquery.nicescroll': 'vendor/jquery.nicescroll',
         'datatable': '/assets/js/datatable',
+        'datapicker': 'vendor/bootstrap-datepicker.min',
+        'select2': '/assets/js/select2',
     },
     shim: {
         'underscore': {

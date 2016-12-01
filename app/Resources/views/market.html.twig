@@ -75,39 +75,37 @@
 
                         <br>
             #}
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">
-                        <i class="fa fa-filter"></i>
-                        Filtrer
-                    </h3>
-                </div>
+            <div class="panel-default panel-horizontal">
                 <form class="" action=""  method="get">
+                    <div class="col-md-11">
+                        <div class="form-group col-md-3">
 
-                    <div class="form-group col-md-3">
-
-                        {{ form_widget(form.product, {'attr' : {'class' : 'form-control'}} )}}
-                        {{ form_errors(form.product) }}
-
-                    </div>
-                    <div class="form-group col-md-3">
-                        {{ form_widget(form.category, {'attr' : {'class' : 'form-control'}} )}}
-                        {{ form_errors(form.category) }}
-                    </div>
-                    <div class="form-group col-md-3">
-                        <div class="input-group">
-                            <input type="text" name="start_date" id="start_date" class="form-control start_date hasDatepicker" placeholder="start date">
-                            <span class="fa fa-calendar-o input-group-addon" aria-hidden="true"></span>
+                            {{ form_widget(form.product, {'attr' : {'class' : 'form-control'}} )}}
+                            {{ form_errors(form.product) }}
+                        </div>
+                        <div class="form-group col-md-3">
+                            {{ form_widget(form.category, {'attr' : {'class' : 'form-control'}} )}}
+                            {{ form_errors(form.category) }}
+                        </div>
+                        <div class="form-group col-md-3">
+                            <div class="input-group">
+                                {{ form_widget(form.startDate, {'attr' : {'class' : 'form-control'}} )}}
+                                <span class="fa fa-calendar-o input-group-addon" aria-hidden="true"></span>
+                            </div>
+                            {{ form_errors(form.startDate) }}
+                        </div>
+                        <div class="form-group col-md-3">
+                            <div class="input-group">
+                                {{ form_widget(form.endDate, {'attr' : {'class' : 'form-control'}} )}}
+                                <span class="fa fa-calendar-o input-group-addon" aria-hidden="true"></span>
+                            </div>
+                            {{ form_errors(form.endDate) }}
                         </div>
                     </div>
-                    <div class="form-group col-md-3">
-                        <div class="input-group">
-                            <input type="text" name="end_date" id="end_date" class="form-control end_date hasDatepicker" placeholder="end date">
-                            <span class="fa fa-calendar-o input-group-addon" aria-hidden="true"></span>
+                    <div class="col-md-1">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-xs round-xl"><i class="fa fa-filter">Filter</i></button>
                         </div>
-                    </div>
-                    <div class="form-group col-md-12">
-                        <input type="submit" name="commit" value="Filter" disable_with="Filtering..." class="btn btn-primary btn-xs round-xl">
                     </div>
                 </form>
             </div>
