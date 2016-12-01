@@ -35,15 +35,15 @@
                             {{ brouillons|number_format(0, ',', '.') }} <i class="fa fa-book"> </i>     Brouillons </a>
                     </li>
                     <li class="round-large text-dark-variant-3" role="presentation">
-                        <a class="round-large" role="tab" aria-controls="tab1" href="{{ path('dashboard_mesoffresExpires')}}">
+                        <a class="round-large" role="tab" aria-controls="tab2" href="{{ path('dashboard_mesoffresExpires')}}">
                             {{ expires|number_format(0, ',', '.') }}  <i class="fa fa-calendar"> </i>  Expirées  </a>
                     </li>
                     <li class="round-large text-dark-variant-3" role="presentation">
-                        <a class="round-large" role="tab" aria-controls="tab1" href="{{ path('dashboard_mesoffresResolus')}}">
+                        <a class="round-large" role="tab" aria-controls="tab3" href="{{ path('dashboard_mesoffresResolus')}}">
                             {{ resolus|number_format(0, ',', '.') }}  <i class="fa fa-desktop"> </i>  Résolues </a>
                     </li>
                     <li class="round-large text-dark-variant-3" role="presentation">
-                        <a class="round-large" role="tab" aria-controls="tab1" href="{{ path('dashboard_mesoffresCorbeille')}}">
+                        <a class="round-large" role="tab" aria-controls="tab4" href="{{ path('dashboard_mesoffresCorbeille')}}">
                             {{ corbeille|number_format(0, ',', '.') }} <i class="fa fa-trash-o"> </i>  Corbeille </a>
                     </li>
                 </ul>
