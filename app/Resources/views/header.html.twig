@@ -61,15 +61,15 @@
                             {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                              <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-user"> </i>  Mon Emplacement <span class="caret"></span></a>
+                                <i class="fa fa-user"> </i>  Mon Stand <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li>  <a href="{{ path('dashboard_mesoffresPublies') }}"> <i class="fa fa-share-alt" aria-hidden="true"> </i> Mes offres</a></li>
-                                <li>  <a href="{{ path('dashboard_mesdemandesPublies') }}"> <i class="fa fa-hand-o-up" aria-hidden="true"> </i> Mes demandes</a></li>
-                                <li>  <a href="#"> <i class="fa fa-hand-o-left" aria-hidden="true"> </i> Mes souscriptions</a></li>
-                                <li>  <a href="#"> <i class="fa fa-hand-o-right" aria-hidden="true"> </i> Mes commandes</a></li>
+                                <li>  <a href="{{ path('dashboard_mesdemandesPublies') }}"> <i class="fa fa-hand-o-right" aria-hidden="true"> </i> Mes demandes</a></li>
+                                <li>  <a href="{{ path('dashboard_souscriptionsviews') }}"> <i class="fa fa-gears" aria-hidden="true"> </i> Mes souscriptions</a></li>
+                                <li>  <a href="{{ path('dashboard_commandesviews') }}"> <i class="fa fa-forumbee" aria-hidden="true"> </i> Mes commandes</a></li>
                                 <li role="separator" class="divider"></li>
-                                 <li><a href="#"> <i class="fa fa-envelope-o"> </i> Ma méssagerie</a></li>
-                                 <li><a href="#"> <i class="fa fa-user-md"> </i> Mon compte</a></li>
+                                 <li><a href="#"> <i class="fa fa-envelope-o" aria-hidden="true"> </i> Ma méssagerie</a></li>
+                                 <li><a href="#"> <i class="fa fa-user-md" aria-hidden="true"> </i> Mon compte</a></li>
                                    <li> <a href="{{ path("fos_user_security_logout") }}">
                                           <i class="fa fa-power-off"> </i>  {{ "Déconnexion"|trans }}
                                         </a>

@@ -8,8 +8,8 @@
     {% for souscrptions in vente.orders %}
         {% if souscrptions.canceled==0 and souscrptions.deleted==0 %}
             {% set nbre=nbre+1 %}
-            {% if  souscrptions.approuved==1 and souscrptions.accepted==1 %}
-                {% set qte=qte+souscrption.quantites %}
+            {% if  souscrptions.accepted==1 %}
+                {% set qte=qte+souscrptions.quantite %}
             {% endif %}
 
         {% endif %}
@@ -61,10 +61,8 @@
                                     <td> {{ souscrptions.quantite|number_format(0, ',', '.') }}</td>
                                     <td> {{ souscrptions.createAt|date('d M y') }}</td>
                                     <td> 
-                                        {% if souscrptions.accepted==1 %} Conclue 
+                                        {% if souscrptions.accepted==1 %} Acceptée 
                                         {% else %} 
-                                            {% if souscrptions.approuved==1 %} Approuvée 
-                                            {% else %} 
                                                 <a class="btn btn-default round-xl btn-xs" data-toggle="modal" data-target="#{{ souscrptions.id }}" href="#" title="Approuver la commande"> <i class="fa fa-share-alt"> </i>  </a>
                                                 <form  action="{{ path('dashboard_approuvercmde', { 'id': souscrptions.id  }) }}" method="post"  >
                                                     <!-- Modal -->
@@ -76,6 +74,9 @@
                                                                     <h6 class="modal-title" id="myModalLabel"> APPROBATION DE LA COMMANDE </h6>
                                                                 </div>
                                                                 <div class="modal-body">
+                                                                    <div class="col-xs-6  col-md-3">
+                                                                        <img class="img-circle img-sm" alt="" src="{{ asset(product_images ~'/'~ souscrptions.vente.imageName)|imagine_filter('my_thumb') }}">
+                                                                    </div>
                                                                     <span class="stock" style="text-align: left;">Acheteur : {{ souscrptions.user.lastName }} </span>
                                                                     <br/>
                                                                     <span class="stock" style="color: black;text-align: left;"> {{ souscrptions.quantite|number_format(0, ',', '.') }} {{ souscrptions.vente.measure }}s. Prix : {{ souscrptions.vente.prixUnit|number_format(0, ',', '.') }} FCFA / {{ souscrptions.vente.measure }}  </span>
@@ -90,7 +91,6 @@
                                                         </div>
                                                     </div> 
                                                 </form>
-                                            {% endif %} 
                                         {% endif %}
                                     </td>
                                 </tr>

@@ -61,7 +61,7 @@
                         {% if souscrptions.canceled==0 and souscrptions.deleted==0 %}
                             {% set nbre=nbre+1 %}
                             {% if  souscrptions.approuved==1 and souscrptions.accepted==1 %}
-                                {% set qte=qte+souscrption.quantites %}
+                                {% set qte=qte+souscrptions.quantite %}
                             {% endif %}
 
                         {% endif %}

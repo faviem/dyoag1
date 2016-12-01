@@ -1,0 +1,87 @@
+{% extends 'market.html.twig' %}
+
+{% block container %}
+    <section class="add-buttons button-right hidden-phone hidden-tablet">
+
+    </section>
+
+    <section >
+        <!--Swiper-->
+        <div class="swiper-container">
+            <div class="jumbotron text-center">
+                <h1>
+                    <span class="text-bold dyo-blue" >Mes Souscriptions </span>
+                </h1>
+                <p class="big"></p>
+            </div>
+        </div>
+    </section>
+    <section class="section-border text-center text-md-left">
+        <div class="container">
+            <div class="col-xs-12 offset-2">
+                {% block  menuentete %}
+                    {% set att=0%} {% set acp=0%} {% set con=0%} {% set sup=0%}
+                    {% for element in supplies %}
+                        {% if element.deleted==0 %}
+                            {% if  element.canceled==1 %}
+                                {% set sup=sup+1 %} 
+                            {% endif %}
+                            {% if element.canceled==0 and  element.accepted==1 and element.delivered==0 %}
+                                {% set acp=acp+1 %} 
+                            {% endif %}
+                            {% if element.canceled==0 and  element.accepted==0 and element.delivered==0 %}
+                                {% set att=att+1 %} 
+                            {% endif %}
+                            {% if element.canceled==0 and  element.accepted==1 and element.delivered==1 %}
+                                {% set con=con+1 %} 
+                            {% endif %}
+
+                        {% endif %}
+                    {% endfor %}
+                    <!--Tabs-->
+                    <ul class="nav nav-tabs text-center product" role="tablist" id="myTabs">
+                        <li class="round-large text-dark-variant-3 active" role="presentation">
+                            <a class="round-large" role="tab" data-toggle="tab" aria-controls="tab0" href="#tab0">{{ att }} <i class="fa fa-pause"> </i> Attentes</a>
+                        </li>
+                        <li class="round-large text-dark-variant-3" role="presentation">
+                            <a class="round-large" role="tab" data-toggle="tab" aria-controls="tab1" href="#tab1">{{ acp }} <i class="fa fa-check"> </i> Acceptées</a>
+                        </li>
+                        <li class="round-large text-dark-variant-3" role="presentation">
+                            <a class="round-large" role="tab" data-toggle="tab" aria-controls="tab2" href="#tab2">{{ con }} <i class="fa fa-random"> </i> Conclues</a>
+                        </li>
+                        <li class="round-large text-dark-variant-3" role="presentation">
+                            <a class="round-large" role="tab" data-toggle="tab" aria-controls="tab3" href="#tab3">{{ sup }} <i class="fa fa-trash"> </i> Corbeille</a>
+                        </li>
+                    </ul>
+                {% endblock %}
+
+                {% block  corps %}
+
+                    <div class="tab-content text-center">
+                        <div class="tab-pane fade active in" id="tab0" role="tabpanel">
+                            {% include 'dashboard/souscription/dashboard_attente.html.twig' %}
+                        </div>
+                        <div class="tab-pane fade" id="tab1" role="tabpanel">
+                            {% include 'dashboard/souscription/dashboard_accept.html.twig' %}
+                        </div>
+                        <div class="tab-pane fade" id="tab2" role="tabpanel">
+                            {% include 'dashboard/souscription/dashboard_conclue.html.twig' %}
+                        </div>
+                        <div class="tab-pane fade" id="tab3" role="tabpanel">
+                            {% include 'dashboard/souscription/dashboard_corbeille.html.twig' %}
+                        </div>
+                    {% endblock  corps %}
+
+                    <!-- Button trigger modal -->
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock  %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        require(['dashboard/mesoffres']);
+    </script>
+{% endblock %}
+

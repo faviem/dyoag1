@@ -80,6 +80,23 @@ class DemandRepository extends \Doctrine\ORM\EntityRepository
                         ->getQuery()
                         ->getSingleScalarResult();
     }
+    
+     public function getDashboardExpires($user) {
+        return $this->createQueryBuilder('d')
+                       ->where('d.user  =:user')
+                      // ->andwhere('d.published  =:published')
+                       ->andwhere('d.deleted  =:deleted')
+                       ->andwhere('d.canceled  =:canceled')
+                       ->andwhere('d.available  =:available')
+                       ->andwhere('d.dateLimit  <= :datedujour')
+                       ->setParameter('user', $user)
+                     //  ->setParameter('published', false)
+                       ->setParameter('available', true)
+                       ->setParameter('deleted', false)
+                       ->setParameter('canceled', false)
+                       ->setParameter('datedujour', new \DateTime())
+                ->getQuery()->getResult();
+    }
        
      public function getDashboardCountCorbeille($user) {
         return $this->createQueryBuilder('d')
