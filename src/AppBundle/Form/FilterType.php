@@ -33,12 +33,26 @@ class FilterType extends AbstractType {
                 ->add('startDate', DateType::class, array(
                     'widget' => 'single_text',
                     'format' => 'dd/MM/yyyy',
-                    'placeholder' => 'dd/MM/yyyy'
+                    'attr' => array(
+                        'class' => 'form-control input-inline datepicker',
+                        'data-provide' => 'datepicker',
+                        'data-date-format' => 'dd-mm-yyyy',
+                        'data-date-today-highlight' => true,
+                        'data-date-today-btn' => "linked",
+                        'data-default-view-date' => "today",
+                    )
                 ))
                 ->add('endDate', DateType::class, array(
                     'widget' => 'single_text',
                     'format' => 'dd/MM/yyyy',
-                    'placeholder' => 'dd/MM/yyyy'
+                    'attr' => array(
+                        'class' => 'form-control input-inline datepicker',
+                        'data-provide' => 'datepicker',
+                        'data-date-format' => 'dd-mm-yyyy',
+                        'data-date-today-highlight' => true,
+                        'data-date-today-btn' => "linked",
+                        'data-default-view-date' => "today",
+                    )
                 ))
 
         ;

@@ -18,8 +18,10 @@
 define(
         [
             'jquery',
-            'bootstrap',
             'FloatingSocialButton',
+            'bootstrap',
+            'datapicker',
+            'select2'
         ],
         function ($, FloatingSocialButton) {
             'use strict';
@@ -35,7 +37,9 @@ define(
                         $(this).parent().addClass("active");
                     }
                 });
-
+                $('select').select2({
+                    theme: "bootstrap"
+                });
             });
         }
 );
