@@ -27,7 +27,7 @@ class DemandController extends Controller {
         $filter = array();
         $form = $this->createForm('AppBundle\Form\FilterType', $filter);
         $form->handleRequest($request);
-        $dql = "SELECT d FROM AppBundle:Demand d WHERE d.published = 1 ORDER BY d.createAt";
+        $dql = "SELECT d FROM AppBundle:Demand d WHERE d.published = 1 ORDER BY d.createAt DESC";
         $query = $em->createQuery($dql);
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(

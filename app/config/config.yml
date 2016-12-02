@@ -150,6 +150,8 @@ fos_js_routing:
         - vente_filter
         - fos_user_security_login
         - vente_select_measures
+        - market_list
+        - market_list_lister
 
 fos_rest:
     unauthorized_challenge: "Basic realm=\"Restricted Area\""
