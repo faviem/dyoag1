@@ -31,7 +31,7 @@ class VenteController extends Controller {
         $form->handleRequest($request);
 // pagination http://stackoverflow.com/questions/14817817/symfony-knppaginator-query-with-custom-filters-from-form-fields
 // http://achreftlili.github.io/2015/08/23/Ajaxify-Knp-Bundle-pagination/
-        $dql = "SELECT v FROM AppBundle:Vente v  WHERE v.published = 1 ORDER BY v.createAt";
+        $dql = "SELECT v FROM AppBundle:Vente v  WHERE v.published = 1 ORDER BY v.createAt DESC";
         $query = $em->createQuery($dql);
 
         $paginator = $this->get('knp_paginator');
@@ -72,7 +72,7 @@ class VenteController extends Controller {
             $this->addFlash(
                     'success', "Votre offre de produit a été bien enregistré!"
             );
-            return $this->redirectToRoute('vente_index');
+            return $this->redirectToRoute('market_index');
         }
 
         return $this->render('vente/new.html.twig', array(
@@ -122,7 +122,7 @@ class VenteController extends Controller {
             return $this->redirectToRoute('dashboard_index');
         }
 
-        return $this->redirectToRoute('vente_index');
+        return $this->redirectToRoute('market_index');
 
 //        $response = new JsonResponse(
 //                array(
@@ -264,7 +264,7 @@ class VenteController extends Controller {
 
         if (!$query) {
             if (!$request->isXmlHttpRequest()) {
-                return $this->redirect($this->generateUrl('vente_index'));
+                return $this->redirect($this->generateUrl('market_index'));
             } else {
                 return new JsonResponse('No results.');
             }

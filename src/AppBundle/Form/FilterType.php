@@ -30,30 +30,36 @@ class FilterType extends AbstractType {
                     'required' => true,
                     'mapped' => false
                 ))
-                ->add('startDate', DateType::class, array(
-                    'widget' => 'single_text',
-                    'format' => 'dd/MM/yyyy',
-                    'attr' => array(
-                        'class' => 'form-control input-inline datepicker',
-                        'data-provide' => 'datepicker',
-                        'data-date-format' => 'dd-mm-yyyy',
-                        'data-date-today-highlight' => true,
-                        'data-date-today-btn' => "linked",
-                        'data-default-view-date' => "today",
-                    )
+                ->add('city', EntityType::class, array(
+                    'class' => 'AppBundle:City',
+                    'placeholder' => 'Par Commune',
+                    'required' => true,
+                    'mapped' => false
                 ))
-                ->add('endDate', DateType::class, array(
-                    'widget' => 'single_text',
-                    'format' => 'dd/MM/yyyy',
-                    'attr' => array(
-                        'class' => 'form-control input-inline datepicker',
-                        'data-provide' => 'datepicker',
-                        'data-date-format' => 'dd-mm-yyyy',
-                        'data-date-today-highlight' => true,
-                        'data-date-today-btn' => "linked",
-                        'data-default-view-date' => "today",
-                    )
-                ))
+//                ->add('startDate', DateType::class, array(
+//                    'widget' => 'single_text',
+//                    'format' => 'dd/MM/yyyy',
+//                    'attr' => array(
+//                        'class' => 'form-control input-inline datepicker',
+//                        'data-provide' => 'datepicker',
+//                        'data-date-format' => 'dd-mm-yyyy',
+//                        'data-date-today-highlight' => true,
+//                        'data-date-today-btn' => "linked",
+//                        'data-default-view-date' => "today",
+//                    )
+//                ))
+//                ->add('endDate', DateType::class, array(
+//                    'widget' => 'single_text',
+//                    'format' => 'dd/MM/yyyy',
+//                    'attr' => array(
+//                        'class' => 'form-control input-inline datepicker',
+//                        'data-provide' => 'datepicker',
+//                        'data-date-format' => 'dd-mm-yyyy',
+//                        'data-date-today-highlight' => true,
+//                        'data-date-today-btn' => "linked",
+//                        'data-default-view-date' => "today",
+//                    )
+//                ))
 
         ;
     }

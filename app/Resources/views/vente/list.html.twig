@@ -1,42 +1,10 @@
-{% if pagination.getTotalItemCount > 0 %}
-    {% for vente in pagination %}
+{% import "market/macro_list.html.twig" as macroList %}
 
-        <div class="col-xs-6  col-md-3">
-            <div class="product tumbnail thumbnail-3">
-                <a href="{{ path('vente_show', { 'id': vente.id }) }}">
-                    <img class="img-circle img-sm" alt="" src="{{ asset(product_images ~'/'~ vente.imageName)|imagine_filter('my_thumb') }}">
-                </a>
-                <div class="caption">
-                    <h6>
-                        <a href="{{ path('vente_show', { 'id': vente.id }) }}">{{ vente.product.name }}</a>
-                    </h6>
-                    <i class="fa fa-money" aria-hidden="true"></i> <span class="price sale">{{ vente.prixUnit }} FCFA / {{ vente.measure }}</span>
-                    <br>
-                    <span class="stock">{{ vente.quantite }} {{ vente.measure }}s en stock. </span>
-                    <dl>
-                        <dt><i class="fa fa-calendar" aria-hidden="true"></i> {{ vente.createat|date('d M y') }}</dt>
-                    </dl>
-                    <address>
-                        <dl>
-                            <dt><i class="fa fa-user" aria-hidden="true"></i> {{ vente.user }}</dt>
-                        </dl>
-
-                        <dl>
-                            <dt> <i class="fa fa-phone" aria-hidden="true"></i> {{ phone_number_format(vente.user.phone, 'INTERNATIONAL') }}</dt>
-
-                        </dl>
-                    </address>
-
-                </div>
-            </div>
-        </div>
-
-    {% endfor %}
-{% else %}
-    <div class="col-xs-6  col-md-12 text-center" style="min-height: 280px;">
-        <div class="product tumbnail thumbnail-3">
-            <a class="btn btn-default round-xl btn-xs" href="#" > AUCUNE OFFRE N'EST ENCORE CREE ... </a>
+{{ macroList.list(pagination, 'vente') }}
+<div class="container">
+    <div class="col-inset-2 text-center btn-group" role="group" aria-label="First group">
+        <div id="pagination" class="navigation">
+            {{ knp_pagination_render(pagination) }}
         </div>
     </div>
-{% endif %}
-
+</div>

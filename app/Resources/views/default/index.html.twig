@@ -31,7 +31,7 @@
                     {#<br class="visible-xl-inline"> #}
                 </p>
                 <div class="btn-group-variant">
-                    <a href="{{ path('vente_index') }}" class="btn btn-default round-xl btn-sm">Le marché</a>
+                    <a href="{{ path('market_index') }}" class="btn btn-default round-xl btn-sm">Le marché</a>
                     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                         <a class="btn btn-default round-xl btn-sm" href="{{ path("fos_user_security_logout") }}">{{ "Déconnexion"|trans }}</a>
                     {% else %}

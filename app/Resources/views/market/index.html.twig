@@ -49,12 +49,12 @@
     <section class="section-border text-center text-md-left">
         <div class="container">
             <!--Tabs-->
-            <ul class="nav nav-tabs text-center product" role="tablist" id="myTabs">
-                <li class="round-large text-dark-variant-3" role="presentation">
-                    <a class="round-large" role="tab" aria-controls="tab0" href="{{ path('vente_index') }}">Offres</a>
+            <ul class="nav nav-tabs text-center product" role="tablist" id="marketTabs">
+                <li class="round-large text-dark-variant-3 active" role="presentation">
+                    <a class="round-large" role="tab" aria-controls="tab0" href="#tab0" data-type="vente">Offres</a>
                 </li>
                 <li class="round-large text-dark-variant-3" role="presentation">
-                    <a class="round-large" role="tab" aria-controls="tab1" href="{{ path('demand_index') }}">Demandes</a>
+                    <a class="round-large" role="tab" aria-controls="tab1" href="#tab1" data-type="demand">Demandes</a>
                 </li>
             </ul>
         </div>
@@ -77,7 +77,7 @@
             #}
             <div class="panel-default panel-horizontal">
                 <form class="" action=""  method="get">
-                    <div class="col-md-11">
+                    <div class="col-md-12">
                         <div class="form-group col-md-3">
 
                             {{ form_widget(form.product, {'attr' : {'class' : 'form-control'}} )}}
@@ -87,23 +87,28 @@
                             {{ form_widget(form.category, {'attr' : {'class' : 'form-control'}} )}}
                             {{ form_errors(form.category) }}
                         </div>
+                        {#
+                         <div class="form-group col-md-3">
+                             <div class="input-group">
+                                 {{ form_widget(form.startDate, {'attr' : {'class' : 'form-control'}} )}}
+                                 <span class="fa fa-calendar-o input-group-addon" aria-hidden="true"></span>
+                             </div>
+                             {{ form_errors(form.startDate) }}
+                         </div>
+                         <div class="form-group col-md-3">
+                             <div class="input-group">
+                                 {{ form_widget(form.endDate, {'attr' : {'class' : 'form-control'}} )}}
+                                 <span class="fa fa-calendar-o input-group-addon" aria-hidden="true"></span>
+                             </div>
+                             {{ form_errors(form.endDate) }}
+                         </div>
+                        #}
                         <div class="form-group col-md-3">
-                            <div class="input-group">
-                                {{ form_widget(form.startDate, {'attr' : {'class' : 'form-control'}} )}}
-                                <span class="fa fa-calendar-o input-group-addon" aria-hidden="true"></span>
-                            </div>
-                            {{ form_errors(form.startDate) }}
+                            {{ form_widget(form.city, {'attr' : {'class' : 'form-control'}} )}}
+                            {{ form_errors(form.city) }}
                         </div>
+
                         <div class="form-group col-md-3">
-                            <div class="input-group">
-                                {{ form_widget(form.endDate, {'attr' : {'class' : 'form-control'}} )}}
-                                <span class="fa fa-calendar-o input-group-addon" aria-hidden="true"></span>
-                            </div>
-                            {{ form_errors(form.endDate) }}
-                        </div>
-                    </div>
-                    <div class="col-md-1">
-                        <div class="form-group">
                             <button type="submit" class="btn btn-primary btn-xs round-xl"><i class="fa fa-filter">Filter</i></button>
                         </div>
                     </div>
@@ -115,28 +120,12 @@
 
             <br>
             {% block content %}
-                <div class="tab-pane fade" id="tab0" role="tabpanel">
+                <div class="tab-pane fade active in" id="tab0" role="tabpanel">
                     <div id="offers" class="row flow-offset-1 clearleft">
-                        {% include 'vente/list.html.twig' with {'pagination': vente} %}
-                    </div>
-                    <div class="container">
-                        <div class="col-inset-2 text-center btn-group" role="group" aria-label="First group">
-                            <div id="pagination" class="navigation">
-                                {{ knp_pagination_render(vente) }}
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <div class="tab-pane fade" id="tab1" role="tabpanel">
                     <div id="demands" class="row flow-offset-1 clearleft">
-                        {% include 'demand/list.html.twig' with {'pagination': demand} %}
-                    </div>
-                    <div class="container">
-                        <div class="col-inset-2 text-center btn-group" role="group" aria-label="First group">
-                            <div id="pagination" class="navigation">
-                                {{ knp_pagination_render(demand) }}
-                            </div>
-                        </div>
                     </div>
                 </div>
             {% endblock %}
