@@ -74,6 +74,9 @@ form .input-group-addon {
 .dyo-nav{
     background: #004d40;
 }
+.form-group ul>li{
+    color: red
+}
 /*screen-sm*/
 @media (max-width: 768px) {
     .brand-name {

@@ -19,8 +19,7 @@ module.exports = function (grunt) {
                     'js/backbone.localStorage.js': 'backbone.localStorage/backbone.localStorage-min.js',
                     'js/backbone-nested.js': 'backbone-nested-model/backbone-nested.js',
                     'js/backbone-associations.js': 'backbone-associations/backbone-associations-min.js',
-                    'js/chosen.js': 'chosen-bower/chosen.jquery.min.js',
-                    'js/datatable.js': 'datatables.net/js/jquery.dataTables.min.js',
+                    'js/select2.js': 'select2/dist/js/select2.min.js',
                     //pour le dashboard
                 }
             },
@@ -28,6 +27,8 @@ module.exports = function (grunt) {
                 files: {
 //                    'css/bootstrap.css': 'bootstrap/dist/css/bootstrap.css',
                     'css/font-awesome.css': 'font-awesome/css/font-awesome.css',
+                    'css/select2.css': 'select2/dist/css/select2.min.css',
+                    'css/select2-bootstrap.css': 'select2-bootstrap-theme/dist/select2-bootstrap.min.css',
                 }
             },
             fonts: {
@@ -69,6 +70,8 @@ module.exports = function (grunt) {
                     //'web/assets/css/bootstrap.css',
                     'web/assets/css/font-awesome.css',
                     'src/AppBundle/Resources/public/css/*.css',
+                    'web/assets/css/select2.css',
+                    'web/assets/css/select2-bootstrap.css'
                 ],
                 dest: 'web/assets/css/benagro.css'
             },

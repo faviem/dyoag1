@@ -18,7 +18,6 @@
 define(
         [
             'jquery',
-            'chosen',
             'jquery.spin'
         ],
         function ($) {
