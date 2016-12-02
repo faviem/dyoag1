@@ -1,35 +1,4 @@
-{% extends 'layout.html.twig' %}
-
-{% block header %}
-    <div class="page-footer footer-minimal dark text-center">
-        <div class="footer-content">
-            <div class="container">
-                <div class="pull-lg-left rd-navbar-brand">
-                    <a class="brand-name" href="{{ path('homepage') }}">BenAgro<span>agriculteurs-acheteurs</span></a>
-                </div>
-                <ul class="list-inline-2 pull-lg-right">
-                    <li class="active"><a href="{{ path('homepage') }}">Accueil</a></li>
-                    <li><a href="#">A propos</a></li>
-                    <li><a href="{{ path('vente_index') }}">Marché</a></li>
-                        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                        <li>{{ app.user.email }}</li>
-                        <li>
-                            <a href="{{ path("fos_user_security_logout") }}">
-                                {{ "Déconnexion"|trans }}
-                            </a>
-                        </li>
-                    {% else %}
-                        <li>
-                            <a href="{{ path("fos_user_security_login") }}">
-                                {{ "Connexion" | trans }}
-                            </a>
-                        </li>
-                    {% endif %}
-                </ul>
-            </div>
-        </div>
-    </div>
-{% endblock header %}
+{% extends 'market.html.twig' %}
 
 {% block container %}
     {#
@@ -79,7 +48,7 @@
                         <span class="quantity round-xl">
 
                             {{ form_widget(form.quantite, {'attr' : {'class' : 'form-control', 'min' : 1}} )}}
-                            
+
                             <input type="hidden" name="vente_id" value="{{vente.id}}">
                             {#
                             <span class="fa-angle-left"></span>
@@ -99,10 +68,10 @@
                         </button>
                         {{ form_end(form) }}
                         <dl class="info-list offset-5">
-                            <dt>Categories</dt>
-                            <dd>{{ vente.product.category.name }}</dd>
+                            <dt>Categorie:</dt>
+                            <dd>&nbsp;{{ vente.product.category.name }}</dd>
 
-                            <dt>Agriculteur</dt>
+                            <dt>Par</dt>
                             <dd> {{ vente.user }} </dd>
 
                         </dl>
@@ -242,7 +211,7 @@
                 </div>
                 <!-- dialog body -->
                 <div class="modal-body">
-                    {{ form_start(form, {'method': 'POST', 'action': path('vente_index')}) }}
+                    {{ form_start(form, {'method': 'POST', 'action': path('market_index')}) }}
                     {{ form_widget(form) }}
                     <input type="submit" value="Create" />
                     {{ form_end(form) }}

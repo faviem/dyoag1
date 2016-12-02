@@ -1,17 +1,10 @@
-{% for demand in pagination %}
+{% import "market/macro_list.html.twig" as macroList %}
 
-    <div class="col-xs-6 col-xs-6--mod-1 col-md-3">
-        <div class="product tumbnail thumbnail-3">
-            <a href="{{ path('demand_show', { 'id': demand.id }) }}">
-                <img alt="" src="{{ asset(product_images ~'/'~ demand.imageName)|imagine_filter('my_thumb') }}">
-            </a>
-            <div class="caption">
-                <h6>
-                    <a href="#">{{ demand.product.name }}</a>
-                </h6>
-                <span class="price sale">{{ demand.prixUnit }} FCFA / {{ demand.measure }}</span>
-            </div>
+{{ macroList.list(pagination, 'demand') }}
+<div class="container">
+    <div class="col-inset-2 text-center btn-group" role="group" aria-label="First group">
+        <div id="pagination" class="navigation">
+            {{ knp_pagination_render(pagination) }}
         </div>
     </div>
-
-{% endfor %}
+</div>

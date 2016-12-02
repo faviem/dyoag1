@@ -24,9 +24,10 @@ class DemandController extends Controller {
      */
     public function indexAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
-        $demands = $em->getRepository('AppBundle:Demand')->findAll();
-        $categories = $em->getRepository('AppBundle:Category')->findAll();
-        $dql = "SELECT o FROM AppBundle:Demand o";
+        $filter = array();
+        $form = $this->createForm('AppBundle\Form\FilterType', $filter);
+        $form->handleRequest($request);
+        $dql = "SELECT d FROM AppBundle:Demand d WHERE d.published = 1 ORDER BY d.createAt DESC";
         $query = $em->createQuery($dql);
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
@@ -34,13 +35,10 @@ class DemandController extends Controller {
                 $request->query->getInt('page', 1), //page number
                 24 // limit per page
         );
+
         return $this->render('demand/index.html.twig', array(
                     'pagination' => $pagination,
-                    'categories' => $categories
-        ));
-        return $this->render('demand/index.html.twig', array(
-                    'pagination' => $pagination,
-                    'categories' => $categories
+                    'form' => $form->createView(),
         ));
     }
 
@@ -67,7 +65,7 @@ class DemandController extends Controller {
             $this->addFlash(
                     'success', "Votre demande d'approvisionnement a été bien enregistrée!"
             );
-            return $this->redirectToRoute('demand_show', array('id' => $demand->getId()));
+            return $this->redirectToRoute('demand_index');
         }
 
         return $this->render('demand/new.html.twig', array(

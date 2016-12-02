@@ -75,41 +75,37 @@
 
                         <br>
             #}
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">
-                        <i class="fa fa-filter"></i>
-                        Filtrer
-                    </h3>
-                </div>
+            <div class="panel-default panel-horizontal">
                 <form class="" action=""  method="get">
+                    <div class="col-md-11">
+                        <div class="form-group col-md-3">
 
-                    <div class="form-group">
-
-                        {{ form_widget(form.product, {'attr' : {'class' : 'form-control'}} )}}
-                        {{ form_errors(form.product) }}
-
-                    </div>
-                    <div class="form-group">
-
-                        {{ form_widget(form.category, {'attr' : {'class' : 'form-control'}} )}}
-                        {{ form_errors(form.category) }}
-
-                    </div>
-                    <div class="form-group">
-                        <div class="input-group">
-                            <input type="text" name="start_date" id="start_date" class="form-control start_date hasDatepicker" placeholder="start date">
-                            <span class="fa fa-calendar-o input-group-addon" aria-hidden="true" onclick="$(this).prev().focus();"></span>
+                            {{ form_widget(form.product, {'attr' : {'class' : 'form-control'}} )}}
+                            {{ form_errors(form.product) }}
+                        </div>
+                        <div class="form-group col-md-3">
+                            {{ form_widget(form.category, {'attr' : {'class' : 'form-control'}} )}}
+                            {{ form_errors(form.category) }}
+                        </div>
+                        <div class="form-group col-md-3">
+                            <div class="input-group">
+                                {{ form_widget(form.startDate, {'attr' : {'class' : 'form-control'}} )}}
+                                <span class="fa fa-calendar-o input-group-addon" aria-hidden="true"></span>
+                            </div>
+                            {{ form_errors(form.startDate) }}
+                        </div>
+                        <div class="form-group col-md-3">
+                            <div class="input-group">
+                                {{ form_widget(form.endDate, {'attr' : {'class' : 'form-control'}} )}}
+                                <span class="fa fa-calendar-o input-group-addon" aria-hidden="true"></span>
+                            </div>
+                            {{ form_errors(form.endDate) }}
                         </div>
                     </div>
-                    <div class="form-group">
-                        <div class="input-group">
-                            <input type="text" name="end_date" id="end_date" class="form-control end_date hasDatepicker" placeholder="end date">
-                            <span class="fa fa-calendar-o input-group-addon" aria-hidden="true" onclick="$(this).prev().focus();"></span>
+                    <div class="col-md-1">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-xs round-xl"><i class="fa fa-filter">Filter</i></button>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <input type="submit" name="commit" value="Filter" disable_with="Filtering..." class="btn btn-block btn-default">
                     </div>
                 </form>
             </div>
@@ -119,24 +115,35 @@
 
             <br>
             {% block content %}
-
+                <div class="tab-pane fade" id="tab0" role="tabpanel">
+                    <div id="offers" class="row flow-offset-1 clearleft">
+                        {% include 'vente/list.html.twig' with {'pagination': vente} %}
+                    </div>
+                    <div class="container">
+                        <div class="col-inset-2 text-center btn-group" role="group" aria-label="First group">
+                            <div id="pagination" class="navigation">
+                                {{ knp_pagination_render(vente) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="tab1" role="tabpanel">
+                    <div id="demands" class="row flow-offset-1 clearleft">
+                        {% include 'demand/list.html.twig' with {'pagination': demand} %}
+                    </div>
+                    <div class="container">
+                        <div class="col-inset-2 text-center btn-group" role="group" aria-label="First group">
+                            <div id="pagination" class="navigation">
+                                {{ knp_pagination_render(demand) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
             {% endblock %}
 
         </div>
     </section>
 
-    <section class="well text-center text-md-left">
-        <div class="container">
-            <div class="col-inset-2 text-center btn-group" role="group" aria-label="First group">
-                <div id="pagination" class="navigation">
-                    {{ knp_pagination_render(pagination) }}
-                </div>
-            </div>
-        </div>
-    </section>
-
-
-</div>
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}

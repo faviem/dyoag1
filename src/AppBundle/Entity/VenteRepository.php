@@ -43,6 +43,17 @@ class VenteRepository extends \Doctrine\ORM\EntityRepository {
         return $this->getQueryResult($query, $limit, $offset, $sortedBy);
     }
 
+    public function getVentesByCategoryId($category, $limit = null, $offset = null, $sortedBy = null) {
+
+        $query = $this->getVentesQueryBuilder()
+                ->innerJoin('v.product', 'p')
+                ->innerJoin('p.category', 'c')
+                ->where("c.id =:category")
+                ->setParameter('category', $category);
+
+        return $this->getQueryResult($query, $limit, $offset, $sortedBy);
+    }
+
     private function getQueryResult($query, $limit, $offset, $sortedBy) {
         if ($limit && $offset) {
             $query->setMaxResults($limit)
@@ -50,7 +61,7 @@ class VenteRepository extends \Doctrine\ORM\EntityRepository {
         }
 
         if (!$sortedBy) {
-            $query->addOrderBy('v.createDate', 'DESC');
+            $query->addOrderBy('v.createAt', 'DESC');
         } else {
             if ($sortedBy == 'product') {
                 $query->innerJoin('v.product', 'p');
@@ -59,7 +70,8 @@ class VenteRepository extends \Doctrine\ORM\EntityRepository {
                 $query->addOrderBy("v.{$sortedBy}", 'DESC');
             }
         }
-
+        $query->andwhere('v.published  =:published')
+                ->setParameter('published', true);
         return $query->getQuery()
                         ->getResult();
     }
@@ -68,13 +80,6 @@ class VenteRepository extends \Doctrine\ORM\EntityRepository {
 
         $query = $this->getVentesQueryBuilder();
         return $this->getQueryResult($query, $limit, $offset, $sortedBy);
-    }
-
-    public function getCountPublicProvect() {
-        return $this->createQueryBuilder('p')
-                        ->select('COUNT(p)')
-                        ->getQuery()
-                        ->getSingleScalarResult();
     }
 
     public function getForLuceneQuery($query) {
@@ -98,6 +103,34 @@ class VenteRepository extends \Doctrine\ORM\EntityRepository {
                 ->getQuery();
 
         return $q->getResult();
+    }
+
+    /**
+     * Retourne les offres par produit
+     * @param type $product
+     * @param type $limit
+     * @param type $offset
+     * @param type $sortedBy
+     * @return type
+     */
+    public function getVentesByProduct($product, $limit = null, $offset = null, $sortedBy = null) {
+
+        $query = $this->getVentesQueryBuilder()
+                ->innerJoin('v.product', 'p')
+                ->where("p.name LIKE :product")
+                ->setParameter('product', '%' . $product . '%');
+
+        return $this->getQueryResult($query, $limit, $offset, $sortedBy);
+    }
+
+    public function getVentesByProductId($product, $limit = null, $offset = null, $sortedBy = null) {
+
+        $query = $this->getVentesQueryBuilder()
+                ->innerJoin('v.product', 'p')
+                ->where("p.id =:product")
+                ->setParameter('product', $product);
+
+        return $this->getQueryResult($query, $limit, $offset, $sortedBy);
     }
 
     //les actions de dashboard
@@ -152,7 +185,7 @@ class VenteRepository extends \Doctrine\ORM\EntityRepository {
                         ->getSingleScalarResult();
     }
 
-    public function getDashboardCountExpires($user) {
+    public function getDashboardCountCorbeille($user) {
         return $this->createQueryBuilder('v')
                         ->select('COUNT(v)')
                         ->where('v.user  =:user')
@@ -160,15 +193,51 @@ class VenteRepository extends \Doctrine\ORM\EntityRepository {
                         ->andwhere('v.deleted  =:deleted')
                         ->andwhere('v.canceled  =:canceled')
                         ->andwhere('v.available  =:available')
-                        ->andwhere('v.dateLimit  <= :datedujour')
                         ->setParameter('user', $user)
                         ->setParameter('published', false)
+                        ->setParameter('available', true)
+                        ->setParameter('deleted', false)
+                        ->setParameter('canceled', true)
+                        ->getQuery()
+                        ->getSingleScalarResult();
+    }
+
+    public function getDashboardCountExpires($user) {
+        return $this->createQueryBuilder('v')
+                        ->select('COUNT(v)')
+                        ->where('v.user  =:user')
+                        // ->andwhere('v.published  =:published')
+                        ->andwhere('v.deleted  =:deleted')
+                        ->andwhere('v.canceled  =:canceled')
+                        ->andwhere('v.available  =:available')
+                        ->andwhere('v.dateLimit  <= :datedujour')
+                        ->orWhere('v.dateLimitUpdate  <= :datedujour')
+                        ->setParameter('user', $user)
+                        // ->setParameter('published', false)
                         ->setParameter('available', true)
                         ->setParameter('deleted', false)
                         ->setParameter('canceled', false)
                         ->setParameter('datedujour', new \DateTime())
                         ->getQuery()
                         ->getSingleScalarResult();
+    }
+
+    public function getDashboardExpires($user) {
+        return $this->createQueryBuilder('v')
+                        ->where('v.user  =:user')
+                        // ->andwhere('v.published  =:published')
+                        ->andwhere('v.deleted  =:deleted')
+                        ->andwhere('v.canceled  =:canceled')
+                        ->andwhere('v.available  =:available')
+                        ->andwhere('v.dateLimit  <= :datedujour')
+                        ->orWhere('v.dateLimitUpdate  <= :datedujour')
+                        ->setParameter('user', $user)
+                        // ->setParameter('published', false)
+                        ->setParameter('available', true)
+                        ->setParameter('deleted', false)
+                        ->setParameter('canceled', false)
+                        ->setParameter('datedujour', new \DateTime())
+                        ->getQuery()->getResult();
     }
 
 }

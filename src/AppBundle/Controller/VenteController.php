@@ -26,23 +26,12 @@ class VenteController extends Controller {
      */
     public function indexAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
-
-        $categories = $em->getRepository('AppBundle:Category')->findAll();
         $filter = array();
         $form = $this->createForm('AppBundle\Form\FilterType', $filter);
         $form->handleRequest($request);
-//        $filter = array();
-//        $form = $this->createFormBuilder($filter)
-//                ->add('serviceChoice', 'choice', array('choices' => array(
-//                        'site' => $this->get('translator')->trans('services.choice.1', array(), 'SpeedwappFrontendBundle'),
-//                        'logo' => $this->get('translator')->trans('services.choice.2', array(), 'SpeedwappFrontendBundle'),
-//                        'suivi' => $this->get('translator')->trans('services.choice.3', array(), 'SpeedwappFrontendBundle')
-//                    ), 'label' => ' ', 'expanded' => true, 'multiple' => false))
-//                ->add('next', 'submit', array('label' => $this->get('translator')->trans('services.next', array(), 'SpeedwappFrontendBundle')))
-//                ->getForm();
 // pagination http://stackoverflow.com/questions/14817817/symfony-knppaginator-query-with-custom-filters-from-form-fields
 // http://achreftlili.github.io/2015/08/23/Ajaxify-Knp-Bundle-pagination/
-        $dql = "SELECT o FROM AppBundle:Vente o ORDER BY o.createAt";
+        $dql = "SELECT v FROM AppBundle:Vente v  WHERE v.published = 1 ORDER BY v.createAt DESC";
         $query = $em->createQuery($dql);
 
         $paginator = $this->get('knp_paginator');
@@ -83,7 +72,7 @@ class VenteController extends Controller {
             $this->addFlash(
                     'success', "Votre offre de produit a été bien enregistré!"
             );
-            return $this->redirectToRoute('vente_index');
+            return $this->redirectToRoute('market_index');
         }
 
         return $this->render('vente/new.html.twig', array(
@@ -119,8 +108,8 @@ class VenteController extends Controller {
             $vente = $em->getRepository('AppBundle:Vente')->find($venteId);
             $commande->setVente($vente);
             $em->persist($commande);
-            //update vente quantity
-            $commande->getVente()->setQuantite($commande->getVente()->getQuantite() - $commande->getQuantite());
+            //update vente quantity. Will be updated on approvement by the user
+            //$commande->getVente()->setQuantite($commande->getVente()->getQuantite() - $commande->getQuantite());
             $em->flush();
             $this->addFlash(
                     'success', "Votre commande a été bien enregistrée!"
@@ -133,7 +122,7 @@ class VenteController extends Controller {
             return $this->redirectToRoute('dashboard_index');
         }
 
-        return $this->redirectToRoute('vente_index');
+        return $this->redirectToRoute('market_index');
 
 //        $response = new JsonResponse(
 //                array(
@@ -275,7 +264,7 @@ class VenteController extends Controller {
 
         if (!$query) {
             if (!$request->isXmlHttpRequest()) {
-                return $this->redirect($this->generateUrl('vente_index'));
+                return $this->redirect($this->generateUrl('market_index'));
             } else {
                 return new JsonResponse('No results.');
             }

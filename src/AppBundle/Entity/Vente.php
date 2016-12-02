@@ -309,63 +309,63 @@ class Vente {
         return $this->district;
     }
 
-    static public function getLuceneIndex() {
-        if (file_exists($index = self::getLuceneIndexFile())) {
-            return Lucene::open($index);
-        }
-
-        return Lucene::create($index);
-    }
-
-    static public function getLuceneIndexFile() {
-        return __DIR__ . '/../../../web/data/vente.index';
-    }
-
-    /**
-     * Set createdAt
-     * *
-     * @ORM\PostPersist
-     * @ORM\PostUpdate
-     */
-    public function updateLuceneIndex() {
-        $index = self::getLuceneIndex();
-
-        // remove existing entries
-        foreach ($index->find('pk:' . $this->getId()) as $hit) {
-            $index->delete($hit->id);
-        }
-
-        // don't index unavailable and non-published sale
-        if (!$this->getAvailable() || !$this->getPublished()) {
-            return;
-        }
-
-        $doc = new Document();
-
-        // store vente primary key to identify it in the search results
-        $doc->addField(Field::Keyword('pk', $this->getId()));
-
-        // index vente fields
-        $doc->addField(Field::UnStored('product', $this->getProduct(), 'utf-8'));
-        $doc->addField(Field::UnStored('lieu', $this->getLieu(), 'utf-8'));
-        $doc->addField(Field::UnStored('district', $this->getDistrict(), 'utf-8'));
-        // add vente to the index
-        $index->addDocument($doc);
-        $index->commit();
-    }
-
-    /**
-     * Set createdAt
-     * *
-     * @ORM\PostRemove
-     */
-    public function deleteLuceneIndex() {
-        $index = self::getLuceneIndex();
-
-        foreach ($index->find('pk:' . $this->getId()) as $hit) {
-            $index->delete($hit->id);
-        }
-    }
+//    static public function getLuceneIndex() {
+//        if (file_exists($index = self::getLuceneIndexFile())) {
+//            return Lucene::open($index);
+//        }
+//
+//        return Lucene::create($index);
+//    }
+//
+//    static public function getLuceneIndexFile() {
+//        return __DIR__ . '/../../../web/data/vente.index';
+//    }
+//
+//    /**
+//     * Set createdAt
+//     * *
+//     * @ORM\PostPersist
+//     * @ORM\PostUpdate
+//     */
+//    public function updateLuceneIndex() {
+//        $index = self::getLuceneIndex();
+//
+//        // remove existing entries
+//        foreach ($index->find('pk:' . $this->getId()) as $hit) {
+//            $index->delete($hit->id);
+//        }
+//
+//        // don't index unavailable and non-published sale
+//        if (!$this->getAvailable() || !$this->getPublished()) {
+//            return;
+//        }
+//
+//        $doc = new Document();
+//
+//        // store vente primary key to identify it in the search results
+//        $doc->addField(Field::Keyword('pk', $this->getId()));
+//
+//        // index vente fields
+//        $doc->addField(Field::UnStored('product', $this->getProduct(), 'utf-8'));
+//        $doc->addField(Field::UnStored('lieu', $this->getLieu(), 'utf-8'));
+//        $doc->addField(Field::UnStored('district', $this->getDistrict(), 'utf-8'));
+//        // add vente to the index
+//        $index->addDocument($doc);
+//        $index->commit();
+//    }
+//
+//    /**
+//     * Set createdAt
+//     * *
+//     * @ORM\PostRemove
+//     */
+//    public function deleteLuceneIndex() {
+//        $index = self::getLuceneIndex();
+//
+//        foreach ($index->find('pk:' . $this->getId()) as $hit) {
+//            $index->delete($hit->id);
+//        }
+//    }
 
     /**
      * Get id

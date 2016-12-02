@@ -150,6 +150,8 @@ fos_js_routing:
         - vente_filter
         - fos_user_security_login
         - vente_select_measures
+        - market_list
+        - market_list_lister
 
 fos_rest:
     unauthorized_challenge: "Basic realm=\"Restricted Area\""
@@ -298,7 +300,7 @@ ewz_recaptcha:
     private_key: 6Lf4pQsUAAAAAJpte8c3z85FdcUxfy2AJ0_kqHhs
     locale_from_request: true
     #ajax: true
-    enabled: false # uncomment to desactivate it
+    enabled: false #uncomment to desactivate it
 
 fos_message:
     db_driver:              orm
