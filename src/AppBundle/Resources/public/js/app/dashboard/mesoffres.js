@@ -25,6 +25,7 @@ define(
             'use strict';
             console.log('OK');
             $('#dataTables-example').DataTable();
+
             /**
              * @module       Tabs
              * @description  Bootstrap tabs
