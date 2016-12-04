@@ -67,21 +67,21 @@ define(
                  * @description  Filter list by product
                  */
                 $("#filter_product").change(function () {
-                    var value = $(this).val(),
-                            type = $('#marketTabs').find('li.active a').data("type");
-
-                    self.filterBy(type, 'product', value);
+                    var value1 = $(this).val(),
+                        type = $('#marketTabs').find('li.active a').data("type"),
+                        value2 = $("#filter_city").val();
+                    self.filterByCityProduct(type, 'city', value2, 'product', value1);
                 });
 
                 /**
                  * @module       Filter list
-                 * @description  Filter list by category
+                 * @description  Filter list by city
                  */
-                $("#filter_category").change(function () {
-                    var value = $(this).val(),
-                            type = $('#marketTabs').find('li.active a').data("type");
-
-                    self.filterBy(type, 'category', value);
+                $("#filter_city").change(function () {
+                    var value1 = $(this).val(),
+                        type = $('#marketTabs').find('li.active a').data("type"),
+                        value2 = $("#filter_product").val();
+                    self.filterByCityProduct(type, 'city', value1, 'product', value2);
                 });
             }
 
@@ -135,9 +135,36 @@ define(
                         $('form').find('.spinner').hide()
                     });
 
+                },
+
+                filterByCityProduct: function (type, key1, value1, key2, value2) {
+                    $('form').spin();
+                    var data = {
+                        type: type,
+                        key1: key1,
+                        value1: value1,
+                        key2: key2,
+                        value2: value2,
+                    };
+                    $.ajax({
+                        type: 'get',
+                        url: Routing.generate('market_list_lister'),
+                        data: data
+                    }).done(function (response) {
+                        if (data.type == "vente") {
+                            $("#offers").show();
+                            $("#offers").html(response);
+                        } else {
+                            $("#offers").hide();
+                            $("#demands").html(response);
+                        }
+                    }).fail(function () {
+                        alert("error");
+                    }).always(function () {
+                        $('form').find('.spinner').hide()
+                    });
+
                 }
-
-
             }
 
 
