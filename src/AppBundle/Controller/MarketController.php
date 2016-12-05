@@ -63,22 +63,35 @@ class MarketController extends Controller {
      */
     public function filterAction(Request $request) {
         $type = $request->query->get('type');
-        $key = $request->query->get('key');
-        $value = $request->query->get('value');
+        $key1 = $request->query->get('key1');
+        $value1 = $request->query->get('value1');
+        $key2 = $request->query->get('key2');
+        $value2 = $request->query->get('value2');
         $em = $this->getDoctrine()->getManager();
-        if ($type == 'demand') {
-            if ($key == 'category')
-                $query = $em->getRepository('AppBundle:Demand')->getDemandsByCategoryId($value);
-            else
-                $query = $em->getRepository('AppBundle:Demand')->getDemandsByProductId($value);
+        if ($type == 'demand') {           
+            if ($value2 && !$value1)
+                $query = $em->getRepository('AppBundle:Demand')->getDemandsByProductId($value2);
+            elseif ($value1 && !$value2)
+                $query = $em->getRepository('AppBundle:Demand')->getDemandsByCityId($value1, $value2);
+            elseif ($value1 && $value2)
+                $query = $em->getRepository('AppBundle:Demand')->getDemandsByCityProductId($value1, $value2);
+            else{
+                $dql = "SELECT d FROM AppBundle:Demand d WHERE d.published = 1 ORDER BY d.createAt DESC";
+                $query = $em->createQuery($dql);
+            }
         } else {
-            if ($key == 'category')
-                $query = $em->getRepository('AppBundle:Vente')->getVentesByCategoryId($value);
-            else
-                $query = $em->getRepository('AppBundle:Vente')->getVentesByProductId($value);
+         if ($value2 && !$value1)
+                $query = $em->getRepository('AppBundle:Vente')->getVentesByProductId($value2);
+            elseif ($value1 && !$value2)
+                $query = $em->getRepository('AppBundle:Vente')->getVentesByCityId($value1, $value2);
+            elseif ($value1 && $value2)
+                $query = $em->getRepository('AppBundle:Vente')->getVentesByCityProductId($value1, $value2);
+            else{
+                $dql = "SELECT v FROM AppBundle:Vente v WHERE v.published = 1 ORDER BY v.createAt DESC";
+                $query = $em->createQuery($dql);
+            }
         }
         $paginator = $this->get('knp_paginator');
-
         $pagination = $paginator->paginate(
                 $query, // query NOT result
                 $request->query->getInt('page', 1), //page number

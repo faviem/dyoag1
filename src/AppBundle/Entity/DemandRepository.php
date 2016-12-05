@@ -216,5 +216,25 @@ class DemandRepository extends \Doctrine\ORM\EntityRepository {
 
         return $this->getQueryResult($query, $limit, $offset, $sortedBy);
     }
+    public function getDemandsByCityProductId($cityId, $productId, $limit = null, $offset = null, $sortedBy = null) {
+        $query = $this->getDemandsQueryBuilder()
+                ->innerJoin('d.product', 'p')
+                ->innerJoin('d.district', 'di')
+                ->innerJoin('di.city', 'c')
+                ->where("c.id =:cityId")
+                ->andwhere("p.id =:productId")
+                ->setParameter('cityId', $cityId)
+                ->setParameter('productId', $productId);
 
+        return $this->getQueryResult($query, $limit, $offset, $sortedBy);
+    }
+    public function getDemandsByCityId($cityId, $limit = null, $offset = null, $sortedBy = null) {
+        $query = $this->getDemandsQueryBuilder()
+                ->innerJoin('d.district', 'di')
+                ->innerJoin('di.city', 'c')
+                ->where("c.id =:id")
+                ->setParameter('id', $cityId);
+
+        return $this->getQueryResult($query, $limit, $offset, $sortedBy);
+    }
 }
