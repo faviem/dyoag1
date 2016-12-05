@@ -147,7 +147,7 @@ class VenteController extends Controller {
         $commande = new Order();
         $em = $this->getDoctrine()->getManager();
         $form = $this->createForm('AppBundle\Form\OrderType', $commande);
-        $relativeVentes = $em->getRepository('AppBundle:Vente')->getVentesByProductId($vente->getId());
+        $relativeVentes = $em->getRepository('AppBundle:Vente')->getVentesByProductId($vente->getProduct()->getId());
         return $this->render('vente/show.html.twig', array(
                     'vente' => $vente,
                     'relativeVentes' => $relativeVentes,
