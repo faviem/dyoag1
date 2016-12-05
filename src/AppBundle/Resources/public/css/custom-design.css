@@ -81,114 +81,174 @@ form .input-group-addon {
     font-size: 23px;
 }
 /* offer relative caroussel */
-.col-item
-{
-    border: 1px solid #E1E1E1;
-    border-radius: 5px;
-    background: #FFF;
+#slider-text{
+    padding-top: 40px;
+    display: block;
 }
-.col-item .photo img
-{
-    margin: 0 auto;
+#slider-text .col-md-6{
+    overflow: hidden;
+}
+
+#slider-text h2 {
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 400;
+    font-size: 30px;
+    letter-spacing: 3px;
+    margin: 30px auto;
+    padding-left: 40px;
+}
+#slider-text h2::after{
+    border-top: 2px solid #c7c7c7;
+    content: "";
+    position: absolute;
+    bottom: 35px;
     width: 100%;
 }
 
-.col-item .info
-{
-    padding: 10px;
-    border-radius: 0 0 5px 5px;
-    margin-top: 1px;
+#itemslider h4{
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    margin: 10px auto 3px;
+}
+#itemslider h5{
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: bold;
+    font-size: 12px;
+    margin: 3px auto 2px;
+}
+#itemslider h6{
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 300;;
+    font-size: 10px;
+    margin: 2px auto 5px;
+}
+.badge {
+    background: #b20c0c;
+    position: absolute;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    line-height: 31px;
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 300;
+    font-size: 14px;
+    border: 2px solid #FFF;
+    box-shadow: 0 0 0 1px #b20c0c;
+    top: 5px;
+    right: 25%;
+}
+#slider-control img{
+    padding-top: 60%;
+    margin: 0 auto;
+}
+@media screen and (max-width: 992px){
+    #slider-control img {
+        padding-top: 70px;
+        margin: 0 auto;
+    }
 }
 
-.col-item:hover .info {
-    background-color: #F5F5DC;
+.carousel-showmanymoveone .carousel-control {
+    width: 4%;
+    background-image: none;
 }
-.col-item .price
-{
-    /*width: 50%;*/
-    float: left;
-    margin-top: 5px;
+.carousel-showmanymoveone .carousel-control.left {
+    margin-left: 5px;
 }
-
-.col-item .price h5
-{
-    line-height: 20px;
-    margin: 0;
-}
-
-.price-text-color
-{
-    color: #219FD1;
-}
-
-.col-item .info .rating
-{
-    color: #777;
-}
-
-.col-item .rating
-{
-    /*width: 50%;*/
-    float: left;
-    font-size: 17px;
-    text-align: right;
-    line-height: 52px;
-    margin-bottom: 10px;
-    height: 52px;
-}
-
-.col-item .separator
-{
-    border-top: 1px solid #E1E1E1;
-}
-
-.clear-left
-{
-    clear: left;
-}
-
-.col-item .separator p
-{
-    line-height: 20px;
-    margin-bottom: 0;
-    margin-top: 10px;
-    text-align: center;
-}
-
-.col-item .separator p i
-{
+.carousel-showmanymoveone .carousel-control.right {
     margin-right: 5px;
 }
-.col-item .btn-add
-{
-    width: 50%;
-    float: left;
+.carousel-showmanymoveone .cloneditem-1,
+.carousel-showmanymoveone .cloneditem-2,
+.carousel-showmanymoveone .cloneditem-3,
+.carousel-showmanymoveone .cloneditem-4,
+.carousel-showmanymoveone .cloneditem-5 {
+    display: none;
+}
+@media all and (min-width: 768px) {
+    .carousel-showmanymoveone .carousel-inner > .active.left,
+    .carousel-showmanymoveone .carousel-inner > .prev {
+        left: -50%;
+    }
+    .carousel-showmanymoveone .carousel-inner > .active.right,
+    .carousel-showmanymoveone .carousel-inner > .next {
+        left: 50%;
+    }
+    .carousel-showmanymoveone .carousel-inner > .left,
+    .carousel-showmanymoveone .carousel-inner > .prev.right,
+    .carousel-showmanymoveone .carousel-inner > .active {
+        left: 0;
+    }
+    .carousel-showmanymoveone .carousel-inner .cloneditem-1 {
+        display: block;
+    }
+}
+@media all and (min-width: 768px) and (transform-3d), all and (min-width: 768px) and (-webkit-transform-3d) {
+    .carousel-showmanymoveone .carousel-inner > .item.active.right,
+    .carousel-showmanymoveone .carousel-inner > .item.next {
+        -webkit-transform: translate3d(50%, 0, 0);
+        transform: translate3d(50%, 0, 0);
+        left: 0;
+    }
+    .carousel-showmanymoveone .carousel-inner > .item.active.left,
+    .carousel-showmanymoveone .carousel-inner > .item.prev {
+        -webkit-transform: translate3d(-50%, 0, 0);
+        transform: translate3d(-50%, 0, 0);
+        left: 0;
+    }
+    .carousel-showmanymoveone .carousel-inner > .item.left,
+    .carousel-showmanymoveone .carousel-inner > .item.prev.right,
+    .carousel-showmanymoveone .carousel-inner > .item.active {
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+        left: 0;
+    }
+}
+@media all and (min-width: 992px) {
+    .carousel-showmanymoveone .carousel-inner > .active.left,
+    .carousel-showmanymoveone .carousel-inner > .prev {
+        left: -16.666%;
+    }
+    .carousel-showmanymoveone .carousel-inner > .active.right,
+    .carousel-showmanymoveone .carousel-inner > .next {
+        left: 16.666%;
+    }
+    .carousel-showmanymoveone .carousel-inner > .left,
+    .carousel-showmanymoveone .carousel-inner > .prev.right,
+    .carousel-showmanymoveone .carousel-inner > .active {
+        left: 0;
+    }
+    .carousel-showmanymoveone .carousel-inner .cloneditem-2,
+    .carousel-showmanymoveone .carousel-inner .cloneditem-3,
+    .carousel-showmanymoveone .carousel-inner .cloneditem-4,
+    .carousel-showmanymoveone .carousel-inner .cloneditem-5,
+    .carousel-showmanymoveone .carousel-inner .cloneditem-6  {
+        display: block;
+    }
+}
+@media all and (min-width: 992px) and (transform-3d), all and (min-width: 992px) and (-webkit-transform-3d) {
+    .carousel-showmanymoveone .carousel-inner > .item.active.right,
+    .carousel-showmanymoveone .carousel-inner > .item.next {
+        -webkit-transform: translate3d(16.666%, 0, 0);
+        transform: translate3d(16.666%, 0, 0);
+        left: 0;
+    }
+    .carousel-showmanymoveone .carousel-inner > .item.active.left,
+    .carousel-showmanymoveone .carousel-inner > .item.prev {
+        -webkit-transform: translate3d(-16.666%, 0, 0);
+        transform: translate3d(-16.666%, 0, 0);
+        left: 0;
+    }
+    .carousel-showmanymoveone .carousel-inner > .item.left,
+    .carousel-showmanymoveone .carousel-inner > .item.prev.right,
+    .carousel-showmanymoveone .carousel-inner > .item.active {
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+        left: 0;
+    }
 }
 
-.col-item .btn-add
-{
-    border-right: 1px solid #E1E1E1;
-}
-
-.col-item .btn-details
-{
-    width: 50%;
-    float: left;
-    padding-left: 10px;
-}
-.controls
-{
-    margin-top: 20px;
-}
-[data-slide="prev"]
-{
-    margin-right: 10px;
-}
-
-.info h5
-{
-    text-align: center;
-}
 .btn{
     padding: 6px 12px;
 }
