@@ -144,14 +144,13 @@ class VenteController extends Controller {
      * @Method("GET")
      */
     public function showAction(Vente $vente) {
-        $deleteForm = $this->createDeleteForm($vente);
-
         $commande = new Order();
+        $em = $this->getDoctrine()->getManager();
         $form = $this->createForm('AppBundle\Form\OrderType', $commande);
-        $relativeVente = $em->getRepository('AppBundle:Vente')->getVentesByProductId();
+        $relativeVentes = $em->getRepository('AppBundle:Vente')->getVentesByProductId($vente->getId());
         return $this->render('vente/show.html.twig', array(
                     'vente' => $vente,
-                    'delete_form' => $deleteForm->createView(),
+                    'relativeVentes' => $relativeVentes,
                     'form' => $form->createView(),
         ));
     }
