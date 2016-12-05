@@ -185,9 +185,9 @@ class DashboardController extends Controller {
             $vente->setUser($user);
             $em->persist($vente);
             $em->flush();
-            $this->addFlash(
-                    'success', "Votre offre de produit a été bien enregistré au brouillon!"
-            );
+//            $this->addFlash(
+//                    'success', "Votre offre de produit a été bien enregistré au brouillon!"
+//            );
             return $this->redirectToRoute('dashboard_mesoffresBrouillons');
         }
 
