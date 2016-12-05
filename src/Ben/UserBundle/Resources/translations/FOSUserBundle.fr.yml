@@ -23,7 +23,7 @@ fos_user:
         blank: Entrez un nom s'il vous plait
         short: "[-Inf,Inf]Le nom est trop court"
         long: "[-Inf,Inf]Le nom est trop long"
-        
+
 # Group
 group:
     edit:
@@ -44,14 +44,14 @@ group:
 "User account has expired.": Le compte de l'utilisateur a expiré.
 "User credentials have expired.": Les informations d'identification ont expiré.
 
-security:    
+security:
     login:
         title: Connexion
         username: "Votre email :"
         password: "Mot de passe :"
         remember_me: Se souvenir de moi
         submit: Connexion
-    forgotpassword: Mot de passe oublié ? 
+    forgotpassword: Mot de passe oublié ?
 
 # Profile
 profile:
@@ -80,7 +80,7 @@ registration:
         1: Connexion
         2: Identité
         3: Entreprise
-        
+
     name: Choisissez un nom d'utilisateur
     form_email: Votre email
     password: Créez un mot de passe
@@ -89,6 +89,7 @@ registration:
     phone: Téléphone
     nomEntreprise: Nom de votre entreprise ( = celui de votre registre de commerce)
     adresse: Adresse physique de votre entreprise(Rue, Numero,etc...)
+    ifu: Numéro IFU
     check_email: Un e-mail a été envoyé à l'adresse %email%. Il contient un lien d'activation sur lequel il vous faudra cliquer afin d'activer votre compte.
     confirmed: Félicitations %username%, votre compte est maintenant activé.
     back: Retour à la page d'origine.
@@ -105,9 +106,9 @@ registration:
             Cordialement,
             L'équipe.
 
-# Password 
-resetting: 
-    password_already_requested: 
+# Password
+resetting:
+    password_already_requested:
         title:    Demande de réintialisation en cours
         content:  Un nouveau mot de passe a déjà été demandé pour cet utilisateur dans les dernières 24 heures.
     check_email:
@@ -132,7 +133,7 @@ resetting:
             Cordialement,
             L'équipe.
 
-# Global strings 
+# Global strings
 layout:
     logout: Déconnexion
     login: Se connecter

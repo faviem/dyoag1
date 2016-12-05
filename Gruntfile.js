@@ -19,13 +19,16 @@ module.exports = function (grunt) {
                     'js/backbone.localStorage.js': 'backbone.localStorage/backbone.localStorage-min.js',
                     'js/backbone-nested.js': 'backbone-nested-model/backbone-nested.js',
                     'js/backbone-associations.js': 'backbone-associations/backbone-associations-min.js',
-                    
+                    'js/select2.js': 'select2/dist/js/select2.min.js',
+                    //pour le dashboard
                 }
             },
             stylesheets: {
                 files: {
 //                    'css/bootstrap.css': 'bootstrap/dist/css/bootstrap.css',
                     'css/font-awesome.css': 'font-awesome/css/font-awesome.css',
+                    'css/select2.css': 'select2/dist/css/select2.min.css',
+                    'css/select2-bootstrap.css': 'select2-bootstrap-theme/dist/select2-bootstrap.min.css',
                 }
             },
             fonts: {
@@ -34,18 +37,22 @@ module.exports = function (grunt) {
                 }
             }
 
-            
+
         },
         cssmin: {
             bundled: {
                 src: 'web/assets/css/benagro.css',
                 dest: 'web/assets/css/benagro.min.css'
-            }
+            },
+            dashboard: {
+                src: 'web/assets/css/dashboard.css',
+                dest: 'web/assets/css/dashboard.min.css'
+            },
         },
         uglify: {
             options: {
                 compress: {
-                    drop_console: true 
+                    drop_console: true
                 }
             },
             js: {
@@ -62,13 +69,21 @@ module.exports = function (grunt) {
                 src: [
                     //'web/assets/css/bootstrap.css',
                     'web/assets/css/font-awesome.css',
-                    'src/AppBundle/Resources/public/css/*.css'
+                    'src/AppBundle/Resources/public/css/*.css',
+                    'web/assets/css/select2.css',
+                    'web/assets/css/select2-bootstrap.css'
                 ],
                 dest: 'web/assets/css/benagro.css'
             },
+            dashboardCSS: {
+                src: "src/AppBundle/Resources/public/css/dashboard/*.css",
+                dest: "web/assets/css/dashboard.css"
+            },
             js: {
                 src: [
-                    //'src/AppBundle/Resources/public/js/*.js',
+                    'bower_components/jquery/dist/jquery.js',
+                    'bower_components/bootstrap/dist/js/bootstrap.min.js',
+                    'src/AppBundle/Resources/public/js/script.js',
                     'web/bundles/fosjsrouting/js/router.js',
                     'web/js/fos_js_routes.js'
                 ],

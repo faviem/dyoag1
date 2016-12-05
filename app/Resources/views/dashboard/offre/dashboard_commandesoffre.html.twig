@@ -1,0 +1,112 @@
+{% extends '/dashboard/offre/dashboard_mesoffresPublies.html.twig' %}
+{% block  menuentete %}
+{% endblock %}
+
+{% block  corps %}
+    {% set compte=0%}
+    {% set qte=0 %}{% set nbre=0%}
+    {% for souscrptions in vente.orders %}
+        {% if souscrptions.canceled==0 and souscrptions.deleted==0 %}
+            {% set nbre=nbre+1 %}
+            {% if  souscrptions.accepted==1 %}
+                {% set qte=qte+souscrptions.quantite %}
+            {% endif %}
+
+        {% endif %}
+    {% endfor %}
+    <div class="col-xs-6  col-md-3" style="min-height: 355px;">
+        <div class="product tumbnail thumbnail-3">
+            <a href="#">
+                <img class="img-circle" alt="" src="{{ asset(product_images ~'/'~ vente.imageName)|imagine_filter('my_thumb') }}">
+            </a>
+            <div class="caption">
+                <h6>
+                    <a href="{{ path('vente_show', { 'id': vente.id }) }}">{{ vente.product.name }}</a>
+                </h6>
+                <i class="fa fa-money" aria-hidden="true"></i> <span class="price sale" style="font-size: 13px;color: #005074;">{{ vente.prixUnit|number_format(0, ',', '.') }} FCFA / {{ vente.measure }}</span>
+                <br>
+                <span class="stock" style="font-size: 13px;color: black;">{{ (vente.quantite-qte)|number_format(0, ',', '.') }} {{ vente.measure }}s en stock. </span>
+                <dl>
+                    <dt style="font-size: 13px;color: black;">  <i class="fa fa-calendar" aria-hidden="true"> </i> {{ vente.createat|date('d M y') }}</dt>
+                </dl><br/>
+                <a class="btn btn-default round-xl btn-xs"  href="{{ path('dashboard_mesoffresPublies') }}" title=""> <i class="fa fa-share-alt" > RETOUR </i> 
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-9" style="min-height: 355px;">
+        <div class="product tumbnail">
+            <div class="table-responsive">
+                <table class="table .table-hover">
+                    <caption> {{ nbre|number_format(0, ',', '.') }}  COMMANDES RECUES </caption>
+
+                    <thead> <!-- En-tête du tableau -->
+                        <tr>
+                            <th style="text-align: center;font-size: 12px;">Nom de l'Acheteur</th>
+                            <th style="text-align: center;font-size: 12px;">Quantité commandée</th>
+                            <th style="text-align: center;font-size: 12px;">Date effectuée</th>
+                            <th style="text-align: center;font-size: 12px;">Etat</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Corps du tableau -->
+                        {% set nbre=0%}
+
+                        {% for souscrptions in vente.orders %}
+                            {% if souscrptions.canceled==0 and souscrptions.deleted==0 %}
+                                {% set nbre=nbre+1 %}
+                                <tr>
+                                    <td style="text-align: left;"> {{ souscrptions.user.lastName }}</td>
+                                    <td> {{ souscrptions.quantite|number_format(0, ',', '.') }}</td>
+                                    <td> {{ souscrptions.createAt|date('d M y') }}</td>
+                                    <td> 
+                                        {% if souscrptions.accepted==1 %} Acceptée 
+                                        {% else %} 
+                                                <a class="btn btn-default round-xl btn-xs" data-toggle="modal" data-target="#{{ souscrptions.id }}" href="#" title="Approuver la commande"> <i class="fa fa-share-alt"> </i>  </a>
+                                                <form  action="{{ path('dashboard_approuvercmde', { 'id': souscrptions.id  }) }}" method="post"  >
+                                                    <!-- Modal -->
+                                                    <div class="modal fade" id="{{ souscrptions.id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                                        <div class="modal-dialog" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                                    <h6 class="modal-title" id="myModalLabel"> APPROBATION DE LA COMMANDE </h6>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <div class="col-xs-6  col-md-3">
+                                                                        <img class="img-circle img-sm" alt="" src="{{ asset(product_images ~'/'~ souscrptions.vente.imageName)|imagine_filter('my_thumb') }}">
+                                                                    </div>
+                                                                    <span class="stock" style="text-align: left;">Acheteur : {{ souscrptions.user.lastName }} </span>
+                                                                    <br/>
+                                                                    <span class="stock" style="color: black;text-align: left;"> {{ souscrptions.quantite|number_format(0, ',', '.') }} {{ souscrptions.vente.measure }}s. Prix : {{ souscrptions.vente.prixUnit|number_format(0, ',', '.') }} FCFA / {{ souscrptions.vente.measure }}  </span>
+                                                                    <br/>
+                                                                    <i class="fa fa-share-alt" > </i>   Approuvez - vous cette commande ?
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-default round-xl btn-xs" data-dismiss="modal">Non</button>
+                                                                    <button type="submit" class="btn btn-primary round-xl btn-xs">Oui</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div> 
+                                                </form>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if  nbre==0 %}
+                            <tr>
+                                <td colspan="4">AUCUNE COMMANDE N'EXISTE DANS LA TABLE !!!</td>
+                            </tr>
+                        {% endif %}
+
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock  corps %}

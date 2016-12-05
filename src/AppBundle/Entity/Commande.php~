@@ -78,37 +78,37 @@ class Commande
      * @var permanent boolean. Approvisionnement permanent
      * @ORM\Column(name="commande_permanent", type="boolean", options={"default" : false})
      */
-    protected $permanent;
+    private $permanent = false;
     
     /**
      * @var brouillon boolean. 
      * @ORM\Column(name="commande_brouillon", type="boolean", options={"default" : false})
      */
-    protected $brouillon;
+    private $brouillon = false;
     
     /**
      * @var soumis boolean. commande soumise
      * @ORM\Column(name="commande_soumis", type="boolean", options={"default" : false})
      */
-    protected $soumis;
+    private $soumis = false;
     
     /**
      * @var accepte boolean. commande accepte
      * @ORM\Column(name="commande_accepte", type="boolean", options={"default" : false})
      */
-    protected $accepte;
+    private $accepte = false;
     
     /**
      * @var annule boolean. commande annule
      * @ORM\Column(name="commande_annule", type="boolean", options={"default" : false})
      */
-    protected $annule;
+    private $annule = false;
     
     /**
      * @var livre boolean. commande livre
      * @ORM\Column(name="commande_livre", type="boolean", options={"default" : false})
      */
-    protected $livre;
+    private $livre = false;
 
     /**
      * @var Product

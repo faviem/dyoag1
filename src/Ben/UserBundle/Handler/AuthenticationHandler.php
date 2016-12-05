@@ -6,8 +6,6 @@
  * and open the template in the editor.
  */
 
-
-
 namespace Ben\UserBundle\Handler;
 
 use Symfony\Component\HttpFoundation\Response;
@@ -19,31 +17,26 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationSuccessHandlerI
 use Symfony\Component\Security\Http\Authentication\AuthenticationFailureHandlerInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
-class AuthenticationHandler
-implements AuthenticationSuccessHandlerInterface,
-           AuthenticationFailureHandlerInterface
-{
+class AuthenticationHandler implements AuthenticationSuccessHandlerInterface, AuthenticationFailureHandlerInterface {
+
     private $router;
 
-    public function __construct(Router $router)
-    {
+    public function __construct(Router $router) {
         $this->router = $router;
     }
 
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token)
-    {
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token) {
         if ($request->isXmlHttpRequest()) {
             // Handle XHR here
         } else {
-            
+
             // If the user tried to access a protected resource and was forces to login
             // redirect him back to that resource
             if ($targetPath = $request->getSession()->get('_security.main.target_path')) {
                 $url = $targetPath;
             } else {
                 // Otherwise, redirect him to wherever you want
-                $url = $this->router->generate('vente_index', array(
-
+                $url = $this->router->generate('market_index', array(
                 ));
             }
 
@@ -51,8 +44,7 @@ implements AuthenticationSuccessHandlerInterface,
         }
     }
 
-    public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
-    {
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception) {
         if ($request->isXmlHttpRequest()) {
             // Handle XHR here
         } else {
@@ -63,5 +55,5 @@ implements AuthenticationSuccessHandlerInterface,
             return new RedirectResponse($url);
         }
     }
-}
 
+}

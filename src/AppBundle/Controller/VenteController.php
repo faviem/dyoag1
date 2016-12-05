@@ -8,42 +8,40 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Entity\Vente;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use AppBundle\Entity\Commande;
+use AppBundle\Entity\Order;
+use AppBundle\Entity\Product;
 
 /**
  * Vente controller.
  *
- * @Route("/market")
+ * @Route("/market/sale")
  */
-class VenteController extends Controller
-{
+class VenteController extends Controller {
+
     /**
      * Lists all Vente entities.
      *
      * @Route("/", name="vente_index")
      * @Method("GET")
      */
-    public function indexAction(Request $request)
-    {
+    public function indexAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
-
-        $categories = $em->getRepository('AppBundle:Category')->findAll();
-        
-        // pagination http://stackoverflow.com/questions/14817817/symfony-knppaginator-query-with-custom-filters-from-form-fields
-        // http://achreftlili.github.io/2015/08/23/Ajaxify-Knp-Bundle-pagination/
-        $dql   = "SELECT o FROM AppBundle:Vente o";
+        $filter = array();
+        $form = $this->createForm('AppBundle\Form\FilterType', $filter);
+        $form->handleRequest($request);
+// pagination http://stackoverflow.com/questions/14817817/symfony-knppaginator-query-with-custom-filters-from-form-fields
+// http://achreftlili.github.io/2015/08/23/Ajaxify-Knp-Bundle-pagination/
+        $dql = "SELECT v FROM AppBundle:Vente v  WHERE v.published = 1 ORDER BY v.createAt DESC";
         $query = $em->createQuery($dql);
 
-        $paginator  = $this->get('knp_paginator');
+        $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
-            $query, /* query NOT result */
-            $request->query->getInt('page', 1)/*page number*/,
-            24/*limit per page*/
+                $query, /* query NOT result */ $request->query->getInt('page', 1)/* page number */, 24/* limit per page */
         );
         return $this->render('vente/index.html.twig', array(
 //            'ventes' => $ventes,
-            'pagination' => $pagination,
-            'categories' => $categories
+                    'pagination' => $pagination,
+                    'form' => $form->createView(),
         ));
     }
 
@@ -53,103 +51,107 @@ class VenteController extends Controller
      * @Route("/new", name="vente_new")
      * @Method({"GET", "POST"})
      */
-    public function newAction(Request $request)
-    {
+    public function newAction(Request $request) {
         $vente = new Vente();
         $form = $this->createForm('AppBundle\Form\VenteType', $vente);
         $form->handleRequest($request);
         $user = $this->getUser();
 
-        
         if ($form->isSubmitted() && $form->isValid()) {
+            //check if the submit is draft or publish
+            if (null !== $request->request->get('publish')) {
+                $vente->setPublished(true);
+            }
             $em = $this->getDoctrine()->getManager();
+            if (null === $vente->getImageName()) {
+                $vente->setImageName($vente->getProduct()->getImageName());
+            }
             $vente->setUser($user);
-              
-            $category_id = $request->request->get('vente')['product']['category'];
-
-            $category = $em->getRepository('AppBundle:Category')->find($category_id);
-        
-            $vente->setProductCategroy($category->getName());
-            
             $em->persist($vente);
             $em->flush();
-
-            return $this->redirectToRoute('vente_show', array('id' => $vente->getId()));
+            $this->addFlash(
+                    'success', "Votre offre de produit a été bien enregistré!"
+            );
+            return $this->redirectToRoute('market_index');
         }
 
         return $this->render('vente/new.html.twig', array(
-            'vente' => $vente,
-            'form' => $form->createView(),
-            
+                    'vente' => $vente,
+                    'form' => $form->createView(),
         ));
     }
+
     /**
-     * Creates a new Commande entity.
+     * Creates a new Order entity.
      *
-     * @Route("/customer/new/", name="customer_commande_new")
+     * @Route("/order/new/", name="order_new")
      * @Method({"POST"})
      */
-    public function newCommandeAction(Request $request)
-    {
-        if (!$request->isXmlHttpRequest()) {
-            return new JsonResponse(array('message' => 'You can access this only using Ajax!'), 400);
-        }
+    public function newOrderAction(Request $request) {
+//        if (!$request->isXmlHttpRequest()) {
+//            return new JsonResponse(array('message' => 'You can access this only using Ajax!'), 400);
+//        }
 
         $user = $this->getUser();
-        
+
         $username = $user->getUsername();
         $email = $user->getEmail();
 
-        $commande = new Commande();
-        $form = $this->createForm('AppBundle\Form\CommandeType', $commande);
+        $commande = new Order();
+        $form = $this->createForm('AppBundle\Form\OrderType', $commande);
         $form->handleRequest($request);
 
-        
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $commande->setUser($user);
+            $venteId = $request->request->get('vente_id');
+            $vente = $em->getRepository('AppBundle:Vente')->find($venteId);
+            $commande->setVente($vente);
             $em->persist($commande);
+            //update vente quantity. Will be updated on approvement by the user
+            //$commande->getVente()->setQuantite($commande->getVente()->getQuantite() - $commande->getQuantite());
             $em->flush();
-
-            return new JsonResponse(array(
-                'success' => true,
-                'email' => $email
-                
-                )
-           , 200);
+            $this->addFlash(
+                    'success', "Votre commande a été bien enregistrée!"
+            );
+//            return new JsonResponse(array(
+//                'success' => true,
+//                'email' => $email
+//                    )
+//                    , 200);
+            return $this->redirectToRoute('dashboard_index');
         }
- 
-        $response = new JsonResponse(
-                array(
-            'message' => 'Error',
-//            'form' => $this->renderView('AcmeDemoBundle:Demo:form.html.twig',
-//                    array(
-//                'entity' => $entity,
-//                'form' => $form->createView(),
-//            ))
-            ), 400);
 
-        return $response;
+        return $this->redirectToRoute('market_index');
 
-
+//        $response = new JsonResponse(
+//                array(
+//            'message' => 'Error',
+////            'form' => $this->renderView('AcmeDemoBundle:Demo:form.html.twig',
+////                    array(
+////                'entity' => $entity,
+////                'form' => $form->createView(),
+////            ))
+//                ), 400);
+//
+//        return $response;
     }
+
     /**
      * Finds and displays a Vente entity.
      *
      * @Route("/{id}", name="vente_show")
      * @Method("GET")
      */
-    public function showAction(Vente $vente)
-    {
-        $deleteForm = $this->createDeleteForm($vente);
-        
-        $commande = new Commande();
-        $form = $this->createForm('AppBundle\Form\CommandeType', $commande);
-        
+    public function showAction(Vente $vente) {
+        $commande = new Order();
+        $em = $this->getDoctrine()->getManager();
+        $form = $this->createForm('AppBundle\Form\OrderType', $commande);
+        $relativeVentes = $em->getRepository('AppBundle:Vente')->getVentesByProductId($vente->getProduct()->getId());
         return $this->render('vente/show.html.twig', array(
-            'vente' => $vente,
-            'delete_form' => $deleteForm->createView(),
-            'form'=> $form->createView(),
+                    'vente' => $vente,
+                    'relativeVentes' => $relativeVentes,
+                    'form' => $form->createView(),
         ));
     }
 
@@ -159,8 +161,7 @@ class VenteController extends Controller
      * @Route("/{id}/edit", name="vente_edit")
      * @Method({"GET", "POST"})
      */
-    public function editAction(Request $request, Vente $vente)
-    {
+    public function editAction(Request $request, Vente $vente) {
         $deleteForm = $this->createDeleteForm($vente);
         $editForm = $this->createForm('AppBundle\Form\VenteType', $vente);
         $editForm->handleRequest($request);
@@ -174,9 +175,35 @@ class VenteController extends Controller
         }
 
         return $this->render('vente/edit.html.twig', array(
-            'vente' => $vente,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+                    'vente' => $vente,
+                    'edit_form' => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView(),
+        ));
+    }
+
+    /**
+     * Displays a form to edit an existing Vente entity.
+     *
+     * @Route("/{id}/recap", name="vente_edit")
+     * @Method({"GET", "POST"})
+     */
+    public function recapitulationAction(Request $request, Vente $vente) {
+        $deleteForm = $this->createDeleteForm($vente);
+        $editForm = $this->createForm('AppBundle\Form\VenteRecapType', $vente);
+        $editForm->handleRequest($request);
+
+        if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($vente);
+            $em->flush();
+
+            return $this->redirectToRoute('vente_show', array('id' => $vente->getId()));
+        }
+
+        return $this->render('vente/recapitulation.html.twig', array(
+                    'vente' => $vente,
+                    'edit_form' => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView(),
         ));
     }
 
@@ -186,8 +213,7 @@ class VenteController extends Controller
      * @Route("/{id}", name="vente_delete")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, Vente $vente)
-    {
+    public function deleteAction(Request $request, Vente $vente) {
         $form = $this->createDeleteForm($vente);
         $form->handleRequest($request);
 
@@ -207,114 +233,89 @@ class VenteController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm(Vente $vente)
-    {
+    private function createDeleteForm(Vente $vente) {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('vente_delete', array('id' => $vente->getId())))
-            ->setMethod('DELETE')
-            ->getForm()
+                        ->setAction($this->generateUrl('vente_delete', array('id' => $vente->getId())))
+                        ->setMethod('DELETE')
+                        ->getForm()
         ;
     }
-    
+
     /**
-    * @Route("/vente/provinces", name="vente_select_provinces")
-    */
-    public function provincesAction(Request $request)
-    {
-        $country_id = $request->request->get('country_id');
-
+     * @Route("/select/mesures", name="vente_select_measures")
+     */
+    public function measuresAction(Request $request) {
+        $product_id = $request->request->get('product_id');
         $em = $this->getDoctrine()->getManager();
-        $provinces = $em->getRepository('AppBundle:Province')->findByCountryId($country_id);
-
-        return new JsonResponse($provinces);
+        $product = $em->getRepository('AppBundle:Product')->getMeasures($product_id);
+        return new JsonResponse($product);
     }
 
     /**
-    * @Route("/vente/cities", name="vente_select_cities")
-    */
-    
-    public function citiesAction(Request $request)
-    {
-        $province_id = $request->request->get('province_id');
-
-        $em = $this->getDoctrine()->getManager();
-        $cities = $em->getRepository('AppBundle:City')->findByProvinceId($province_id);
-
-        return new JsonResponse($cities);
-    }
-    
-    
-    /**
-     * Deletes a Vente entity.
+     * Search a Vente entity.
      *
-     * @Route("/v/search", name="vente_search")
+     * @Route("/search", name="vente_search")
      * @Method({"GET", "POST"})
      */
-    public function searchAction(Request $request)
-    {
+    public function searchAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
         $query = $request->get('query');
 
-        if(!$query) {
-            if(!$request->isXmlHttpRequest()) {
-                return $this->redirect($this->generateUrl('vente_index'));
+        if (!$query) {
+            if (!$request->isXmlHttpRequest()) {
+                return $this->redirect($this->generateUrl('market_index'));
             } else {
                 return new JsonResponse('No results.');
             }
-        }        
- 
+        }
+
         $ventes = $em->getRepository('AppBundle:Vente')->getForLuceneQuery($query);
         $categories = $em->getRepository('AppBundle:Category')->findAll();
-        
-        $paginator  = $this->get('knp_paginator');
+
+        $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
-            $ventes, /* query NOT result */
-            $request->query->getInt('page', 1)/*page number*/,
-            24/*limit per page*/
+                $ventes, /* query NOT result */ $request->query->getInt('page', 1)/* page number */, 24/* limit per page */
         );
-        
-        if($request->isXmlHttpRequest()) {
-            if('*' == $query || !$ventes || $query == '') {
+
+        if ($request->isXmlHttpRequest()) {
+            if ('*' == $query || !$ventes || $query == '') {
                 return new JsonResponse('No results.');
             }
             return $this->render('vente/searchAjax.html.twig', array(
-                'pagination' => $pagination,
-                'categories' => $categories
+                        'pagination' => $pagination,
+                        'categories' => $categories
             ));
-        
         }
-        
+
         return $this->render('vente/search.html.twig', array(
-            'pagination' => $pagination,
-            'categories' => $categories
+                    'pagination' => $pagination,
+                    'categories' => $categories
         ));
     }
-    
+
     /**
      * Filter by (Category)
      *
      * @Route("/filter", name="vente_filter")
      * @Method("POST")
      */
-    public function filterAction(Request $request)
-    {
+    public function filterAction(Request $request) {
         $filter = $request->request->get('filter');
         $em = $this->getDoctrine()->getManager();
         $ventes = $em->getRepository('AppBundle:Vente')->getOffresByCategory($filter);
-        
-        if(!$ventes) {
+
+        if (!$ventes) {
             return new JsonResponse('No results.');
         }
-        
-        $paginator  = $this->get('knp_paginator');
+
+        $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
-            $ventes, 
-            $request->query->getInt('page', 1)/*page number*/,
-            24/*limit per page*/
+                $ventes, $request->query->getInt('page', 1)/* page number */, 24/* limit per page */
         );
 
         return $this->render('vente/searchAjax.html.twig', array(
-                'pagination' => $pagination
+                    'pagination' => $pagination
         ));
     }
+
 }
