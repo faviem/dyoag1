@@ -25,6 +25,7 @@ class MoncompteController extends Controller
     public function indexAction(Request $request)
     {        
         return $this->render('dashboard/moncompte/index.html.twig');
+        
     }    
     
 }
