@@ -1,0 +1,41 @@
+{% extends 'dashboard/layout.html.twig' %}
+
+{% block  ajoutmenu %}
+    <section class="add-buttons button-right hidden-phone hidden-tablet">
+        <a class="itemadd" href="{{ path('dashboard_newoffrebrouillon') }}" id='vente-btn'>
+            <span class="add-icon">
+                <span class="add-text">Ajoutez un brouillon</span>
+            </span>
+        </a>
+
+    </section>
+{% endblock %}
+{% block  title %} Mes Offres {% endblock %}
+{% block  menuentete %}
+    <!--Tabs-->
+    <ul class="nav nav-tabs text-center product" role="tablist" id="myTabs">
+        <li class="round-large text-dark-variant-3" role="presentation">
+            <a class="round-large" role="tab" aria-controls="tab0" href="{{ path('dashboard_mesoffresPublies')}}">
+                {{  publies|number_format(0, ',', '.') }} <i class="fa fa-share-alt"> </i>    Publications </a>
+        </li>
+        <li class="round-large text-dark-variant-3" role="presentation">
+            <a class="round-large" role="tab" aria-controls="tab1" href="{{ path('dashboard_mesoffresBrouillons')}}">
+                {{ brouillons|number_format(0, ',', '.') }} <i class="fa fa-book"> </i>     Brouillons </a>
+        </li>
+        <li class="round-large text-dark-variant-3" role="presentation">
+            <a class="round-large" role="tab" aria-controls="tab2" href="{{ path('dashboard_mesoffresExpires')}}">
+                {{ expires|number_format(0, ',', '.') }}  <i class="fa fa-calendar"> </i>  Expirées  </a>
+        </li>
+        <li class="round-large text-dark-variant-3" role="presentation">
+            <a class="round-large" role="tab" aria-controls="tab3" href="{{ path('dashboard_mesoffresResolus')}}">
+                {{ resolus|number_format(0, ',', '.') }}  <i class="fa fa-desktop"> </i>  Résolues </a>
+        </li>
+        <li class="round-large text-dark-variant-3" role="presentation">
+            <a class="round-large" role="tab" aria-controls="tab4" href="{{ path('dashboard_mesoffresCorbeille')}}">
+                {{ corbeille|number_format(0, ',', '.') }} <i class="fa fa-trash-o"> </i>  Corbeille </a>
+        </li>
+    </ul>
+{% endblock %}
+{% block  corps %}
+
+{% endblock  corps %}
