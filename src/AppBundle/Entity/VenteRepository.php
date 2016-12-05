@@ -123,6 +123,14 @@ class VenteRepository extends \Doctrine\ORM\EntityRepository {
         return $this->getQueryResult($query, $limit, $offset, $sortedBy);
     }
 
+    /**
+     * Retourne les offres relatives à un produit
+     * @param type $product
+     * @param type $limit
+     * @param type $offset
+     * @param type $sortedBy
+     * @return type
+     */
     public function getVentesByProductId($product, $limit = null, $offset = null, $sortedBy = null) {
 
         $query = $this->getVentesQueryBuilder()
@@ -132,7 +140,7 @@ class VenteRepository extends \Doctrine\ORM\EntityRepository {
 
         return $this->getQueryResult($query, $limit, $offset, $sortedBy);
     }
-    
+
     public function getVentesByCityProductId($cityId, $productId, $limit = null, $offset = null, $sortedBy = null) {
         $query = $this->getVentesQueryBuilder()
                 ->innerJoin('v.product', 'p')
@@ -145,6 +153,7 @@ class VenteRepository extends \Doctrine\ORM\EntityRepository {
 
         return $this->getQueryResult($query, $limit, $offset, $sortedBy);
     }
+
     public function getVentesByCityId($cityId, $limit = null, $offset = null, $sortedBy = null) {
         $query = $this->getVentesQueryBuilder()
                 ->innerJoin('v.district', 'd')
@@ -154,6 +163,7 @@ class VenteRepository extends \Doctrine\ORM\EntityRepository {
 
         return $this->getQueryResult($query, $limit, $offset, $sortedBy);
     }
+
     //les actions de dashboard
     public function getDashboardCountBrouillons($user) {
         return $this->createQueryBuilder('v')
