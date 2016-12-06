@@ -53,15 +53,13 @@ class SupplyController extends Controller {
             $demand = $em->getRepository('AppBundle:Demand')->find($demandId);
             $supply->setDemand($demand);
             $em->persist($supply);
-            //update demand quantity. Will updated on approvement by the user
-            //$supply->getDemand()->setQuantite($supply->getDemand()->getQuantite() - $supply->getQuantite());
             $this->addFlash(
-                    'success', "Votre offre d'approvisionnement a été bien enregistrée!"
+                    'success_dash', "Votre offre d'approvisionnement a été bien enregistrée!"
             );
 
             $em->flush();
 
-            return $this->redirectToRoute('market_index');
+            return $this->redirectToRoute('dashboard_souscriptionsviews');
         }
 
         //return $this->redirectToRoute('demand_index');

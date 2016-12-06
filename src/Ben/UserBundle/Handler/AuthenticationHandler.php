@@ -10,7 +10,7 @@ namespace Ben\UserBundle\Handler;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Bundle\FrameworkBundle\Routing\Router;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Http\Authentication\AuthenticationSuccessHandlerInterface;
@@ -21,39 +21,53 @@ class AuthenticationHandler implements AuthenticationSuccessHandlerInterface, Au
 
     private $router;
 
-    public function __construct(Router $router) {
-        $this->router = $router;
+    public function __construct(ContainerInterface $container) {
+        $this->router = $container->get('router');
+        $this->security = $container->get('security.authorization_checker');
+    }
+
+//    public function onAuthenticationFailure(Request $request, AuthenticationException $exception) {
+//        if ($request->isXmlHttpRequest()) {
+//            // Handle XHR here
+//        } else {
+//            // Create a flash message with the authentication error message
+//            $request->getSession()->getFlashBag()->set('error', $exception->getMessage());
+//            $url = $this->router->generate('user_login');
+//
+//            return new RedirectResponse($url);
+//        }
+//    }
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception) {
+        $referer = $request->headers->get('referer');
+        $request->getSession()->getFlashBag()->set('LoginError', $exception->getMessage());
+
+        return new RedirectResponse($referer);
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token) {
-        if ($request->isXmlHttpRequest()) {
-            // Handle XHR here
+        $session = $request->getSession();
+        if (!$session->has('lastPath')) {
+            $route = 'dashboard_index';
+            return new RedirectResponse($this->router->generate($route));
         } else {
+            $route = $session->get('lastPath');
+        }
 
-            // If the user tried to access a protected resource and was forces to login
-            // redirect him back to that resource
-            if ($targetPath = $request->getSession()->get('_security.main.target_path')) {
-                $url = $targetPath;
+        if ($this->security->isGranted('ROLE_SUPER_ADMIN')) {
+            $response = new RedirectResponse($this->router->generate('easyadmin'));
+        } else {
+            if ($route['params'] != null) {
+                $response = new RedirectResponse($this->router->generate($route['route'], $route['params']));
             } else {
-                // Otherwise, redirect him to wherever you want
-                $url = $this->router->generate('market_index', array(
-                ));
+                $response = new RedirectResponse($this->router->generate($route['route']));
             }
-
-            return new RedirectResponse($url);
         }
+        //$session->getFlashBag()->add('success', 'Connexion réussi !');
+        return $response;
     }
 
-    public function onAuthenticationFailure(Request $request, AuthenticationException $exception) {
-        if ($request->isXmlHttpRequest()) {
-            // Handle XHR here
-        } else {
-            // Create a flash message with the authentication error message
-            $request->getSession()->setFlash('error', $exception->getMessage());
-            $url = $this->router->generate('user_login');
-
-            return new RedirectResponse($url);
-        }
-    }
-
+//    public function onLogoutSuccess(Request $request) {
+//        $referer = $request->headers->get('referer');
+//        return new RedirectResponse($referer);
+//    }
 }

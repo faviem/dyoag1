@@ -108,33 +108,14 @@ class VenteController extends Controller {
             $vente = $em->getRepository('AppBundle:Vente')->find($venteId);
             $commande->setVente($vente);
             $em->persist($commande);
-            //update vente quantity. Will be updated on approvement by the user
-            //$commande->getVente()->setQuantite($commande->getVente()->getQuantite() - $commande->getQuantite());
             $em->flush();
             $this->addFlash(
-                    'success', "Votre commande a été bien enregistrée!"
+                    'success_dash', "Votre commande a été bien enregistrée!"
             );
-//            return new JsonResponse(array(
-//                'success' => true,
-//                'email' => $email
-//                    )
-//                    , 200);
-            return $this->redirectToRoute('dashboard_index');
+            return $this->redirectToRoute('dashboard_commandesviews');
         }
 
         return $this->redirectToRoute('market_index');
-
-//        $response = new JsonResponse(
-//                array(
-//            'message' => 'Error',
-////            'form' => $this->renderView('AcmeDemoBundle:Demo:form.html.twig',
-////                    array(
-////                'entity' => $entity,
-////                'form' => $form->createView(),
-////            ))
-//                ), 400);
-//
-//        return $response;
     }
 
     /**

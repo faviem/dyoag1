@@ -1,10 +1,6 @@
 {% extends 'market.html.twig' %}
 
 {% block container %}
-    <section class="add-buttons button-right hidden-phone hidden-tablet">
-
-    </section>
-
     <section >
         <!--Swiper-->
         <div class="swiper-container">
@@ -18,22 +14,29 @@
     </section>
     <section class="section-border text-center text-md-left">
         <div class="container">
+            {% for flash_message in app.session.flashBag.get('success_dash') %}
+                <div class="alert alert-success alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>Success!</strong> {{ flash_message }}
+                </div>
+
+            {% endfor %}
             <div class="col-xs-12 offset-2">
                 {% block  menuentete %}
                     {% set att=0%} {% set acp=0%} {% set con=0%} {% set sup=0%}
                     {% for element in supplies %}
                         {% if element.deleted==0 %}
                             {% if  element.canceled==1 %}
-                                {% set sup=sup+1 %} 
+                                {% set sup=sup+1 %}
                             {% endif %}
                             {% if element.canceled==0 and  element.accepted==1 and element.delivered==0 %}
-                                {% set acp=acp+1 %} 
+                                {% set acp=acp+1 %}
                             {% endif %}
                             {% if element.canceled==0 and  element.accepted==0 and element.delivered==0 %}
-                                {% set att=att+1 %} 
+                                {% set att=att+1 %}
                             {% endif %}
                             {% if element.canceled==0 and  element.accepted==1 and element.delivered==1 %}
-                                {% set con=con+1 %} 
+                                {% set con=con+1 %}
                             {% endif %}
 
                         {% endif %}

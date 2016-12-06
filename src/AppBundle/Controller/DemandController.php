@@ -81,13 +81,14 @@ class DemandController extends Controller {
      * @Method("GET")
      */
     public function showAction(Demand $demand) {
-
         $supply = new Supply();
         $form = $this->createForm('AppBundle\Form\SupplyType', $supply);
-
+        $em = $this->getDoctrine()->getManager();
+        $relativeDemands = $em->getRepository('AppBundle:Demand')->getDemandsByProductId($demand->getProduct()->getId());
         return $this->render('demand/show.html.twig', array(
                     'demand' => $demand,
                     'form' => $form->createView(),
+                    'relativeDemands' => $relativeDemands
         ));
     }
 
