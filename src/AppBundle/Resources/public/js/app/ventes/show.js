@@ -37,43 +37,13 @@ define(
                 $('#myTabs2 a').click(function (e) {
                     e.preventDefault()
                     $(this).tab('show')
-                })
-
-                /* Order*/
-                $('#order').click(function (e) {
-                    e.preventDefault;
-                    //$('#order-dialog').modal();
                 });
 
-//            $('body').on('submit', '.ajaxForm', function (e) {
-//                e.preventDefault();
-//                $.ajax({
-//                    type: $(this).attr('method'),
-//                    url: $(this).attr('action'),
-//                    data: $(this).serialize()
-//                })
-//                .done(function (data) {
-//                    if (data.sucess) {
-//                        window.location.href = data.targetUrl;
-//                    }
-//                })
-//                .fail(function (jqXHR, textStatus, errorThrown) {
-//                    switch (jqXHR.status) {
-//                        case 401:
-//                            window.location.replace(Routing.generate('fos_user_security_login'));
-//                            break;
-//                        case 403: // (Invalid CSRF token for example)
-//                        // Reload page from server
-//                        window.location.reload(true);
-//                    }
-//                });
-//            });
-
-
-
+                /**
+                 * @module       carousel
+                 * @description  Bootstrap carousel
+                 */
                 $('#itemslider').carousel({interval: 3000});
-
-
 
                 $('.carousel-showmanymoveone .item').each(function () {
                     var itemToClone = $(this);
@@ -81,11 +51,9 @@ define(
                     for (var i = 1; i < 6; i++) {
                         itemToClone = itemToClone.next();
 
-
                         if (!itemToClone.length) {
                             itemToClone = $(this).siblings(':first');
                         }
-
 
                         itemToClone.children(':first-child').clone()
                                 .addClass("cloneditem-" + (i))
@@ -93,10 +61,15 @@ define(
                     }
                 });
 
+                /**
+                 * @module       show user contact
+                 * @description  show user contact
+                 */
 
+                $('body').on('click', '#show_contact', function (e) {
+                    e.preventDefault;
+                    $('#contact-dialog').modal();
+                });
             });
         }
 );
-
-
-

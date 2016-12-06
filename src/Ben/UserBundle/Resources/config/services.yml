@@ -19,7 +19,7 @@ services:
 #        public: false
 
 # Type de formulaire - Formulaire d'inscription
-            
+
     ben_user.register.form.type:
         class: Ben\UserBundle\Form\RegistrationType
 #        arguments: [%fos_user.entity.user.class%, %security.role_hierarchy.roles%]
@@ -38,7 +38,7 @@ services:
         arguments: [%fos_user.entity.user.class%]
         tags:
             - { name: form.type, alias: ben_user_profile }
-            
+
 #    my_user_provider:
 #        class: "%my_user_provider.class%"
 #        #this is the place where the properties are passed to the UserProvider - see config.yml
@@ -54,6 +54,12 @@ services:
 
     authentication_handler:
         class:  %ben_user_security.authentication_handler%
-        arguments:  ['@router']
+        arguments:  ['@service_container']
         tags:
             - { name: 'monolog.logger', channel: 'security' }
+
+    ben_user_register_listener:
+        class:  Ben\UserBundle\EventListener\RedirectionListener
+        arguments:  ['@service_container']
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
