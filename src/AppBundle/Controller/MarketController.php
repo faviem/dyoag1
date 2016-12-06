@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 /**
  * Supply controller.
@@ -35,6 +36,9 @@ class MarketController extends Controller {
      * @Method("GET")
      */
     public function listAction(Request $request) {
+        if (!$request->isXmlHttpRequest()) {
+            throw new AccessDeniedHttpException('You can access this only using Ajax!');
+        }
         $type = $request->query->get('type');
         //$type = $request->request->get('type');
         $em = $this->getDoctrine()->getManager();
@@ -62,31 +66,34 @@ class MarketController extends Controller {
      * @Method("GET")
      */
     public function filterAction(Request $request) {
+        if (!$request->isXmlHttpRequest()) {
+            throw new AccessDeniedHttpException('You can access this only using Ajax!');
+        }
         $type = $request->query->get('type');
         $key1 = $request->query->get('key1');
         $value1 = $request->query->get('value1');
         $key2 = $request->query->get('key2');
         $value2 = $request->query->get('value2');
         $em = $this->getDoctrine()->getManager();
-        if ($type == 'demand') {           
+        if ($type == 'demand') {
             if ($value2 && !$value1)
                 $query = $em->getRepository('AppBundle:Demand')->getDemandsByProductId($value2);
             elseif ($value1 && !$value2)
                 $query = $em->getRepository('AppBundle:Demand')->getDemandsByCityId($value1, $value2);
             elseif ($value1 && $value2)
                 $query = $em->getRepository('AppBundle:Demand')->getDemandsByCityProductId($value1, $value2);
-            else{
+            else {
                 $dql = "SELECT d FROM AppBundle:Demand d WHERE d.published = 1 ORDER BY d.createAt DESC";
                 $query = $em->createQuery($dql);
             }
         } else {
-         if ($value2 && !$value1)
+            if ($value2 && !$value1)
                 $query = $em->getRepository('AppBundle:Vente')->getVentesByProductId($value2);
             elseif ($value1 && !$value2)
                 $query = $em->getRepository('AppBundle:Vente')->getVentesByCityId($value1, $value2);
             elseif ($value1 && $value2)
                 $query = $em->getRepository('AppBundle:Vente')->getVentesByCityProductId($value1, $value2);
-            else{
+            else {
                 $dql = "SELECT v FROM AppBundle:Vente v WHERE v.published = 1 ORDER BY v.createAt DESC";
                 $query = $em->createQuery($dql);
             }
