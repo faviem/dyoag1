@@ -16,23 +16,6 @@
             </span>
         </a>
     </section>
-    {#
-        <section>
-            <!--Swiper-->
-            <div class="swiper-container swiper-slider swiper-container-horizontal swiper-container-fade" data-loop="false" data-slide-effect="fade" data-autoplay="5000">
-                <div class="jumbotron text-center">
-                    <h1>
-                        <span class="text-bold">Votre Marché</span>
-                    </h1>
-                    <p class="big"></p>
-                </div>
-                <div class="swiper-wrapper" style="transition-duration: 0ms;">
-                    <div class="swiper-slide" data-slide-bg="/assets/images/about_img5.jpg" style="background-image: url('/assets/images/header-1.jpg'); background-size: cover; width: 1842px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;">
-                    </div>
-                </div>
-            </div>
-        </section>
-    #}
 
     <section>
         <!--Swiper-->
@@ -70,46 +53,45 @@
                 </div>
 
             {% endfor %}
-            {#
-                        <h1>Les offres de produits disponibles</h1>
-
-                        <br>
-            #}
-            <div class="panel-default panel-horizontal">
-                <form class="" action=""  method="get">
-                    <div class="col-md-12">
-                        <div class="col-md-3"></div>
-                        <div class="form-group col-md-3">
-                            {{ form_widget(form.city, {'attr' : {'class' : 'form-control'}} )}}
-                            {{ form_errors(form.city) }}
-                        </div>   
-                        
-                        <div class="form-group col-md-3">
-                            {{ form_widget(form.product, {'attr' : {'class' : 'form-control'}} )}}
-                            {{ form_errors(form.product) }}
-                        </div>
-                        <div class="col-md-3"></div>
-                        {#
-                         <div class="form-group col-md-3">
-                             <div class="input-group">
-                                 {{ form_widget(form.startDate, {'attr' : {'class' : 'form-control'}} )}}
-                                 <span class="fa fa-calendar-o input-group-addon" aria-hidden="true"></span>
-                             </div>
-                             {{ form_errors(form.startDate) }}
-                         </div>
-                         <div class="form-group col-md-3">
-                             <div class="input-group">
-                                 {{ form_widget(form.endDate, {'attr' : {'class' : 'form-control'}} )}}
-                                 <span class="fa fa-calendar-o input-group-addon" aria-hidden="true"></span>
-                             </div>
-                             {{ form_errors(form.endDate) }}
-                         </div>
-                        
-                        <div class="form-group col-md-3">
-                            <button type="submit" class="btn btn-primary btn-xs round-xl"><i class="fa fa-filter">Filter</i></button>
-                        </div>
-                        #}
+            <div class="panel panel-default panel-horizontal col-md-12">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <i class="fa fa-filter" aria-hidden="true"></i>
+                        Filter
+                    </h3>
+                </div>
+                <form class="panel-body" action=""  method="get">
+                    <div class="col-md-3"></div>
+                    <div class="form-group col-md-3">
+                        {{ form_widget(form.city, {'attr' : {'class' : 'form-control'}} )}}
+                        {{ form_errors(form.city) }}
                     </div>
+
+                    <div class="form-group col-md-3">
+                        {{ form_widget(form.product, {'attr' : {'class' : 'form-control'}} )}}
+                        {{ form_errors(form.product) }}
+                    </div>
+                    <div class="col-md-3"></div>
+                    {#
+                     <div class="form-group col-md-3">
+                         <div class="input-group">
+                             {{ form_widget(form.startDate, {'attr' : {'class' : 'form-control'}} )}}
+                             <span class="fa fa-calendar-o input-group-addon" aria-hidden="true"></span>
+                         </div>
+                         {{ form_errors(form.startDate) }}
+                     </div>
+                     <div class="form-group col-md-3">
+                         <div class="input-group">
+                             {{ form_widget(form.endDate, {'attr' : {'class' : 'form-control'}} )}}
+                             <span class="fa fa-calendar-o input-group-addon" aria-hidden="true"></span>
+                         </div>
+                         {{ form_errors(form.endDate) }}
+                     </div>
+
+                    <div class="form-group col-md-3">
+                        <button type="submit" class="btn btn-primary btn-xs round-xl"><i class="fa fa-filter">Filter</i></button>
+                    </div>
+                    #}
                 </form>
             </div>
             {% block dyofilter %}
