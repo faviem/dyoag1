@@ -15,27 +15,28 @@
 {% block aside %}{{ parent() }}{% endblock %}
 
 {% block fos_user_content %}
-<h5 class="text-center">
-    {{ 'registration.title'|trans({}, 'FOSUserBundle') }}
-    ou 
-    <a href="{{ path("fos_user_security_login") }}"> Se connecter</a>
-</h5>
-{% include "BenUserBundle:Registration:register_content.html.twig" %}
+    <div class="col-md-8 col-md-offset-2 btn-shadow inset-sm-min bg-white round-large">
+        <h5 class="text-center">
+            {{ 'registration.title'|trans({}, 'FOSUserBundle') }}
+            ou
+            <a class="btn btn-info btn-sm round-xl offset-2" href="{{ path("fos_user_security_login") }}"> Se connecter</a>
+        </h5>
+        {% include "BenUserBundle:Registration:register_content.html.twig" %}
+    </div>
+    {# L'utilisateur est-il connecté ? #}
+    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+        {# L'utilisateur e le rôle admin ? #}
+        {% if is_granted('ROLE_ADMIN') %}
 
-{# L'utilisateur est-il connecté ? #}
-{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-    {# L'utilisateur e le rôle admin ? #}
-    {% if is_granted('ROLE_ADMIN') %}
-
+        {% endif %}
     {% endif %}
-{% endif %}
 
 {% endblock fos_user_content %}
 
 {% block javascripts %}
-{{ parent() }}
-<script>
-require(['user/Register']);
-</script>
+    {{ parent() }}
+    <script>
+        require(['user/Register']);
+    </script>
 {% endblock %}
 

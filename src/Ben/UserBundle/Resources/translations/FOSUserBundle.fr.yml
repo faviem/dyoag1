@@ -81,9 +81,9 @@ registration:
         2: Identité
         3: Entreprise
 
-    name: Choisissez un nom d'utilisateur
+    name: Nom d'utilisateur
     form_email: Votre email
-    password: Créez un mot de passe
+    password: Mot de passe
     firstname: Prénom
     lastname: Nom
     phone: Téléphone

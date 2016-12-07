@@ -54,7 +54,7 @@ class MarketController extends Controller {
         $pagination = $paginator->paginate(
                 $query, // query NOT result
                 $request->query->getInt('page', 1), //page number
-                24 // limit per page
+                $this->getParameter('max_data_per_page') // limit per page
         );
         return $this->render($type . '/list.html.twig', array(
                     'pagination' => $pagination,
@@ -102,7 +102,7 @@ class MarketController extends Controller {
         $pagination = $paginator->paginate(
                 $query, // query NOT result
                 $request->query->getInt('page', 1), //page number
-                24 // limit per page
+                $this->getParameter('max_data_per_page') // limit per page
         );
         return $this->render($type . '/list.html.twig', array(
                     'pagination' => $pagination,
