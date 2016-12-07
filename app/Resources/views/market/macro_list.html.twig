@@ -20,6 +20,7 @@
                                 <dt><i class="fa fa-calendar" aria-hidden="true"></i> {{ entity.createat|date('d M y') }}</dt>
                             </dl>
                         </div>
+                        <a class="btn btn-primary round-xl btn-sm" href="{{ path(type~'_show', { 'id': entity.id }) }}">voir</a>
                     </div>
                 </div>
                 {% if loop.index is divisible by(4) %}
