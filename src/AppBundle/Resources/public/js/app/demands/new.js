@@ -18,16 +18,23 @@
 define(
         [
             'jquery',
-            'chosen',
-            'jquery.spin'
+            'jquery.spin',
+            'bootstrap',
+            'select2'
         ],
         function ($) {
             'use strict';
 
             $(function () {
 
-//                $('select').chosen();
-//                $('.chosen-results li').css('text-align', 'left');
+                /**
+                 * @module       Select2
+                 * @description  Select2
+                 */
+                $('select').select2({
+                    theme: "bootstrap"
+                });
+
                 $("#appbundle_demand_product").change(function () {
                     var data = {
                         product_id: $(this).val()
