@@ -20,7 +20,6 @@ define(
             'jquery',
             'FloatingSocialButton',
             'bootstrap',
-            'datapicker',
             'select2',
             'jquery.spin'
         ],
@@ -41,6 +40,12 @@ define(
 
                     }
                 });
+
+                /**
+                 * @module       Tooltip
+                 * @description  Bootstrap Tooltip
+                 */
+                $('[data-toggle="tooltip"]').tooltip();
 
                 /**
                  * @module       Select2
