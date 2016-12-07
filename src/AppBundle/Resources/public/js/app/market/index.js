@@ -35,7 +35,7 @@ define(
                  * @description  Bootstrap tabs
                  */
 
-                $("#myTabs a").each(function () {
+                $("#myTabs li>a").each(function () {
                     if (this.href === window.location.href) {
                         $(this).parent().addClass("active");
 
@@ -57,7 +57,7 @@ define(
 
                 this.loadList('vente'); // Initialize default list
 
-                $('#marketTabs a').click(function (e) {
+                $('#marketTabs li>a').click(function (e) {
                     e.preventDefault();
                     self.loadList($(this).data("type"));
                     $(this).tab('show');

@@ -7,22 +7,22 @@
     <section class="add-buttons button-right hidden-phone hidden-tablet">
         <a class="itemadd" href="{{ path('vente_new') }}" id='vente-btn'>
             <span class="add-icon">
-                <span class="add-text">Ajoutez une offre</span>
+                <span class="add-text">{{ 'Ajouter une offre' | trans }}</span>
             </span>
         </a>
         <a class="itemadd" href="{{ path('demand_new') }}" id='demand-btn'>
             <span class="add-icon">
-                <span class="add-text">Formuler une demande</span>
+                <span class="add-text">{{ 'Formuler une demande' | trans }}</span>
             </span>
         </a>
     </section>
 
     <section>
         <!--Swiper-->
-        <div class="swiper-container">
+        <div class="swiper-container market">
             <div class="jumbotron text-center">
                 <h1>
-                    <span class="text-bold dyo-blue">Le Marché</span>
+                    <span class="text-bold dyo-blue">{{ 'Le Marché' | trans }}</span>
                 </h1>
                 <p class="big"></p>
             </div>
@@ -33,12 +33,22 @@
         <div class="container">
             <!--Tabs-->
             <ul class="nav nav-tabs text-center product" role="tablist" id="marketTabs">
+                <span data-toggle="tooltip" data-placement="right" title="{{ 'Ajouter une offre' | trans }}">
+                    <a class="" href="{{ path('demand_new') }}" id=''>
+                        <img src="/assets/images/plus-btn.png" alt="{{ 'Ajoutez une offre' | trans }}">
+                    </a>
+                </span>
                 <li class="round-large text-dark-variant-3 active" role="presentation">
-                    <a class="round-large" role="tab" aria-controls="tab0" href="#tab0" data-type="vente">Offres</a>
+                    <a class="round-large" role="tab" aria-controls="tab0" href="#tab0" data-type="vente">{{ 'Offres' | trans }}</a>
                 </li>
                 <li class="round-large text-dark-variant-3" role="presentation">
-                    <a class="round-large" role="tab" aria-controls="tab1" href="#tab1" data-type="demand">Demandes</a>
+                    <a class="round-large" role="tab" aria-controls="tab1" href="#tab1" data-type="demand">{{ 'Demandes' | trans }}</a>
                 </li>
+                <span data-toggle="tooltip" data-placement="right" title="{{ 'Formuler une demande' | trans }}">
+                    <a class="" href="{{ path('demand_new') }}" id=''>
+                        <img src="/assets/images/add_demand.png" alt="{{ 'Formuler une demande' | trans }}">
+                    </a>
+                </span>
             </ul>
         </div>
     </section>
@@ -51,13 +61,12 @@
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <strong>Success!</strong> {{ flash_message }}
                 </div>
-
             {% endfor %}
             <div class="panel panel-default panel-horizontal col-md-12">
                 <div class="panel-heading">
                     <h3 class="panel-title">
                         <i class="fa fa-filter" aria-hidden="true"></i>
-                        Filter
+                        {{ 'Filtrer' | trans }}
                     </h3>
                 </div>
                 <form class="panel-body" action=""  method="get">
