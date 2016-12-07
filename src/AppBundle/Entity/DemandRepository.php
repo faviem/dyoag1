@@ -237,4 +237,17 @@ class DemandRepository extends \Doctrine\ORM\EntityRepository {
 
         return $this->getQueryResult($query, $limit, $offset, $sortedBy);
     }
+    
+    public function getDashboardCountMarket($user) {
+        return $this->createQueryBuilder('d')
+                        ->select('COUNT(d)')
+                        ->where('d.user  =:user')
+                        ->andwhere('d.deleted  =:deleted')
+                        ->andwhere('d.canceled  =:canceled')
+                        ->setParameter('user', $user)
+                        ->setParameter('deleted', false)
+                        ->setParameter('canceled', false)
+                        ->getQuery()
+                        ->getSingleScalarResult();
+    }
 }

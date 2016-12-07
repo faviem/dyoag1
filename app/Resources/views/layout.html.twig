@@ -109,6 +109,9 @@
         <script src="{{ asset('assets/js/benagro.min.js') }}"></script>
         <script src="{{ asset('assets/js/requirejs.js') }}"></script>
         <script src="{{ asset('js/app/main.js') }}"></script>
+        {# inclusion de deux scripts pour résoudre le problème d'erreur 404 de fosjsrouting qui ne marchait pas#}
+        <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+        <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
     {% endblock %}
 </body>
 </html>

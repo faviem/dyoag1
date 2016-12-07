@@ -10,4 +10,16 @@ namespace AppBundle\Entity;
  */
 class SupplyRepository extends \Doctrine\ORM\EntityRepository
 {
+      public function getDashboardCountMarket($user) {
+        return $this->createQueryBuilder('s')
+                        ->select('COUNT(s)')
+                        ->where('s.user  =:user')
+                        ->andwhere('s.deleted  =:deleted')
+                        ->andwhere('s.canceled  =:canceled')
+                        ->setParameter('user', $user)
+                        ->setParameter('deleted', false)
+                        ->setParameter('canceled', false)
+                        ->getQuery()
+                        ->getSingleScalarResult();
+    }
 }

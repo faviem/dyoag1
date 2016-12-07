@@ -29,7 +29,9 @@ class DashboardController extends Controller {
      * @Method("GET")
      */
     public function dashboard_indexAction(Request $request) {
-        return $this->redirectToRoute('dashboard_mesoffresPublies');
+        
+        return $this->render('dashboard/layout.html.twig');
+        
     }
     
     //les actions pour les offres

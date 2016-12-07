@@ -1,7 +1,7 @@
-{% extends '/dashboard/offre/dashboard_mesoffresPublies.html.twig' %}
+{% extends '/dashboard/offre/dashboard_mesoffres.html.twig' %}
 
-{% set compte=0%}
 {% block  corps %}
+    {% set compte=0%}
     {% for element in ventes %}
         {% set compte=compte+1 %}
         {% set qte=0 %}{% set nbre=0%}
