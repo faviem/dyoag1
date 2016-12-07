@@ -33,7 +33,7 @@ class DemandController extends Controller {
         $pagination = $paginator->paginate(
                 $query, // query NOT result
                 $request->query->getInt('page', 1), //page number
-                24 // limit per page
+                $this->getParameter('max_data_per_page') // limit per page
         );
 
         return $this->render('demand/index.html.twig', array(
@@ -173,7 +173,9 @@ class DemandController extends Controller {
 
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
-                $demands, /* query NOT result */ $request->query->getInt('page', 1)/* page number */, 24/* limit per page */
+                $demands, //
+                $request->query->getInt('page', 1), // page number
+                $this->getParameter('max_data_per_page')// limit per page
         );
 
         if ($request->isXmlHttpRequest()) {

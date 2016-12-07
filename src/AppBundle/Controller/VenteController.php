@@ -29,17 +29,16 @@ class VenteController extends Controller {
         $filter = array();
         $form = $this->createForm('AppBundle\Form\FilterType', $filter);
         $form->handleRequest($request);
-// pagination http://stackoverflow.com/questions/14817817/symfony-knppaginator-query-with-custom-filters-from-form-fields
-// http://achreftlili.github.io/2015/08/23/Ajaxify-Knp-Bundle-pagination/
         $dql = "SELECT v FROM AppBundle:Vente v  WHERE v.published = 1 ORDER BY v.createAt DESC";
         $query = $em->createQuery($dql);
 
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
-                $query, /* query NOT result */ $request->query->getInt('page', 1)/* page number */, 24/* limit per page */
+                $query, //
+                $request->query->getInt('page', 1), // page number
+                $this->getParameter('max_data_per_page')// limit per page
         );
         return $this->render('vente/index.html.twig', array(
-//            'ventes' => $ventes,
                     'pagination' => $pagination,
                     'form' => $form->createView(),
         ));
@@ -88,10 +87,6 @@ class VenteController extends Controller {
      * @Method({"POST"})
      */
     public function newOrderAction(Request $request) {
-//        if (!$request->isXmlHttpRequest()) {
-//            return new JsonResponse(array('message' => 'You can access this only using Ajax!'), 400);
-//        }
-
         $user = $this->getUser();
 
         $username = $user->getUsername();
@@ -255,7 +250,9 @@ class VenteController extends Controller {
 
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
-                $ventes, /* query NOT result */ $request->query->getInt('page', 1)/* page number */, 24/* limit per page */
+                $ventes, //
+                $request->query->getInt('page', 1), // page number
+                $this->getParameter('max_data_per_page')// limit per page
         );
 
         if ($request->isXmlHttpRequest()) {
@@ -291,7 +288,9 @@ class VenteController extends Controller {
 
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
-                $ventes, $request->query->getInt('page', 1)/* page number */, 24/* limit per page */
+                $ventes, //
+                $request->query->getInt('page', 1), // page number
+                $this->getParameter('max_data_per_page')// limit per page
         );
 
         return $this->render('vente/searchAjax.html.twig', array(
