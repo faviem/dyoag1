@@ -2,15 +2,15 @@
 
 {% block container %}
     {% block  ajoutmenu %}
-    
-   {% endblock %}
-    
+        
+    {% endblock %}
+
     <section >
         <!--Swiper-->
         <div class="swiper-container">
             <div class="jumbotron text-center">
                 <h1>
-                    <span class="text-bold dyo-blue" > {% block  title %}  {% endblock %}</span>
+                    <span class="text-bold dyo-blue" > {% block  title %} Tableau de board {% endblock %}</span>
                 </h1>
                 <p class="big"></p>
             </div>
@@ -20,14 +20,21 @@
         <div class="container">
             {% block  menuentete %}
                 <!--Tabs-->
-               
+
             {% endblock %}
         </div>
     </section>
-    <section class="text-center offset-1">
+        <section class="text-center offset-1">
         <div class="container">
             {% block  corps %}
-            
+                <div class="row" style="margin-top: -5%;">
+                  <div id="graphlemarche" style="height: 400px; " class="col-md-6"></div>                
+                  <div id="graphchiffreaffaire" style="height: 400px; " class="col-md-6"></div>
+              </div><br/>
+                <div class="row">
+                  <div id="productsoffresgraph" style="height: 400px; " class="col-md-6"></div>                
+                  <div id="productsdemandgraph" style="height: 400px; " class="col-md-6"></div>
+              </div>
             {% endblock  %}
             <!-- Button trigger modal -->
         </div>
@@ -36,7 +43,7 @@
 {% block javascripts %}
     {{ parent() }}
     <script>
-        require(['dashboard/index']);
+        require(['dashboard/layout']);
     </script>
 {% endblock %}
 

@@ -27,6 +27,7 @@ requirejs.config({
         'spin': 'vendor/spin',
         //dashboard
         'jquery.nicescroll': 'vendor/jquery.nicescroll',
+        'canvasjs': 'vendor/canvasjs.min',
         'datatable': '/assets/js/datatable',
         'datapicker': 'vendor/bootstrap-datepicker.min',
         'select2': '/assets/js/select2',

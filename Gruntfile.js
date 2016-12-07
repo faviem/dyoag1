@@ -84,8 +84,8 @@ module.exports = function (grunt) {
                     'bower_components/jquery/dist/jquery.js',
                     'bower_components/bootstrap/dist/js/bootstrap.min.js',
                     'src/AppBundle/Resources/public/js/script.js',
-                    'web/bundles/fosjsrouting/js/router.js',
-                    'web/js/fos_js_routes.js'
+//                    'web/bundles/fosjsrouting/js/router.js',
+//                    'web/js/fos_js_routes.js'
                 ],
                 dest: 'web/assets/js/benagro.js'
             }

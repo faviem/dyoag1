@@ -271,4 +271,17 @@ class VenteRepository extends \Doctrine\ORM\EntityRepository {
                         ->getQuery()->getResult();
     }
 
+     public function getDashboardCountMarket($user) {
+        return $this->createQueryBuilder('v')
+                        ->select('COUNT(v)')
+                        ->where('v.user  =:user')
+                        ->andwhere('v.deleted  =:deleted')
+                        ->andwhere('v.canceled  =:canceled')
+                        ->setParameter('user', $user)
+                        ->setParameter('deleted', false)
+                        ->setParameter('canceled', false)
+                        ->getQuery()
+                        ->getSingleScalarResult();
+    }
+    
 }
