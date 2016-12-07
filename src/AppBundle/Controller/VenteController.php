@@ -29,17 +29,16 @@ class VenteController extends Controller {
         $filter = array();
         $form = $this->createForm('AppBundle\Form\FilterType', $filter);
         $form->handleRequest($request);
-// pagination http://stackoverflow.com/questions/14817817/symfony-knppaginator-query-with-custom-filters-from-form-fields
-// http://achreftlili.github.io/2015/08/23/Ajaxify-Knp-Bundle-pagination/
         $dql = "SELECT v FROM AppBundle:Vente v  WHERE v.published = 1 ORDER BY v.createAt DESC";
         $query = $em->createQuery($dql);
 
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
-                $query, /* query NOT result */ $request->query->getInt('page', 1)/* page number */, 24/* limit per page */
+                $query, //
+                $request->query->getInt('page', 1), // page number
+                $this->getParameter('max_data_per_page')// limit per page
         );
         return $this->render('vente/index.html.twig', array(
-//            'ventes' => $ventes,
                     'pagination' => $pagination,
                     'form' => $form->createView(),
         ));
@@ -88,10 +87,6 @@ class VenteController extends Controller {
      * @Method({"POST"})
      */
     public function newOrderAction(Request $request) {
-//        if (!$request->isXmlHttpRequest()) {
-//            return new JsonResponse(array('message' => 'You can access this only using Ajax!'), 400);
-//        }
-
         $user = $this->getUser();
 
         $username = $user->getUsername();
@@ -108,33 +103,14 @@ class VenteController extends Controller {
             $vente = $em->getRepository('AppBundle:Vente')->find($venteId);
             $commande->setVente($vente);
             $em->persist($commande);
-            //update vente quantity. Will be updated on approvement by the user
-            //$commande->getVente()->setQuantite($commande->getVente()->getQuantite() - $commande->getQuantite());
             $em->flush();
             $this->addFlash(
-                    'success', "Votre commande a été bien enregistrée!"
+                    'success_dash', "Votre commande a été bien enregistrée!"
             );
-//            return new JsonResponse(array(
-//                'success' => true,
-//                'email' => $email
-//                    )
-//                    , 200);
-            return $this->redirectToRoute('dashboard_index');
+            return $this->redirectToRoute('dashboard_commandesviews');
         }
 
         return $this->redirectToRoute('market_index');
-
-//        $response = new JsonResponse(
-//                array(
-//            'message' => 'Error',
-////            'form' => $this->renderView('AcmeDemoBundle:Demo:form.html.twig',
-////                    array(
-////                'entity' => $entity,
-////                'form' => $form->createView(),
-////            ))
-//                ), 400);
-//
-//        return $response;
     }
 
     /**
@@ -274,7 +250,9 @@ class VenteController extends Controller {
 
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
-                $ventes, /* query NOT result */ $request->query->getInt('page', 1)/* page number */, 24/* limit per page */
+                $ventes, //
+                $request->query->getInt('page', 1), // page number
+                $this->getParameter('max_data_per_page')// limit per page
         );
 
         if ($request->isXmlHttpRequest()) {
@@ -310,7 +288,9 @@ class VenteController extends Controller {
 
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
-                $ventes, $request->query->getInt('page', 1)/* page number */, 24/* limit per page */
+                $ventes, //
+                $request->query->getInt('page', 1), // page number
+                $this->getParameter('max_data_per_page')// limit per page
         );
 
         return $this->render('vente/searchAjax.html.twig', array(

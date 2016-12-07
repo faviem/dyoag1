@@ -3,7 +3,7 @@
  *
  * (c) Jacques Adjahoungbo <jtocson@gmail.com>
  *
- * For the full copyright and license information, please view the LICENSE
+ * For the full copyright and license in.panel-horizontal .panel-horizontal formation, please view the LICENSE
  * file that was distributed with this source code.
  *
  */
@@ -29,13 +29,14 @@ define(
 
             function Market() {
                 var self = this;
+                this.$spinElenment = $('.panel-horizontal form');
                 /**
                  * @module       Tabs
                  * @description  Bootstrap tabs
                  */
 
                 $("#myTabs a").each(function () {
-                    if (this.href == window.location.href) {
+                    if (this.href === window.location.href) {
                         $(this).parent().addClass("active");
 
                     }
@@ -59,7 +60,7 @@ define(
                 $('#marketTabs a').click(function (e) {
                     e.preventDefault();
                     self.loadList($(this).data("type"));
-                    $(this).tab('show')
+                    $(this).tab('show');
                 });
 
                 /**
@@ -68,8 +69,8 @@ define(
                  */
                 $("#filter_product").change(function () {
                     var value1 = $(this).val(),
-                        type = $('#marketTabs').find('li.active a').data("type"),
-                        value2 = $("#filter_city").val();
+                            type = $('#marketTabs').find('li.active a').data("type"),
+                            value2 = $("#filter_city").val();
                     self.filterByCityProduct(type, 'city', value2, 'product', value1);
                 });
 
@@ -79,15 +80,39 @@ define(
                  */
                 $("#filter_city").change(function () {
                     var value1 = $(this).val(),
-                        type = $('#marketTabs').find('li.active a').data("type"),
-                        value2 = $("#filter_product").val();
+                            type = $('#marketTabs').find('li.active a').data("type"),
+                            value2 = $("#filter_product").val();
                     self.filterByCityProduct(type, 'city', value1, 'product', value2);
+                });
+
+                /**
+                 * @module       Pagination
+                 * @description  Pagination
+                 */
+                $("body").on("click", "#offers #pagination ul.pagination>li>a", function (e) {
+                    e.preventDefault();
+                    self.$spinElenment.spin();
+                    $.get($(this).attr("href"), function (data) {
+                        $('#offers').html(data);
+                        self.$spinElenment.find('.spinner').hide();
+                    });
+                    return false;
+                });
+                $("body").on("click", "#demands #pagination ul.pagination>li>a", function (e) {
+                    e.preventDefault();
+                    self.$spinElenment.spin();
+                    $.get($(this).attr("href"), function (data) {
+                        $('#demands').html(data);
+                        self.$spinElenment.find('.spinner').hide();
+                    });
+                    return false;
                 });
             }
 
             Market.prototype = {
                 loadList: function (type) {
-                    $('form').spin();
+                    var self = this;
+                    self.$spinElenment.spin();
                     var data = {
                         type: type
                     };
@@ -97,7 +122,7 @@ define(
                         data: data
                     }).done(function (response) {
 
-                        if (data.type == "vente") {
+                        if (data.type === "vente") {
                             $("#offers").show();
                             $("#offers").html(response);
                         } else {
@@ -107,11 +132,12 @@ define(
                     }).fail(function () {
                         alert("error");
                     }).always(function () {
-                        $('form').find('.spinner').hide()
+                        self.$spinElenment.find('.spinner').hide();
                     });
                 },
                 filterBy: function (type, key, value) {
-                    $('form').spin();
+                    var self = this;
+                    self.$spinElenment.spin();
                     var data = {
                         type: type,
                         key: key,
@@ -122,7 +148,7 @@ define(
                         url: Routing.generate('market_list_lister'),
                         data: data
                     }).done(function (response) {
-                        if (data.type == "vente") {
+                        if (data.type === "vente") {
                             $("#offers").show();
                             $("#offers").html(response);
                         } else {
@@ -132,13 +158,13 @@ define(
                     }).fail(function () {
                         alert("error");
                     }).always(function () {
-                        $('form').find('.spinner').hide()
+                        self.$spinElenment.find('.spinner').hide();
                     });
 
                 },
-
                 filterByCityProduct: function (type, key1, value1, key2, value2) {
-                    $('form').spin();
+                    var self = this;
+                    self.$spinElenment.spin();
                     var data = {
                         type: type,
                         key1: key1,
@@ -151,7 +177,7 @@ define(
                         url: Routing.generate('market_list_lister'),
                         data: data
                     }).done(function (response) {
-                        if (data.type == "vente") {
+                        if (data.type === "vente") {
                             $("#offers").show();
                             $("#offers").html(response);
                         } else {
@@ -161,12 +187,11 @@ define(
                     }).fail(function () {
                         alert("error");
                     }).always(function () {
-                        $('form').find('.spinner').hide()
+                        self.$spinElenment.find('.spinner').hide();
                     });
 
                 }
             }
-
 
             new Market();
         }

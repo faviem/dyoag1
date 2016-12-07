@@ -57,14 +57,13 @@ class RegistrationType extends AbstractType {
                 ))
                 ->add('user_category', EntityType::class, array(
                     'class' => 'AppBundle:User\UserCategory',
-                    'placeholder' => 'Vous êtes',
+                    'placeholder' => '',
                     'required' => true
                 ))
                 ->add('fields', EntityType::class, array(
                     'class' => 'AppBundle:User\Field',
-                    'placeholder' => 'Spécialisé en',
+                    'placeholder' => '',
                     'required' => true,
-                    'expanded' => true,
                     'multiple' => true,
                 ))
                 ->add('profil', ChoiceType::class, array(
@@ -72,7 +71,7 @@ class RegistrationType extends AbstractType {
                         'Particlier' => 'Particlier',
                         'Professionnel' => 'Professionnel',
                     ),
-                    'placeholder' => 'Votre profile',
+                    'placeholder' => '',
                     'required' => true
                 ))
         ;

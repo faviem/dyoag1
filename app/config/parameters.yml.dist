@@ -21,3 +21,4 @@ parameters:
     contact_email: contact@yourapp.com
     from_email: hello@yourapp.com
     from_name: YourApp
+    max_data_per_page: 8
