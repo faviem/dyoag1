@@ -34,19 +34,51 @@ define(
 //                e.preventDefault()
 //                $(this).tab('show')
 //            });
+ 
+            $.ajax({
+                type: 'get',
+                url: Routing.generate('dashboard_graphmarket'),
+            }).done(function (response) {
+                console.log(parseInt(response.countsupplies));
+                var dataCAMarket = new Array();
+                dataCAMarket.push({y: parseInt(response.caventes), indexLabel: "CA des Offres Résolus"});
+                dataCAMarket.push({y: parseInt(response.casupplies), indexLabel: "CA des Souscriptions Résolus"});
+                
+                var dataAchatMarket = new Array();
+                dataAchatMarket.push({y: parseInt(response.cademands), indexLabel: "Montant des Demandes Résolus"});
+                dataAchatMarket.push({y: parseInt(response.caorders), indexLabel: "Montant des Commandes Résolus"});
+                
+                var datapointMarket = new Array();
+                datapointMarket.push({y: parseInt(response.countventes), indexLabel: "Offres"});
+                datapointMarket.push({y: parseInt(response.countdemands), indexLabel: "Demandes"});
+                datapointMarket.push({y: parseInt(response.countsupplies), indexLabel: "Souscriptions"});
+                datapointMarket.push({y: parseInt(response.countorders), indexLabel: "Commandes"});
+                
+                var dataAchatCAMarket = new Array();
+                dataAchatCAMarket.push({y: parseInt(response.caventes)+parseInt(response.casupplies), indexLabel: "Chiffre d'affaire réalisé"});
+                dataAchatCAMarket.push({y: parseInt(response.cademands)+parseInt(response.caorders), indexLabel: "Achat effectué"});
+                
+                //graph market
+                var marketgraph = new CanvasJS.Chart("graphlemarche",
+                        {
+                            theme: "theme1",
+                
+                            title: {
+                                text: "Le Marché"
+                            },
+                            data: [
+                                {
+                                    type: "pie",
+                                    showInLegend: true,
+                                    legendText: "{indexLabel}",
+                                    dataPoints: datapointMarket
+                                }
+                            ]
 
-            var marketgraph = new CanvasJS.Chart("graphlemarche",
-                    {
-                        theme: "theme1",
-                        title: {
-                            text: "Le Marché"
-                        },
-                        data: imprimegrapheMarket() 
-                        
-                    });
-            marketgraph.render();
-
-            var chiffreaffaire = new CanvasJS.Chart("graphchiffreaffaire",
+                        });
+                
+                // graphe chiffre d'affaire
+                var chiffreaffaire = new CanvasJS.Chart("graphchiffreaffaire",
                     {
                         theme: "theme2",
                         title: {
@@ -56,22 +88,58 @@ define(
                             {
                                 type: "pie",
                                 showInLegend: true,
-                                toolTipContent: "{y} - #percent %",
-                                yValueFormatString: "#0.#,,. Million",
                                 legendText: "{indexLabel}",
-                                dataPoints: [
-                                    {y: 41, indexLabel: "PlayStation 3"},
-                                    {y: 21, indexLabel: "Wii"},
-                                    {y: 31, indexLabel: "Xbox 360"},
-                                    {y: 11, indexLabel: "Nintendo DS"},
-                                    {y: 17, indexLabel: "PSP"},
-                                    {y: 43, indexLabel: "Nintendo 3DS"},
-                                    {y: 17, indexLabel: "PS Vita"}
-                                ]
+                                dataPoints: dataCAMarket
                             }
                         ]
                     });
+               
+                // graphe achats sur le marché
+                var achatmarket = new CanvasJS.Chart("graphachatmarket",
+                    {
+                        theme: "theme2",
+                        title: {
+                            text: "Achats"
+                        },
+                        data: [
+                            {
+                                type: "pie",
+                                showInLegend: true,
+                                legendText: "{indexLabel}",
+                                dataPoints: dataAchatMarket
+                            }
+                        ]
+                    });
+                // graphe achats sur le marché
+                var achatchiffreaffairemarket = new CanvasJS.Chart("graphchiffreachat",
+                    {
+                        theme: "theme2",
+                        title: {
+                            text: "Chiffre d'affaire & Achat"
+                        },
+                        data: [
+                            {
+                                type: "pie",
+                                showInLegend: true,
+                                legendText: "{indexLabel}",
+                                dataPoints: dataAchatCAMarket
+                            }
+                        ]
+                    });
+                    
             chiffreaffaire.render();
+            marketgraph.render();
+            achatchiffreaffairemarket.render();
+            achatmarket.render();
+            
+            }).fail(function () {
+                alert("error");
+            }).always(function () {
+                //console.log(response);
+            });
+
+
+            
 
             var productsoffresgraph = new CanvasJS.Chart("productsoffresgraph", {
                 theme: "theme2",
@@ -128,23 +196,6 @@ define(
                     }]
             });
             productsdemandgraph.render();
-
-            
-            function imprimegrapheMarket () {
-                    var resultat="";
-                    $.ajax({
-                        type: 'get',
-                        url: Routing.generate('dashboard_graphmarket'),
-                    }).done(function (response) {
-                        resultat=response;
-                    }).fail(function () {
-                        alert("error");
-                    }).always(function () {
-                        console.log('OK');
-                    });
-                    
-                    return resultat;
-                }
 
         }
 );

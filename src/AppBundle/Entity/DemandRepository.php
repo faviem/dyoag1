@@ -250,4 +250,5 @@ class DemandRepository extends \Doctrine\ORM\EntityRepository {
                         ->getQuery()
                         ->getSingleScalarResult();
     }
+    
 }
