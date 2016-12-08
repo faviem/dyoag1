@@ -26,7 +26,7 @@ class GraphController extends Controller {
     public function dashboard_graphmarketAction(Request $request) {
         $userId = $this->getUser()->getId();
         $em = $this->getDoctrine()->getManager();
-        //comptage des nombres
+        //comptage des nombres sur le marché
         $countventes = $em->getRepository('AppBundle:Vente')
                 ->getDashboardCountMarket($userId);
         $countdemands = $em->getRepository('AppBundle:Demand')
@@ -61,11 +61,29 @@ class GraphController extends Controller {
         foreach ($CA as $i) {
             $CAorders = $CAorders + ($i->getQuantite() * $i->getVente()->getPrixUnit());
         }
+        //comptages des nombres du rubrique offre
+        $CountBrouillonsV = $em->getRepository('AppBundle:Vente')->getDashboardCountBrouillons($userId);
+        $CountPulibesV = $em->getRepository('AppBundle:Vente')->getDashboardCountPulibes($userId);
+        $CountResolusV = $em->getRepository('AppBundle:Vente')->getDashboardCountResolus($userId);
+        $CountExpiresV = $em->getRepository('AppBundle:Vente')->getDashboardCountExpires($userId);
+        $CountCorbeilleV = $em->getRepository('AppBundle:Vente')->getDashboardCountCorbeille($userId);
+        //comptages des nombres du rubrique demande
+        $CountBrouillonsD = $em->getRepository('AppBundle:Demand')->getDashboardCountBrouillons($userId);
+        $CountPulibesD = $em->getRepository('AppBundle:Demand')->getDashboardCountPulibes($userId);
+        $CountResolusD = $em->getRepository('AppBundle:Demand')->getDashboardCountResolus($userId);
+        $CountExpiresD = $em->getRepository('AppBundle:Demand')->getDashboardCountExpires($userId);
+        $CountCorbeilleD = $em->getRepository('AppBundle:Demand')->getDashboardCountCorbeille($userId);
         
         $dataPoints = array(
+            //premier rubrique
             "countventes" => $countventes, "countdemands" => $countdemands, "countorders" => $countsupplies, "countsupplies" => $countorders,
-            "caventes" => $CAventes, "casupplies" => $CAsupplies,"cademands" => $CAdemands, "caorders" => $CAorders
-        );
+            //deuxième rubrique
+            "caventes" => $CAventes, "casupplies" => $CAsupplies,"cademands" => $CAdemands, "caorders" => $CAorders,
+            //offres
+             "CountBrouillonsV" => $CountBrouillonsV, "CountPulibesV" => $CountPulibesV,"CountResolusV" => $CountResolusV, "CountExpiresV" => $CountExpiresV, "CountCorbeilleV" => $CountCorbeilleV,
+            //demandes
+             "CountBrouillonsD" => $CountBrouillonsD, "CountPulibesD" => $CountPulibesD,"CountResolusD" => $CountResolusD, "CountExpiresD" => $CountExpiresD, "CountCorbeilleD" => $CountCorbeilleD
+           );
 
         return new JsonResponse($dataPoints);
     }
