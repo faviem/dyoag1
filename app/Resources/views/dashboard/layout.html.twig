@@ -2,7 +2,7 @@
 
 {% block container %}
     {% block  ajoutmenu %}
-        
+
     {% endblock %}
 
     <section >
@@ -24,17 +24,21 @@
             {% endblock %}
         </div>
     </section>
-        <section class="text-center offset-1">
+    <section class="text-center offset-1">
         <div class="container">
             {% block  corps %}
                 <div class="row" style="margin-top: -5%;">
-                  <div id="graphlemarche" style="height: 400px; " class="col-md-6"></div>                
-                  <div id="graphchiffreaffaire" style="height: 400px; " class="col-md-6"></div>
-              </div><br/>
+                    <div id="graphlemarche" style="height: 400px; " class="col-md-6"></div>                
+                    <div id="graphchiffreaffaire" style="height: 400px; " class="col-md-6"></div>
+                </div><br/>
                 <div class="row">
-                  <div id="productsoffresgraph" style="height: 400px; " class="col-md-6"></div>                
-                  <div id="productsdemandgraph" style="height: 400px; " class="col-md-6"></div>
-              </div>
+                    <div id="graphachatmarket" style="height: 400px; " class="col-md-6"></div>                
+                    <div id="graphchiffreachat" style="height: 400px; " class="col-md-6"></div>
+                </div><br/>
+                <div class="row">
+                    <div id="productsoffresgraph" style="height: 400px; " class="col-md-6"></div>                
+                    <div id="productsdemandgraph" style="height: 400px; " class="col-md-6"></div>
+                </div>
             {% endblock  %}
             <!-- Button trigger modal -->
         </div>
@@ -45,5 +49,6 @@
     <script>
         require(['dashboard/layout']);
     </script>
+    
 {% endblock %}
 

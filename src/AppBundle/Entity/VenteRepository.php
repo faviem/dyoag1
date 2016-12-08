@@ -283,5 +283,6 @@ class VenteRepository extends \Doctrine\ORM\EntityRepository {
                         ->getQuery()
                         ->getSingleScalarResult();
     }
+  
     
 }
