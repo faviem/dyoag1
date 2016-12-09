@@ -1,0 +1,12 @@
+{% extends 'dashboard/moncompte/index.html.twig' %}
+
+{% block  moncompte %}
+
+    <h1>Modification de mon compte</h1>
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <input type="submit" value="Modifier" />
+    {{ form_end(form) }}
+
+{% endblock %}
