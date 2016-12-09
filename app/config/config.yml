@@ -153,6 +153,16 @@ fos_js_routing:
         - market_list
         - market_list_lister
         - dashboard_graphmarket
+        - dashboard_mesoffresPublies
+        - dashboard_mesoffresBrouillons
+        - dashboard_mesoffresResolus
+        - dashboard_mesoffresCorbeille
+        - dashboard_mesoffresExpires
+        - dashboard_mesdemandesPublies
+        - dashboard_mesdemandesBrouillons
+        - dashboard_mesdemandesExpires
+        - dashboard_mesdemandesResolus
+        - dashboard_mesdemandesCorbeille
 
 fos_rest:
     unauthorized_challenge: "Basic realm=\"Restricted Area\""

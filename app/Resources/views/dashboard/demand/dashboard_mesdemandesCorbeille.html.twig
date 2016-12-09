@@ -1,5 +1,3 @@
-{% extends '/dashboard/demand/dashboard_mesdemandes.html.twig' %}
-
 {% block  corps %}
     {% set compte=0%}
     {% for element in demandes %}
@@ -26,18 +24,18 @@
                         <dt style="font-size: 13px;color: black;">  <i class="fa fa-calendar" aria-hidden="true"> </i> {{ element.createat|date('d M y') }}</dt>
                     </dl><br/>
 
-                    <a class="btn btn-default round-xl btn-xs" href="#" title="Restaurer la demande" data-toggle="modal" data-target="#restaurer{{ element.id }}"> <i class="fa fa-book"> </i>  </a>
-                     {% include 'dashboard/demand/actions/dashboard_restaurerdemande.html.twig'  %}
-                                        
+                    <a class="btn btn-default round-xl btn-xs" href="#" title="{{ "Restaurer la demande"|trans() }}" data-toggle="modal" data-target="#restaurer{{ element.id }}"> <i class="fa fa-book"> </i>  </a>
+                    {% include 'dashboard/demand/actions/dashboard_restaurerdemande.html.twig'  %}
+
                 </div>
-                                        
+
             </div>
         </div>
     {% endfor %}
     {% if compte==0 %}
         <div class="col-xs-6  col-md-12 text-center" style="min-height: 280px;">
             <div class="product tumbnail thumbnail-3">
-                <a class="btn btn-default round-xl btn-xs" href="#" > AUCUNE DEMANDE N'EXISTE DANS LA CORBEILLE ... </a>
+                <a class="btn btn-default round-xl btn-xs" href="#" > {{ "AUCUNE DEMANDE N'EXISTE DANS LA CORBEILLE"|trans() }} ... </a>
             </div>
         </div>
     </div>

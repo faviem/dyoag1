@@ -1,19 +1,17 @@
-{% extends '/dashboard/demand/dashboard_mesdemandesPublies.html.twig' %}
-
 {% block  corps %}
     {% set compte=0%}
     {% for element in demandes %}
         {% set compte=compte+1 %}
         {% set qte=0 %} {% set nbre=0 %}
         {% for souscrptions in element.supplies %}
-        {% if souscrptions.canceled==0 and souscrptions.deleted==0 %}
-            {% set nbre=nbre+1 %}
-            {% if souscrptions.accepted==1 %}
-                {% set qte=qte+souscrptions.quantite %}
-            {% endif %}
+            {% if souscrptions.canceled==0 and souscrptions.deleted==0 %}
+                {% set nbre=nbre+1 %}
+                {% if souscrptions.accepted==1 %}
+                    {% set qte=qte+souscrptions.quantite %}
+                {% endif %}
 
-        {% endif %}
-    {% endfor %}
+            {% endif %}
+        {% endfor %}
         <div class="col-xs-6  col-md-3">
             <div class="product tumbnail thumbnail-3">
                 <a href="{{ path('demand_show', { 'id': element.id }) }}">
@@ -30,12 +28,12 @@
                         <dt style="font-size: 13px;color: black;">  <i class="fa fa-calendar" aria-hidden="true"> </i> {{ element.createat|date('d M y') }}</dt>
                     </dl><br/>
 
-                    <a class="btn btn-default round-xl btn-xs" href="#" title="Publier la demande" data-toggle="modal" data-target="#publier{{ element.id }}"> <i class="fa fa-share-alt"> </i>  </a>
+                    <a class="btn btn-default round-xl btn-xs" href="#" title="{{ 'Publier la demande' | trans }}" data-toggle="modal" data-target="#publier{{ element.id }}"> <i class="fa fa-share-alt"> </i>  </a>
                     —
-                    <a class="btn btn-default round-xl btn-xs" href="#"  title="Annuler la demande" data-toggle="modal" data-target="#annuler{{ element.id }}"> <i class="fa fa-trash-o" > </i> </a>
-                     {% include 'dashboard/demand/actions/dashboard_annulerdemande.html.twig'  %}
-                     {% include 'dashboard/demand/actions/dashboard_publierdemande.html.twig'  %}
-                                        
+                    <a class="btn btn-default round-xl btn-xs" href="#"  title="{{ 'Annuler la demande' | trans }}" data-toggle="modal" data-target="#annuler{{ element.id }}"> <i class="fa fa-trash-o" > </i> </a>
+                    {% include 'dashboard/demand/actions/dashboard_annulerdemande.html.twig'  %}
+                    {% include 'dashboard/demand/actions/dashboard_publierdemande.html.twig'  %}
+
                 </div>
             </div>
         </div>
@@ -43,7 +41,7 @@
     {% if compte==0 %}
         <div class="col-xs-6  col-md-12 text-center" style="min-height: 280px;">
             <div class="product tumbnail thumbnail-3">
-                <a class="btn btn-default round-xl btn-xs" href="#" > AUCUNE DEMANDE N'A ETE  CREEE AU BROUILLON ... </a>
+                <a class="btn btn-default round-xl btn-xs" href="#" > {{ "AUCUNE DEMANDE N'A ETE  CREEE AU BROUILLON " | trans }}... </a>
             </div>
         </div>
     </div>

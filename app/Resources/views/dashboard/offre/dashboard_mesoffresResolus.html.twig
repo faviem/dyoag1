@@ -1,5 +1,3 @@
-{% extends '/dashboard/offre/dashboard_mesoffres.html.twig' %}
-
 {% block  corps %}
     {% set compte=0%}
     {% for element in ventes %}
@@ -30,7 +28,7 @@
                         <dt style="font-size: 13px;color: black;">  <i class="fa fa-calendar" aria-hidden="true"> </i> {{ element.createat|date('d M y') }}</dt>
                     </dl><br/>
 
-                     <a title="Consulter les commandes" href="{{ path('dashboard_commandesoffre', { 'id': element.id }) }}">  {{ nbre|number_format(0, ',', '.') }}  <i class="fa fa-hand-o-right" > </i> Commandes  </a>
+                     <a title="{{ 'Consulter les commandes' | trans }}" href="{{ path('dashboard_commandesoffre', { 'id': element.id }) }}">  {{ nbre|number_format(0, ',', '.') }}  <i class="fa fa-hand-o-right" > </i> {{ "Commandes" | trans }}  </a>
 
                 </div>
             </div>
@@ -39,7 +37,7 @@
     {% if compte==0 %}
         <div class="col-xs-6  col-md-12 text-center" style="min-height: 280px;">
             <div class="product tumbnail thumbnail-3">
-                <a class="btn btn-default round-xl btn-xs" href="#" > AUCUN OFFRE N'EST RESOLU ... </a>
+                <a class="btn btn-default round-xl btn-xs" href="#" > {{ "AUCUNE OFFRE N'EST RESOLU" | trans }} ... </a>
             </div>
         </div>
     </div>
