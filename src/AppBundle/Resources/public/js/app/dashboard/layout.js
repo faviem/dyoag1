@@ -40,13 +40,27 @@ define(
                 url: Routing.generate('dashboard_graphmarket'),
             }).done(function (response) {
                 console.log(parseInt(response.countsupplies));
-                var dataCAMarket = new Array();
-                dataCAMarket.push({y: parseInt(response.caventes), indexLabel: "CA des Offres Résolus"});
-                dataCAMarket.push({y: parseInt(response.casupplies), indexLabel: "CA des Souscriptions Résolus"});
+                var dataOffres = new Array();
+                dataOffres.push({y: parseInt(response.CountPulibesV), label: "Publiées"});
+                dataOffres.push({y: parseInt(response.CountResolusV), label: "Résolues"});
+                dataOffres.push({y: parseInt(response.CountBrouillonsV), label: "Brouillons"});
+                dataOffres.push({y: parseInt(response.CountExpiresV), label: "Expirées"});
+                dataOffres.push({y: parseInt(response.CountCorbeilleV), label: "Corbeilles"});
+                
+                var dataDemands = new Array();
+                dataDemands.push({y: parseInt(response.CountPulibesD), label: "Publiées"});
+                dataDemands.push({y: parseInt(response.CountResolusD), label: "Résolues"});
+                dataDemands.push({y: parseInt(response.CountBrouillonsD), label: "Brouillons"});
+                dataDemands.push({y: parseInt(response.CountExpiresD), label: "Expirées"});
+                dataDemands.push({y: parseInt(response.CountCorbeilleD), label: "Corbeilles"});
+                
+            var dataCAMarket = new Array();
+                dataCAMarket.push({y: parseInt(response.caventes), indexLabel: "CA des Offres Résolues"});
+                dataCAMarket.push({y: parseInt(response.casupplies), indexLabel: "CA des Souscriptions Résolues"});
                 
                 var dataAchatMarket = new Array();
-                dataAchatMarket.push({y: parseInt(response.cademands), indexLabel: "Montant des Demandes Résolus"});
-                dataAchatMarket.push({y: parseInt(response.caorders), indexLabel: "Montant des Commandes Résolus"});
+                dataAchatMarket.push({y: parseInt(response.cademands), indexLabel: "Montant des Demandes Résolues"});
+                dataAchatMarket.push({y: parseInt(response.caorders), indexLabel: "Montant des Commandes Résolues"});
                 
                 var datapointMarket = new Array();
                 datapointMarket.push({y: parseInt(response.countventes), indexLabel: "Offres"});
@@ -56,7 +70,7 @@ define(
                 
                 var dataAchatCAMarket = new Array();
                 dataAchatCAMarket.push({y: parseInt(response.caventes)+parseInt(response.casupplies), indexLabel: "Chiffre d'affaire réalisé"});
-                dataAchatCAMarket.push({y: parseInt(response.cademands)+parseInt(response.caorders), indexLabel: "Achat effectué"});
+                dataAchatCAMarket.push({y: parseInt(response.cademands)+parseInt(response.caorders), indexLabel: "Achat effectuée"});
                 
                 //graph market
                 var marketgraph = new CanvasJS.Chart("graphlemarche",
@@ -126,11 +140,45 @@ define(
                             }
                         ]
                     });
+               //GRAPH POUR OFFRES
+               var productsoffresgraph = new CanvasJS.Chart("productsoffresgraph",
+                    {
+                        theme: "theme2",
+                        title: {
+                            text: "Offres"
+                        },
+                        data: [
+                            {
+                                type: "column",
+                                showInLegend: false,
+                                legendText: "{label}",
+                                dataPoints: dataOffres
+                            }
+                        ]
+                    });
+              //GRAPH POUR DEMANDES
+               var productsdemandgraph = new CanvasJS.Chart("productsdemandgraph",
+                    {
+                        theme: "theme2",
+                        title: {
+                            text: "Demandes"
+                        },
+                        data: [
+                            {
+                                type: "column",
+                                showInLegend: false,
+                                legendText: "{label}",
+                                dataPoints: dataDemands
+                            }
+                        ]
+                    });
                     
             chiffreaffaire.render();
             marketgraph.render();
             achatchiffreaffairemarket.render();
             achatmarket.render();
+            productsoffresgraph.render();
+            productsdemandgraph.render();
             
             }).fail(function () {
                 alert("error");
@@ -139,63 +187,6 @@ define(
             });
 
 
-            
-
-            var productsoffresgraph = new CanvasJS.Chart("productsoffresgraph", {
-                theme: "theme2",
-                title: {
-                    text: "Produits/Offres ou souscriptions"
-                },
-                axisX: {
-                    interval: 10
-                },
-                dataPointWidth: 60,
-                data: [{
-                        type: "column",
-                        indexLabelLineThickness: 2,
-                        dataPoints: [
-                            {x: 10, y: 230, indexLabel: "Lowest"},
-                            {x: 20, y: 710, indexLabel: "Highest"},
-                            {x: 30, y: 380},
-                            {x: 40, y: 567},
-                            {x: 50, y: 280},
-                            {x: 60, y: 507},
-                            {x: 70, y: 680},
-                            {x: 80, y: 287},
-                            {x: 90, y: 460},
-                            {x: 100, y: 509}
-                        ]
-                    }]
-            });
-            productsoffresgraph.render();
-
-            var productsdemandgraph = new CanvasJS.Chart("productsdemandgraph", {
-                theme: "theme2",
-                title: {
-                    text: "Produits/Demandes ou commandes"
-                },
-                axisX: {
-                    interval: 10
-                },
-                dataPointWidth: 60,
-                data: [{
-                        type: "column",
-                        indexLabelLineThickness: 2,
-                        dataPoints: [
-                            {x: 10, y: 230, indexLabel: "Lowest"},
-                            {x: 20, y: 710, indexLabel: "Highest"},
-                            {x: 30, y: 380},
-                            {x: 40, y: 567},
-                            {x: 50, y: 280},
-                            {x: 60, y: 507},
-                            {x: 70, y: 680},
-                            {x: 80, y: 287},
-                            {x: 90, y: 460},
-                            {x: 100, y: 509}
-                        ]
-                    }]
-            });
-            productsdemandgraph.render();
 
         }
 );
