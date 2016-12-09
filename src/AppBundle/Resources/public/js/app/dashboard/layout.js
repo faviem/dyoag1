@@ -54,7 +54,7 @@ define(
                 dataDemands.push({y: parseInt(response.CountExpiresD), label: "Expirées"});
                 dataDemands.push({y: parseInt(response.CountCorbeilleD), label: "Corbeilles"});
                 
-            var dataCAMarket = new Array();
+                var dataCAMarket = new Array();
                 dataCAMarket.push({y: parseInt(response.caventes), indexLabel: "CA des Offres Résolues"});
                 dataCAMarket.push({y: parseInt(response.casupplies), indexLabel: "CA des Souscriptions Résolues"});
                 
@@ -186,7 +186,26 @@ define(
                 //console.log(response);
             });
 
+            //pour l'affichage de la liste des offres
+            
+             $('#dashboard_mesoffresPublies').click(function (e) {
+                    e.preventDefault();
+                     $.ajax({
+                        type: 'get',
+                        url: Routing.generate('dashboard_mesoffresPublies'),
+                        data: null
+                    }).done(function (response) {
 
+                        $("#affichageContenuajax").html(response);
+                       
+                    }).fail(function () {
+                        alert("error");
+                    }).always(function () {
+                       // self.$spinElenment.find('.spinner').hide();
+                       console.log('OK');
+                    });
+                    
+                });
 
         }
 );

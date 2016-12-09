@@ -1,5 +1,3 @@
-{% extends '/dashboard/demand/dashboard_mesdemandes.html.twig' %}
-
 {% set compte=0%}
 {% block  corps %}
     {% for element in demandes %}
@@ -37,7 +35,7 @@
                         —
                         <a class="btn btn-default round-xl btn-xs" data-toggle="modal" data-target="#annuler{{ element.id }}" href="#" title="Annuler la demande"> <i class="fa fa-trash-o" > </i> 
                         </a>
-                         {% include 'dashboard/demand/actions/dashboard_annulerdemande.html.twig'  %}
+                        {% include 'dashboard/demand/actions/dashboard_annulerdemande.html.twig'  %}
                     {% endif %}
 
                 </div>

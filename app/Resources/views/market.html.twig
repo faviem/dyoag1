@@ -147,7 +147,9 @@
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
-    <script>
-        require(['market/index']);
-    </script>
+    {% block javascriptsMarket %}
+        <script>
+            require(['market/index']);
+        </script>
+    {% endblock %}
 {% endblock %}

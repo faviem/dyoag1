@@ -35,6 +35,33 @@ class DashboardController extends Controller {
     }
     
     //les actions pour les offres
+    
+    /**
+     * View of dashboard.
+     *
+     * @Route("/mesoffres", name="dashboard_mesoffres")
+     * @Method("GET")
+     */
+    public function mesoffresAction(Request $request) {
+        $userId = $this->getUser()->getId();
+        $em = $this->getDoctrine()->getManager();
+
+        $ventes = $em->getRepository('AppBundle:Vente')
+                ->findBy(array('deleted' => false, 'canceled' => false, 'available' => true, 'published' => true, 'user' => $userId), array(
+            'createAt' => 'ASC'
+        ));
+        $CountBrouillons = $em->getRepository('AppBundle:Vente')->getDashboardCountBrouillons($userId);
+        $CountPulibes = $em->getRepository('AppBundle:Vente')->getDashboardCountPulibes($userId);
+        $CountResolus = $em->getRepository('AppBundle:Vente')->getDashboardCountResolus($userId);
+        $CountExpires = $em->getRepository('AppBundle:Vente')->getDashboardCountExpires($userId);
+        $CountCorbeille = $em->getRepository('AppBundle:Vente')->getDashboardCountCorbeille($userId);
+
+        return $this->render('dashboard/offre/dashboard_mesoffres.html.twig', array(
+                    'ventes' => $ventes, 'brouillons' => $CountBrouillons, 'expires' => $CountExpires,
+                    'publies' => $CountPulibes, 'resolus' => $CountResolus, 'corbeille' => $CountCorbeille
+        ));
+    }
+    
     /**
      * View of dashboard.
      *
@@ -122,7 +149,7 @@ class DashboardController extends Controller {
         $em = $this->getDoctrine()->getManager();
 
         $ventes = $em->getRepository('AppBundle:Vente')
-                ->findBy(array('deleted' => false, 'canceled' => false, 'available' => false, 'published' => false, 'user' => $userId), array(
+                ->findBy(array('deleted' => false, 'canceled' => false, 'available' => false, 'user' => $userId), array(
             'createAt' => 'ASC'
         ));
         $CountBrouillons = $em->getRepository('AppBundle:Vente')->getDashboardCountBrouillons($userId);
@@ -215,7 +242,7 @@ class DashboardController extends Controller {
             $vente->setCanceled(true);
             $vente->setCanceledReason($request->get('canceledReason'));
             $em->flush();
-            return $this->redirectToRoute('dashboard_mesoffresCorbeille');
+            return $this->redirectToRoute('dashboard_mesoffres');
         }
     }
 
@@ -235,7 +262,7 @@ class DashboardController extends Controller {
             $vente->setCanceled(false);
             $vente->setCanceledReason(null);
             $em->flush();
-            return $this->redirectToRoute('dashboard_mesoffresBrouillons');
+            return $this->redirectToRoute('dashboard_mesoffres');
         }
     }
 
@@ -255,7 +282,7 @@ class DashboardController extends Controller {
             $vente->setCanceled(false);
             $vente->setCanceledReason(null);
             $em->flush();
-            return $this->redirectToRoute('dashboard_mesoffresPublies');
+            return $this->redirectToRoute('dashboard_mesoffres');
         }
     }
 
@@ -276,7 +303,7 @@ class DashboardController extends Controller {
             $vente->getDateLimit()->add(new \DateInterval('P30D'));
             $vente->setPublished(true);
             $em->flush();
-            return $this->redirectToRoute('dashboard_mesoffresPublies');
+            return $this->redirectToRoute('dashboard_mesoffres');
         }
     }
 
@@ -317,6 +344,32 @@ class DashboardController extends Controller {
     }
     
     //les actions de demandes   
+    /**
+     * View of dashboard.
+     *
+     * @Route("/mesdemandes", name="dashboard_mesdemandes")
+     * @Method("GET")
+     */
+    public function mesdemandesAction(Request $request) {
+         $userId = $this->getUser()->getId();
+        $em = $this->getDoctrine()->getManager();
+
+        $demandes = $em->getRepository('AppBundle:Demand')
+                ->findBy(array('deleted' => false, 'canceled' => false, 'available' => true, 'published' => true, 'user' => $userId), array(
+            'createAt' => 'ASC'
+        ));
+        $CountBrouillons = $em->getRepository('AppBundle:Demand')->getDashboardCountBrouillons($userId);
+        $CountPulibes = $em->getRepository('AppBundle:Demand')->getDashboardCountPulibes($userId);
+        $CountResolus = $em->getRepository('AppBundle:Demand')->getDashboardCountResolus($userId);
+        $CountExpires = $em->getRepository('AppBundle:Demand')->getDashboardCountExpires($userId);
+        $CountCorbeille = $em->getRepository('AppBundle:Demand')->getDashboardCountCorbeille($userId);
+
+        return $this->render('dashboard/demand/dashboard_mesdemandes.html.twig', array(
+                    'demandes' => $demandes, 'brouillons' => $CountBrouillons, 'expires' => $CountExpires,
+                    'publies' => $CountPulibes, 'resolus' => $CountResolus, 'corbeille' => $CountCorbeille
+        ));
+    }
+    
     /**
      * View of dashboard.
      *
@@ -469,7 +522,7 @@ class DashboardController extends Controller {
             $this->addFlash(
                     'success', "Votre demande d'approvisionnement a été bien enregistrée!"
             );
-            return $this->redirectToRoute('dashboard_mesdemandesBrouillons');
+            return $this->redirectToRoute('dashboard_mesdemandes');
         }
 
         return $this->render('dashboard/demand/dashboard_newbrouillon.html.twig', array(
@@ -494,7 +547,7 @@ class DashboardController extends Controller {
             $demand->setCanceled(true);
             $demand->setCanceledReason($request->get('canceledReason'));
             $em->flush();
-            return $this->redirectToRoute('dashboard_mesdemandesCorbeille');
+            return $this->redirectToRoute('dashboard_mesdemandes');
         }
     }
 
@@ -514,7 +567,7 @@ class DashboardController extends Controller {
             $demand->setCanceled(false);
             $demand->setCanceledReason(null);
             $em->flush();
-            return $this->redirectToRoute('dashboard_mesdemandesBrouillons');
+            return $this->redirectToRoute('dashboard_mesdemandes');
         }
     }
 
@@ -534,7 +587,7 @@ class DashboardController extends Controller {
             $demand->setCanceled(false);
             $demand->setCanceledReason(null);
             $em->flush();
-            return $this->redirectToRoute('dashboard_mesdemandesPublies');
+            return $this->redirectToRoute('dashboard_mesdemandes');
         }
     }
 
@@ -555,7 +608,7 @@ class DashboardController extends Controller {
             $demand->getDateLimit()->add(new \DateInterval('P30D'));
             $demand->setPublished(true);
             $em->flush();
-            return $this->redirectToRoute('dashboard_mesdemandesPublies');
+            return $this->redirectToRoute('dashboard_mesdemandes');
         }
     }
     

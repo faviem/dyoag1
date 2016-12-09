@@ -1,19 +1,17 @@
-{% extends '/dashboard/demand/dashboard_mesdemandesPublies.html.twig' %}
-
 {% block  corps %}
     {% set compte=0%}
     {% for element in demandes %}
         {% set compte=compte+1 %}
         {% set qte=0 %} {% set nbre=0 %}
         {% for souscrptions in element.supplies %}
-        {% if souscrptions.canceled==0 and souscrptions.deleted==0 %}
-            {% set nbre=nbre+1 %}
-            {% if souscrptions.accepted==1 %}
-                {% set qte=qte+souscrptions.quantite %}
-            {% endif %}
+            {% if souscrptions.canceled==0 and souscrptions.deleted==0 %}
+                {% set nbre=nbre+1 %}
+                {% if souscrptions.accepted==1 %}
+                    {% set qte=qte+souscrptions.quantite %}
+                {% endif %}
 
-        {% endif %}
-    {% endfor %}
+            {% endif %}
+        {% endfor %}
         <div class="col-xs-6  col-md-3">
             <div class="product tumbnail thumbnail-3">
                 <a href="{{ path('demand_show', { 'id': element.id }) }}">
@@ -33,9 +31,9 @@
                     <a class="btn btn-default round-xl btn-xs" href="#" title="Publier la demande" data-toggle="modal" data-target="#publier{{ element.id }}"> <i class="fa fa-share-alt"> </i>  </a>
                     —
                     <a class="btn btn-default round-xl btn-xs" href="#"  title="Annuler la demande" data-toggle="modal" data-target="#annuler{{ element.id }}"> <i class="fa fa-trash-o" > </i> </a>
-                     {% include 'dashboard/demand/actions/dashboard_annulerdemande.html.twig'  %}
-                     {% include 'dashboard/demand/actions/dashboard_publierdemande.html.twig'  %}
-                                        
+                    {% include 'dashboard/demand/actions/dashboard_annulerdemande.html.twig'  %}
+                    {% include 'dashboard/demand/actions/dashboard_publierdemande.html.twig'  %}
+
                 </div>
             </div>
         </div>

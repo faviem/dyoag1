@@ -1,5 +1,3 @@
-{% extends '/dashboard/demand/dashboard_mesdemandes.html.twig' %}
-
 {% block  corps %}
     {% set compte=0%}
     {% for element in demandes %}
@@ -27,10 +25,10 @@
                     </dl><br/>
 
                     <a class="btn btn-default round-xl btn-xs" href="#" title="Restaurer la demande" data-toggle="modal" data-target="#restaurer{{ element.id }}"> <i class="fa fa-book"> </i>  </a>
-                     {% include 'dashboard/demand/actions/dashboard_restaurerdemande.html.twig'  %}
-                                        
+                    {% include 'dashboard/demand/actions/dashboard_restaurerdemande.html.twig'  %}
+
                 </div>
-                                        
+
             </div>
         </div>
     {% endfor %}

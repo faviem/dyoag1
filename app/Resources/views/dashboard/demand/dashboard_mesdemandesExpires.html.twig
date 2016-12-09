@@ -1,19 +1,17 @@
-{% extends '/dashboard/demand/dashboard_mesdemandes.html.twig' %}
-
 {% block  corps %}
     {% set compte=0%}
     {% for element in demandes %}
         {% set compte=compte+1 %}
         {% set qte=0 %}{% set nbre=0%}
         {% for souscrptions in element.supplies %}
-        {% if souscrptions.canceled==0 and souscrptions.deleted==0 %}
-            {% set nbre=nbre+1 %}
-            {% if  souscrptions.approuved==1 and souscrptions.accepted==1 %}
-                {% set qte=qte+souscrptions.quantite %}
-            {% endif %}
+            {% if souscrptions.canceled==0 and souscrptions.deleted==0 %}
+                {% set nbre=nbre+1 %}
+                {% if  souscrptions.approuved==1 and souscrptions.accepted==1 %}
+                    {% set qte=qte+souscrptions.quantite %}
+                {% endif %}
 
-        {% endif %}
-    {% endfor %}
+            {% endif %}
+        {% endfor %}
         <div class="col-xs-6  col-md-3">
             <div class="product tumbnail thumbnail-3">
                 <a href="{{ path('demand_show', { 'id': element.id }) }}">
@@ -33,15 +31,15 @@
                     <a title="Consulter les souscriptions" href="{{ path('dashboard_souscriptionsdemande', { 'id': element.id }) }}">  {{ nbre|number_format(0, ',', '.') }}  <i class="fa fa-hand-o-right" > </i> Sous..  </a>
                     —                
                     <a class="btn btn-default round-xl btn-xs" data-toggle="modal" data-target="#relancer{{ element.id }}" href="#" title="Relancer la publication"> <i class="fa fa-share-alt"> </i>  </a>
-                    
+
                     {% if  nbre<=0 %} 
                         —
                         <a class="btn btn-default round-xl btn-xs" data-toggle="modal" data-target="#annuler{{ element.id }}" href="#"  title="Annuler la demande"> <i class="fa fa-trash-o" > </i> 
                         </a>
-                       {% include 'dashboard/demand/actions/dashboard_annulerdemande.html.twig'  %}
+                        {% include 'dashboard/demand/actions/dashboard_annulerdemande.html.twig'  %}
                     {% endif %}
                     {% include 'dashboard/demand/actions/dashboard_relancerdemande.html.twig'  %}
-                                            
+
                 </div>
             </div>
         </div>
