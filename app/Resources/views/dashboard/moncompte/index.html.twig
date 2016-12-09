@@ -7,7 +7,7 @@
 {% endblock %}
 {% block  corps %}
     <div class="row" style="min-height: 450px;">
-        <div class="col-sm-4 col-md-3 user-details" style="margin-top: -8%;">
+        <div class="col-sm-6 col-md-3 user-details">
             <div class="user-image">
                 <img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&f=y" alt="Karan Singh Sisodia" title="Karan Singh Sisodia" class="img-circle">
             </div>
@@ -25,7 +25,7 @@
                 </div>
                 <ul class="navigation">
                     <li class="active">
-                        <a data-toggle="tab" href="#information">
+                        <a href="{{ path('dasboard_moncompte_profile') }}">
                             <span class="fa fa-user"></span>
                         </a>
                     </li>
@@ -45,6 +45,7 @@
                         </a>
                     </li>
                 </ul>
+                {#
                 <div class="user-body">
                     <div class="tab-content">
                         <div id="information" class="tab-pane active">
@@ -61,9 +62,10 @@
                         </div>
                     </div>
                 </div>
+                #}
             </div>
         </div>
-        <div class="col-md-9">
+        <div class="col-sm-6  col-md-9">
             {% block  moncompte %} CONTENU A IMPLEMENTER{% endblock %}
         </div>
     </div>

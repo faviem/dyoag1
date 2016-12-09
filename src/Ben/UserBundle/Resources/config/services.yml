@@ -1,9 +1,9 @@
 parameters:
 #    security.user_checker.class: Ben\UserBundle\Security\Core\User\UserChecker
-    ben_user.register.form.type.class: Ben\UserBundle\Form\Type\RegistrationFormType
+    ben_user.register.form.type.class: Ben\UserBundle\Form\RegistrationFormType
     ben_user.resetting.form.type.class: Ben\UserBundle\Form\Type\ResettingFormType
     ben_user.profile.form.type.class: Ben\UserBundle\Form\Type\ProfileFormType
-    fos_user.entity.user.class: AppBundle\Entity\User\Customer
+    fos_user.entity.user.class: AppBundle\Entity\User\User
 #    my_user_provider.class: Ben\UserBundle\Security\Core\User\FOSUBUserProvider
     ben_user_security.authentication_handler: Ben\UserBundle\Handler\AuthenticationHandler
 services:
@@ -37,7 +37,7 @@ services:
         class: %ben_user.profile.form.type.class%
         arguments: [%fos_user.entity.user.class%]
         tags:
-            - { name: form.type, alias: ben_user_profile }
+            - { name: form.type }
 
 #    my_user_provider:
 #        class: "%my_user_provider.class%"
