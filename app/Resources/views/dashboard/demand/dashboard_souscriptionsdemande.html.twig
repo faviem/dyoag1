@@ -29,7 +29,7 @@
                 <dl>
                     <dt style="font-size: 13px;color: black;">  <i class="fa fa-calendar" aria-hidden="true"> </i> {{ demande.createat|date('d M y') }}</dt>
                 </dl><br/>
-                <a class="btn btn-default round-xl btn-xs"  href="{{ path('dashboard_mesdemandes') }}" title=""> <i class="fa fa-share-alt" > RETOUR </i> 
+                <a class="btn btn-default round-xl btn-xs"  href="{{ path('dashboard_mesdemandes') }}" title=""> <i class="fa fa-share-alt" > {{ 'RETOUR'|trans() }} </i> 
                 </a>
             </div>
         </div>
@@ -39,14 +39,14 @@
         <div class="product tumbnail">
             <div class="table-responsive">
                 <table class="table .table-hover">
-                    <caption> {{ nbre|number_format(0, ',', '.') }}  SOUSCRIPTIONS RECUES </caption>
+                    <caption> {{ nbre|number_format(0, ',', '.') }}  {{ 'SOUSCRIPTIONS RECUES'|trans() }} </caption>
 
                     <thead> <!-- En-tête du tableau -->
                         <tr>
-                            <th style="text-align: center;font-size: 12px;">Nom du vendeur</th>
-                            <th style="text-align: center;font-size: 12px;">Quantité vendue</th>
-                            <th style="text-align: center;font-size: 12px;">Date effectuée</th>
-                            <th style="text-align: center;font-size: 12px;">Etat</th>
+                            <th style="text-align: center;font-size: 12px;">{{ 'Nom du vendeur'|trans() }}</th>
+                            <th style="text-align: center;font-size: 12px;">{{ 'Quantité vendue'|trans() }}</th>
+                            <th style="text-align: center;font-size: 12px;">{{ 'Date effectuée'|trans() }}</th>
+                            <th style="text-align: center;font-size: 12px;">{{ 'Etat'|trans() }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -73,7 +73,7 @@
 
                         {% if  nbre==0 %}
                             <tr>
-                                <td colspan="4">AUCUNE SOUSCRIPTION N'EXISTE DANS LA TABLE !!!</td>
+                                <td colspan="4"> {{ "AUCUNE SOUSCRIPTION N'EXISTE DANS LA TABLE"|trans() }}  !!!</td>
                             </tr>
                         {% endif %}
 

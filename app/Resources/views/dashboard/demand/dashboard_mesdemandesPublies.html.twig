@@ -29,7 +29,7 @@
                         <dt style="font-size: 13px;color: black;">  <i class="fa fa-calendar" aria-hidden="true"> </i> {{ element.createat|date('d M y') }}</dt>
                     </dl><br/>
 
-                    <a title="Consulter les souscriptions" href="{{ path('dashboard_souscriptionsdemande', { 'id': element.id }) }}">  {{ nbre|number_format(0, ',', '.') }}  <i class="fa fa-hand-o-right" > </i> Souscriptions  </a>
+                    <a title="{{ "Consulter les souscriptions"|trans() }}" href="{{ path('dashboard_souscriptionsdemande', { 'id': element.id }) }}">  {{ nbre|number_format(0, ',', '.') }}  <i class="fa fa-hand-o-right" > </i> {{ "Souscriptions"|trans() }}  </a>
 
                     {% if  nbre<=0 %} 
                         —
@@ -45,7 +45,7 @@
     {% if compte==0 %}
         <div class="col-xs-6  col-md-12 text-center" style="min-height: 280px;">
             <div class="product tumbnail thumbnail-3">
-                <a class="btn btn-default round-xl btn-xs" href="#" > AUCUNE DEMANDE N'A ETE PUBLIEE ... </a>
+                <a class="btn btn-default round-xl btn-xs" href="#" > {{ "AUCUNE DEMANDE N'A ETE PUBLIEE"|trans() }} ... </a>
             </div>
         </div>
     {% endif %}

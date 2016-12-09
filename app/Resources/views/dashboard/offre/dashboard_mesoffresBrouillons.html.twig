@@ -28,9 +28,9 @@
                         <dt style="font-size: 13px;color: black;">  <i class="fa fa-calendar" aria-hidden="true"> </i> {{ element.createat|date('d M y') }}</dt>
                     </dl><br/>
 
-                   <a class="btn btn-default round-xl btn-xs" href="#" title="Publier la demande" data-toggle="modal" data-target="{{ '#publier'~ element.id }}"> <i class="fa fa-share-alt"> </i>  </a>
+                   <a class="btn btn-default round-xl btn-xs" href="#" title="{{ 'Publier la demande' | trans }}" data-toggle="modal" data-target="{{ '#publier'~ element.id }}"> <i class="fa fa-share-alt"> </i>  </a>
                     —
-                    <a class="btn btn-default round-xl btn-xs" href="#"  title="Annuler la demande" data-toggle="modal" data-target="{{ '#annuler'~ element.id }}"> <i class="fa fa-trash-o" > </i> </a>
+                    <a class="btn btn-default round-xl btn-xs" href="#"  title="{{ 'Annuler la demande' | trans }}" data-toggle="modal" data-target="{{ '#annuler'~ element.id }}"> <i class="fa fa-trash-o" > </i> </a>
                     
                     {% include 'dashboard/offre/actions/dashboard_annuleroffre.html.twig'  %}
                     {% include 'dashboard/offre/actions/dashboard_publieroffre.html.twig'  %}

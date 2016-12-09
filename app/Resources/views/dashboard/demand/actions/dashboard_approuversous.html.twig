@@ -5,7 +5,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h6 class="modal-title" id="myModalLabel"> APPROBATION DE LA SOUSCRIPTION </h6>
+                    <h6 class="modal-title" id="myModalLabel"> {{ "APPROBATION DE LA SOUSCRIPTION" | trans }} </h6>
                 </div>
                 <div class="modal-body">
                     <div class="col-xs-6  col-md-3">
@@ -15,11 +15,11 @@
                     <br/>
                     <span class="stock" style="color: black;text-align: left;"> {{ souscrptions.quantite|number_format(0, ',', '.') }} {{ souscrptions.demand.measure }}s. Prix : {{ souscrptions.demand.prixUnit|number_format(0, ',', '.') }} FCFA / {{ souscrptions.demand.measure }}  </span>
                     <br/>
-                    <i class="fa fa-share-alt" > </i>   Approuvez - vous cette souscription ?
+                    <i class="fa fa-share-alt" > </i> {{ "Approuvez - vous cette souscription ?" | trans }}  
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default round-xl btn-xs" data-dismiss="modal">Non</button>
-                    <button type="submit" class="btn btn-primary round-xl btn-xs">Oui</button>
+                    <button type="button" class="btn btn-default round-xl btn-xs" data-dismiss="modal"> {{ "Non" | trans }} </button>
+                    <button type="submit" class="btn btn-primary round-xl btn-xs"> {{ "Oui" | trans }}</button>
                 </div>
             </div>
         </div>

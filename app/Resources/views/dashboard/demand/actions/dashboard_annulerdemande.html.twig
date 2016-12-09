@@ -5,7 +5,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h6 class="modal-title" id="myModalLabel">ANNULATION DE LA DEMANDE </h6>
+                    <h6 class="modal-title" id="myModalLabel"> {{ "ANNULATION DE LA DEMANDE" | trans }} </h6>
                 </div>
                 <div class="modal-body">
                     <div class="col-xs-6  col-md-3">
@@ -16,11 +16,11 @@
                     <div class="form-group">
                         <textarea class="form-control" id="exampleTextarea" rows="3" name="canceledReason" placeholder="Entrer le motif de l'annulation de la demande ici" required="true"></textarea>
                     </div>
-                    <i class="fa fa-trash-o" > </i>   Confirmez - vous l'annulation de la demande du marché ?
+                    <i class="fa fa-trash-o" > </i>  {{ "Confirmez - vous l'annulation de la demande du marché ?" | trans }} 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default round-xl btn-xs" data-dismiss="modal">Non</button>
-                    <button type="submit" class="btn btn-primary round-xl btn-xs">Oui</button>
+                    <button type="button" class="btn btn-default round-xl btn-xs" data-dismiss="modal"> {{ "Non" | trans }} </button>
+                    <button type="submit" class="btn btn-primary round-xl btn-xs"> {{ "Oui" | trans }}</button>
                 </div>
             </div>
         </div>
