@@ -314,3 +314,6 @@ form .input-group-addon {
     height: 45px;
     width: 45px
 }
+form .row {
+    margin-top: 0;
+}

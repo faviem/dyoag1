@@ -9,7 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Ben\UserBundle\Form\Type\ProfileFormType;
-
+use Ben\UserBundle\Form\Type\ProfileProFormType;
 /**
  * moncompte controller.
  *
@@ -37,17 +37,32 @@ class MoncompteController extends Controller {
      */
     public function profileAction(Request $request) {
         $user = $this->container->get('security.token_storage')->getToken()->getUser();
+        /** @var $userManager \FOS\UserBundle\Model\UserManagerInterface */
+        $userManager = $this->get('fos_user.user_manager');
         if (!is_object($user)) {
             throw new AccessDeniedException('This user does not have access to this section.');
         }
-        $form = $this->get('form.factory')->create(ProfileFormType::class, $user, [
+        
+        $formType = $this->getFormType($user->getProfil());
+        $form = $this->get('form.factory')->create($formType, $user, [
             "method" => "post",
         ]);
         $form->handleRequest($request);
-
+        if ($form->isValid()) {
+            $userManager->updateUser($user);
+        }
         return $this->render('dashboard/moncompte/profile.html.twig', array(
-                    'form' => $form->createView()
+            'form' => $form->createView()
         ));
+    }
+
+    private function getFormType($user_profile) {
+        switch ($user_profile) {
+            case 'Professionnel':
+                return ProfileProFormType::class;
+            default:
+                return ProfileFormType::class;
+        }
     }
 
 }

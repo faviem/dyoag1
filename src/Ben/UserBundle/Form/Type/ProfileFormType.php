@@ -39,9 +39,9 @@ class ProfileFormType extends BaseType {
 
         // Ajoute le champ personnalisé aux formulaires de mise à jour du profile
         $builder
-                ->add('plainPassword', ResettingFormType::class, array(
-                    'required' => false,
-                ))
+//                ->add('plainPassword', ResettingFormType::class, array(
+//                    'required' => false,
+//                ))
                 ->add('firstname', TextType::class, array(
                     'attr' => array(
                         'placeholder' => 'registration.firstname',
@@ -62,19 +62,19 @@ class ProfileFormType extends BaseType {
                         'placeholder' => 'registration.phone',
                     )
                 ))
-                ->add('username', TextType::class, array(
-                    'attr' => array(
-                        'placeholder' => 'registration.name',
-                    )
-                ))
-                ->add('email', EmailType::class, array(
-                    'attr' => array(
-                        'placeholder' => 'registration.form_email',
-                    )
-                ))
+//                ->add('username', TextType::class, array(
+//                    'attr' => array(
+//                        'placeholder' => 'registration.name',
+//                    )
+//                ))
+//                ->add('email', EmailType::class, array(
+//                    'attr' => array(
+//                        'placeholder' => 'registration.form_email',
+//                    )
+//                ))
                 ->add('user_category', EntityType::class, array(
                     'class' => 'AppBundle:User\UserCategory',
-                    'placeholder' => '',
+                    'placeholder' => 'Vous êtes',
                     'required' => true
                 ))
                 ->add('fields', EntityType::class, array(
@@ -83,14 +83,11 @@ class ProfileFormType extends BaseType {
                     'required' => true,
                     'multiple' => true,
                 ))
-                ->add('profil', ChoiceType::class, array(
-                    'choices' => array(
-                        'Particlier' => 'Particlier',
-                        'Professionnel' => 'Professionnel',
-                    ),
-                    'placeholder' => '',
-                    'required' => true
-                ))
+//                ->add('profil', TextType::class, array(
+//                    'attr' => array(
+//                        'placeholder' => '',
+//                    )
+//                ))
 //                ->add('oldPlainPassword', PasswordType::class, array(
 //                    'constraints' => array(
 //                        new UserPassword(),

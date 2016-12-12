@@ -3,7 +3,9 @@ parameters:
     ben_user.register.form.type.class: Ben\UserBundle\Form\RegistrationFormType
     ben_user.resetting.form.type.class: Ben\UserBundle\Form\Type\ResettingFormType
     ben_user.profile.form.type.class: Ben\UserBundle\Form\Type\ProfileFormType
+    ben_user.profile_pro.form.type.class: Ben\UserBundle\Form\Type\ProfileProFormType
     fos_user.entity.user.class: AppBundle\Entity\User\User
+    fos_user.entity.user_pro.class: AppBundle\Entity\User\Professional
 #    my_user_provider.class: Ben\UserBundle\Security\Core\User\FOSUBUserProvider
     ben_user_security.authentication_handler: Ben\UserBundle\Handler\AuthenticationHandler
 services:
@@ -38,7 +40,12 @@ services:
         arguments: [%fos_user.entity.user.class%]
         tags:
             - { name: form.type }
-
+            
+    ben_user.profile_pro.form.type:
+        class: %ben_user.profile_pro.form.type.class%
+        arguments: [%fos_user.entity.user_pro.class%]
+        tags:
+            - { name: form.type }
 #    my_user_provider:
 #        class: "%my_user_provider.class%"
 #        #this is the place where the properties are passed to the UserProvider - see config.yml
@@ -47,10 +54,6 @@ services:
     fbn_user.login_entry_point:
         class: Ben\UserBundle\EventListener\LoginEntryPoint
         arguments: [ '@router' ]
-
-
-
-
 
     authentication_handler:
         class:  %ben_user_security.authentication_handler%
