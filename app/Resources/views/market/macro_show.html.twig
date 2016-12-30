@@ -1,0 +1,190 @@
+{% macro show(entity, form, type, relativeEntities, action) %}
+    <section class="well well-sm section-border single-product">
+        <div class="container">
+            <div class="row product">
+                <div class="col-md-7 text-center">
+                    <div class="slider">
+                        <div class="swiper-container gallery-top swiper-container-horizontal" data-lightbox="gallery">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide rem_class" style="width: 653px; margin-right: 10px;">
+                                    <div class="swiper-slide-caption">
+                                        <a data-lightbox="image" href="{{ asset(product_images ~'/'~ entity.imageName) }}" class="mfp-image">
+                                            <img alt="" src="{{ asset(product_images ~'/'~ entity.imageName) }}">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5 text-center text-md-left">
+                    <h1 class="h1-variant-2">{{entity.product.name}}</h1>
+                    {{ form_start(form, {'method': 'POST', 'action':path(action~'_new'), 'attr':{'class': 'ajaxForm'}}) }}
+                    <div class="caption">
+                        <span class="text-uppercase txt-gray-light small">quantité</span>
+                        <span class="quantity round-xl">
+                            {{ form_widget(form.quantite, {'attr' : {'class' : 'form-control', 'min' : 1}} )}}
+                            <input type="hidden" name="{{type}}_id" value="{{entity.id}}">
+                        </span>
+                        <br>
+                        <span class="text-uppercase txt-gray-light small">Prix </span><span class="price sale">{{ entity.prixUnit }} </span> <span class="measure">FCFA / {{ entity.measure }}</span>
+                        <address>
+                            <dl class="info-list offset-5">
+                                <dt>Par</dt>
+                                <dd> {{ entity.user.firstName }} &nbsp; {{ entity.user.lastName|first|upper }}. </dd>
+                                <a role="button" id="show_contact" class="btn btn-default round-xl btn-sm" href="#">Contatez-le</a>
+                            </dl>
+                        </address>
+                        <button  type="submit" id="order" class="btn btn-primary round-xl btn-sm  offset-6">
+                            {{ (type == 'vente') ? 'Commander' : 'Souscrire' }}
+                        </button>
+                        {{ form_end(form) }}
+
+                    </div>
+                </div>
+                <div class="col-xs-12 offset-2">
+                    <!--Tabs-->
+                    <ul class="nav nav-tabs text-center product" role="tablist" id="myTabs">
+                        <li class="round-large text-dark-variant-3" role="presentation">
+                            <a class="round-large" role="tab" aria-controls="tab0" href="#tab0">Description</a>
+                        </li>
+                        <li class="round-large text-dark-variant-3 active" role="presentation">
+                            <a class="round-large" role="tab" aria-controls="tab1" href="#tab1">Information complémentaire</a>
+                        </li>
+                    </ul>
+                    <!--Tab panes-->
+                    <div class="tab-content text-sm-left">
+                        <div class="tab-pane fade" id="tab0" role="tabpanel">
+                            <p class="lead text-base">
+                                {{ entity.description }}
+                            </p>
+                        </div>
+                        <div class="tab-pane fade active in" id="tab1" role="tabpanel">
+                            <!--Table-striped-->
+                            <table class="table table-striped-odd table-mobile mobile-primary">
+                                <colgroup>
+                                    <col class="col-xs-4">
+                                    <col class="col-xs-8">
+                                </colgroup>
+                                <tbody>
+                                    <tr class="count-off">
+                                        <td class="boder-none small font-secondary text-uppercase letter-spacing-1 txt-gray-light">Categorie</td>
+                                        <td class="boder-none">{{ entity.product.category.name }}</td>
+                                    </tr>
+                                    <tr class="count-off">
+                                        <td class="boder-none small font-secondary text-uppercase letter-spacing-1 txt-gray-light">Quantité disponible</td>
+                                        <td class="boder-none">{{ entity.quantite }}</td>
+                                    </tr>
+                                    <tr class="count-off">
+                                        <td class="boder-none small font-secondary text-uppercase letter-spacing-1 txt-gray-light">Localité</td>
+                                        <td class="boder-none">{{ entity.lieu }}</td>
+                                    </tr>
+                                    <tr class="count-off">
+                                        <td class="boder-none small font-secondary text-uppercase letter-spacing-1 txt-gray-light">Commune</td>
+                                        <td class="boder-none">{{ entity.district.city }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% if relativeEntities|length > 1 %}
+        <section class="text-center well well-sm">
+            <!--Item slider text-->
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-9">
+                        <h5 class="text-dark-variant-4 text-left">Autres offres relatives à ce produit</h5>
+                    </div>
+                    <div class="col-md-3">
+                        <!-- Controls -->
+                        <div class="controls pull-right hidden-xs">
+                            <a class="left fa fa-chevron-left btn btn-default" href="#itemslider"data-slide="prev"></a>
+                            <a class="right fa fa-chevron-right btn btn-default" href="#itemslider" data-slide="next"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item slider-->
+            <div class="container">
+
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <div class="carousel carousel-showmanymoveone slide" id="itemslider">
+                            <div class="carousel-inner">
+                                {% for relativeEntity in relativeEntities %}
+                                    {% if loop.first %}
+                                        <div class="item active product tumbnail">
+                                            <div class="col-xs-12 col-sm-6 col-md-2">
+                                                <a href="{{ path(type~'_show', { 'id': relativeEntity.id }) }}">
+                                                    <img class="img-responsive center-block img-circle img-sm" alt="" src="{{ asset(product_images ~'/'~ relativeEntity.imageName)|imagine_filter('my_thumb') }}">
+                                                </a>
+                                                <h4 class="text-center"><a href="{{ path(type~'_show', { 'id': relativeEntity.id }) }}">{{ relativeEntity.product.name }}</a></h4>
+                                                <h5 class="text-center"><span class="price sale">{{ relativeEntity.prixUnit }} FCFA / {{ relativeEntity.measure }}</span></h5>
+                                            </div>
+                                        </div>
+                                    {% else %}
+                                        <div class="item product tumbnail">
+                                            <div class="col-xs-12 col-sm-6 col-md-2">
+                                                <a href="{{ path(type~'_show', { 'id': relativeEntity.id }) }}">
+                                                    <img class="img-responsive center-block img-circle img-sm" alt="" src="{{ asset(product_images ~'/'~ relativeEntity.imageName)|imagine_filter('my_thumb') }}">
+                                                </a>
+                                                <h4 class="text-center"><a href="{{ path(type~'_show', { 'id': relativeEntity.id }) }}">{{ relativeEntity.product.name }}</a></h4>
+                                                <h5 class="text-center"><span class="price sale">{{ relativeEntity.prixUnit }} FCFA / {{ relativeEntity.measure }}</span></h5>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+    {% endif %}
+    <!-- Item slider end-->
+    <div id="contact-dialog" class="modal fade" tabindex="-1"  role="dialog" aria-labelledby="contact-dialogLabel">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h3 class="modal-title " id="contact-dialogLabel">
+                        {{ 'Affiche contact'|trans }}
+                    </h3>
+                </div>
+                <!-- dialog body -->
+                <div class="modal-body">
+                    <address>
+                        <dl>
+                            <dt><i class="fa fa-user" aria-hidden="true"></i> {{ entity.user.firstName }} &nbsp; {{ entity.user.lastName }}. </dt>
+                        </dl>
+                        <dl>
+                            <dt>
+                                <i class="fa fa-phone" aria-hidden="true"></i>
+                                <a href="callto:{{ phone_number_format(entity.user.phone, 'INTERNATIONAL') }}">{{ phone_number_format(entity.user.phone, 'INTERNATIONAL') }}</a>
+                            </dt>
+                        </dl>
+                        <dl>
+                            <dt>
+                                <a href="#"></a>
+                            </dt>
+                        </dl>
+                    </address>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default round-xl btn-sm" data-dismiss="modal"><i class="fa fa-close" aria-hidden="true"></i> Fermer</button>
+                    <button type="button" class="btn btn-primary round-xl btn-sm"><i class="fa fa-envelope" aria-hidden="true"></i> Contater</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endmacro %}

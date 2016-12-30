@@ -1,0 +1,12 @@
+{% extends 'market.html.twig' %}
+
+{% block container %}
+    {% import "market/macro_show.html.twig" as macroShow %}
+    {{ macroShow.show(demand, form, 'demand', relativeDemands, 'supply') }}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        require(['demands/show']);
+    </script>
+{% endblock %}

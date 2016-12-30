@@ -1,9 +1,11 @@
 parameters:
 #    security.user_checker.class: Ben\UserBundle\Security\Core\User\UserChecker
-    ben_user.register.form.type.class: Ben\UserBundle\Form\Type\RegistrationFormType
+    ben_user.register.form.type.class: Ben\UserBundle\Form\RegistrationFormType
     ben_user.resetting.form.type.class: Ben\UserBundle\Form\Type\ResettingFormType
     ben_user.profile.form.type.class: Ben\UserBundle\Form\Type\ProfileFormType
-    fos_user.entity.user.class: AppBundle\Entity\User\Customer
+    ben_user.profile_pro.form.type.class: Ben\UserBundle\Form\Type\ProfileProFormType
+    fos_user.entity.user.class: AppBundle\Entity\User\User
+    fos_user.entity.user_pro.class: AppBundle\Entity\User\Professional
 #    my_user_provider.class: Ben\UserBundle\Security\Core\User\FOSUBUserProvider
     ben_user_security.authentication_handler: Ben\UserBundle\Handler\AuthenticationHandler
 services:
@@ -19,7 +21,7 @@ services:
 #        public: false
 
 # Type de formulaire - Formulaire d'inscription
-            
+
     ben_user.register.form.type:
         class: Ben\UserBundle\Form\RegistrationType
 #        arguments: [%fos_user.entity.user.class%, %security.role_hierarchy.roles%]
@@ -37,8 +39,13 @@ services:
         class: %ben_user.profile.form.type.class%
         arguments: [%fos_user.entity.user.class%]
         tags:
-            - { name: form.type, alias: ben_user_profile }
+            - { name: form.type }
             
+    ben_user.profile_pro.form.type:
+        class: %ben_user.profile_pro.form.type.class%
+        arguments: [%fos_user.entity.user_pro.class%]
+        tags:
+            - { name: form.type }
 #    my_user_provider:
 #        class: "%my_user_provider.class%"
 #        #this is the place where the properties are passed to the UserProvider - see config.yml
@@ -48,12 +55,14 @@ services:
         class: Ben\UserBundle\EventListener\LoginEntryPoint
         arguments: [ '@router' ]
 
-
-
-
-
     authentication_handler:
         class:  %ben_user_security.authentication_handler%
-        arguments:  ['@router']
+        arguments:  ['@service_container']
         tags:
             - { name: 'monolog.logger', channel: 'security' }
+
+    ben_user_register_listener:
+        class:  Ben\UserBundle\EventListener\RedirectionListener
+        arguments:  ['@service_container']
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }

@@ -1,0 +1,69 @@
+{% extends 'dashboard/layout.html.twig' %}
+
+{% block  ajoutmenu %}
+    <section class="add-buttons button-right hidden-phone hidden-tablet">
+        <a class="itemadd" href="{{ path('dashboard_newdemandebrouillon') }}" id='demand-btn'>
+            <span class="add-icon">
+                <span class="add-text">Ajoutez un brouillon</span>
+            </span>
+        </a>
+    </section>
+{% endblock %}
+{% block  title %} Mes Demandes {% endblock %}
+{% block  menuentete %}
+    <!--Tabs-->
+    <ul class="nav nav-tabs text-center product" role="tablist" id="myTabs">
+        <li class="round-large text-dark-variant-3 active" role="presentation">
+            <a class="round-large" role="tab" aria-controls="tab0" href="#tab0" id="dashboard_mesdemandesPublies">
+                {{  publies|number_format(0, ',', '.') }} <i class="fa fa-share-alt"> </i>  {{ 'Publications' | trans }} </a>
+        </li>
+        <li class="round-large text-dark-variant-3" role="presentation">
+            <a class="round-large" role="tab" aria-controls="tab1" href="#tab1" id="dashboard_mesdemandesBrouillons">
+                {{ brouillons|number_format(0, ',', '.') }} <i class="fa fa-book"> </i> {{ 'Brouillons' | trans }}  </a>
+        </li>
+        <li class="round-large text-dark-variant-3" role="presentation">
+            <a class="round-large" role="tab" aria-controls="tab2" href="#tab2" id="dashboard_mesdemandesExpires">
+                {{ expires|number_format(0, ',', '.') }}  <i class="fa fa-calendar"> </i>   {{ 'Expirées' | trans }}  </a>
+        </li>
+        <li class="round-large text-dark-variant-3" role="presentation">
+            <a class="round-large" role="tab" aria-controls="tab3" href="#tab3" id="dashboard_mesdemandesResolus">
+                {{ resolus|number_format(0, ',', '.') }}  <i class="fa fa-desktop"> </i>   {{ 'Résolues' | trans }}  </a>
+        </li>
+        <li class="round-large text-dark-variant-3" role="presentation">
+            <a class="round-large" role="tab" aria-controls="tab4" href="#tab4" id="dashboard_mesdemandesCorbeille">
+                {{ corbeille|number_format(0, ',', '.') }} <i class="fa fa-trash-o"> </i>  {{ 'Corbeille' | trans }} </a>
+        </li>
+    </ul>
+{% endblock %}
+
+{% block  corps %}
+   <img class="startSynchorne" src="/uploads/fixture_images/synchronisation.GIF" alt="{{ 'Synchronisation' | trans }}" class="hide">
+        
+    <div class="tab-pane fade active in" id="tab0" role="tabpanel">
+        <div id="publieesDemande" class="row flow-offset-1 clearleft">
+        </div>
+    </div>
+    <div class="tab-pane fade" id="tab1" role="tabpanel">
+        <div id="brouillonsDemande" class="row flow-offset-1 clearleft">
+        </div>
+    </div>
+    <div class="tab-pane fade" id="tab2" role="tabpanel">
+        <div id="expireesDemande" class="row flow-offset-1 clearleft">
+        </div>
+    </div>
+    <div class="tab-pane fade" id="tab3" role="tabpanel">
+        <div id="resoluesDemande" class="row flow-offset-1 clearleft">
+        </div>
+    </div>
+    <div class="tab-pane fade" id="tab4" role="tabpanel">
+        <div id="corbeillesDemande" class="row flow-offset-1 clearleft">
+        </div>
+    </div>
+    
+{% endblock  corps %}
+
+{% block javascriptsMarket %}
+    <script>
+        require(['dashboard/mesdemands']);
+    </script>
+{% endblock %}

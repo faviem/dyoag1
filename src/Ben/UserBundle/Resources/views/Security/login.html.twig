@@ -13,35 +13,41 @@
 {% block entetetitle %}Connexion | {{ parent() }}{% endblock %}
 {# La barre latéralke de la page #}
 {% block aside %}{{ parent() }}{% endblock %}
-    
+
 {% block fos_user_content %}
 
-{% trans_default_domain 'FOSUserBundle' %}
-         
-<h5 class="text-center">Connexion ou <a href="{{ path("fos_user_registration_register") }}">Inscription</a></h5>
+    {% trans_default_domain 'FOSUserBundle' %}
+    <div class="col-md-6 col-md-offset-3 btn-shadow inset-sm-min bg-white round-large">
+        {% for flash_message in app.session.flashBag.get('info') %}
+            <div class="alert alert-info alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>Info!</strong> {{ flash_message }}
+            </div>
+        {% endfor %}
+        <h5 class="text-center">Connexion ou <a class="btn btn-info btn-sm round-xl offset-2" href="{{ path("fos_user_registration_register") }}">Inscription</a></h5>
         <form class="row label-insets" action="{{ path("fos_user_security_check") }}" method="post" autocomplete="off">
-        {% if error %} 
-            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-        {% endif %}
+            {% if error %}
+                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
             <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
             <div class="form-group col-sm-12 text-left">
                 <label class="text-uppercase font-secondary" for="username">Nom d'utilisateur ou email</label>
                 <input type="text" class="form-control" id="username" name="_username" value="{{ last_username }}" required="required">
             </div>
             <div class="form-group col-sm-6 text-left">
-               <label class="text-uppercase font-secondary" for="password">Mot de passe</label>
-               <input type="password" class="form-control" id="password" name="_password" required="required">
+                <label class="text-uppercase font-secondary" for="password">Mot de passe</label>
+                <input type="password" class="form-control" id="password" name="_password" required="required">
             </div>
             <div class="col-sm-6">
-                <button class="btn btn-primary btn-xs round-xl btn-block form-el-offset-1" type="submit">Connectez</button>
+                <button class="btn btn-primary btn-xs round-xl form-el-offset-1" type="submit">Connectez</button>
             </div>
-            <div class="form-group col-sm-12">                        
+            <div class="form-group col-sm-12">
                 <p class="omb_forgotPwd">
-                <label class="">
-                     <input type="checkbox" class="" name="remember_me" id="remember_me" checked="checked">{{ 'security.login.remember_me'|trans({}, 'FOSUserBundle') }}
-                </label>
-                <a href="{{ path("fos_user_resetting_request") }}">{{ 'security.forgotpassword'|trans({}, 'FOSUserBundle') }}</a>
-            </div>          
+                    <label class="">
+                        <input type="checkbox" class="" name="remember_me" id="remember_me" checked="checked">{{ 'security.login.remember_me'|trans({}, 'FOSUserBundle') }}
+                    </label>
+                    <a href="{{ path("fos_user_resetting_request") }}">{{ 'security.forgotpassword'|trans({}, 'FOSUserBundle') }}</a>
+            </div>
         </form>
-           
+    </div>
 {% endblock fos_user_content %}

@@ -1,0 +1,78 @@
+{% extends 'dashboard/layout.html.twig' %}
+
+{% block  title %} Mon Compte {% endblock %}
+{% block  menuentete %}
+    <!--Tabs-->
+
+{% endblock %}
+{% block  corps %}
+    <div class="row" style="min-height: 450px;">
+        <div class="col-sm-6 col-md-3 user-details">
+            <div class="user-image">
+                <img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&f=y" alt="{{ app.user.firstname }}" title="{{ app.user.firstname }}" class="img-circle">
+            </div>
+            <div class="user-info-block">
+                <div class="user-heading">
+                    <h3>{{ app.user.firstname}} {{ app.user.lastname}}</h3>
+                    <span class="help-block">{{ app.user.userCategory }}</span>
+                    <a class="rating" href="#">
+                        <span class="material-design-mark1"></span>
+                        <span class="material-design-mark1"></span>
+                        <span class="material-design-mark1"></span>
+                        <span class="material-design-halffilled1"></span>
+                        <span class="material-design-bookmark45"></span>
+                    </a>
+                </div>
+                <ul class="navigation">
+                    <li class="active">
+                        <a href="{{ path('dasboard_moncompte_profile') }}" title="{{ "Mon Profil"|trans() }}">
+                            <span class="fa fa-user"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a  href="{{ path('dasboard_moncompte_setting') }}" title="{{ "Paramètres"|trans() }}">
+                            <span class="fa fa-cog"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('notifications_list_dash') }}" title="{{ "Notifications"|trans() }}">
+                            <span class="fa fa-bell-o"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-toggle="tab" href="{{ path("fos_user_security_logout") }}" title="{{ "Déconnexion"|trans() }}">
+                            <span class="fa fa-power-off"></span>
+                        </a>
+                    </li>
+                </ul>
+                {#
+                <div class="user-body">
+                    <div class="tab-content">
+                        <div id="information" class="tab-pane active">
+                            <h6>{{ 'Informations du comptes' | trans }}</h6>
+                        </div>
+                        <div id="settings" class="tab-pane">
+                            <h6>{{ 'Paramètres' | trans }}</h6>
+                        </div>
+                        <div id="email" class="tab-pane">
+                            <h6>{{ 'Boîte de Messagerie' | trans }}</h6>
+                        </div>
+                        <div id="events" class="tab-pane">
+                            <h6>{{ 'Evènements' | trans }}</h6>
+                        </div>
+                    </div>
+                </div>
+                #}
+            </div>
+        </div>
+        <div class="col-sm-6  col-md-9">
+            {% block  moncompte %} CONTENU A IMPLEMENTER{% endblock %}
+        </div>
+    </div>
+{% endblock  corps %}
+
+{% block javascriptsMarket %}
+    <script>
+        require(['dashboard/moncompte']);
+    </script>
+{% endblock %}
