@@ -1,0 +1,86 @@
+{% extends '/dashboard/demand/dashboard_mesdemandes.html.twig' %}
+{% block  menuentete %}
+{% endblock %}
+
+{% block  corps %}
+    {% set compte=0%}
+    {% set qte=0 %}{% set nbre=0%}
+    {% for souscrptions in demande.supplies %}
+        {% if souscrptions.canceled==0 and souscrptions.deleted==0 %}
+            {% set nbre=nbre+1 %}
+            {% if  souscrptions.accepted==1 %}
+                {% set qte=qte+souscrptions.quantite %}
+            {% endif %}
+
+        {% endif %}
+    {% endfor %}
+    <div class="col-xs-6  col-md-3" style="min-height: 355px;">
+        <div class="product tumbnail thumbnail-3">
+            <a href="#">
+                <img class="img-circle" alt="" src="{{ asset(product_images ~'/'~ demande.imageName)|imagine_filter('my_thumb') }}">
+            </a>
+            <div class="caption">
+                <h6>
+                    <a href="{{ path('demand_show', { 'id': demande.id }) }}">{{ demande.product.name }}</a>
+                </h6>
+                <i class="fa fa-money" aria-hidden="true"></i> <span class="price sale" style="font-size: 13px;color: #005074;">{{ demande.prixUnit|number_format(0, ',', '.') }} FCFA / {{ demande.measure }}</span>
+                <br>
+                <span class="stock" style="font-size: 13px;color: black;">{{ (demande.quantite-qte)|number_format(0, ',', '.') }} {{ demande.measure }}s en stock. </span>
+                <dl>
+                    <dt style="font-size: 13px;color: black;">  <i class="fa fa-calendar" aria-hidden="true"> </i> {{ demande.createat|date('d M y') }}</dt>
+                </dl><br/>
+                <a class="btn btn-default round-xl btn-xs"  href="{{ path('dashboard_mesdemandes') }}" title=""> <i class="fa fa-share-alt" > {{ 'RETOUR'|trans() }} </i> 
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-9" style="min-height: 355px;">
+        <div class="product tumbnail">
+            <div class="table-responsive">
+                <table class="table .table-hover">
+                    <caption> {{ nbre|number_format(0, ',', '.') }}  {{ 'SOUSCRIPTIONS RECUES'|trans() }} </caption>
+
+                    <thead> <!-- En-tête du tableau -->
+                        <tr>
+                            <th style="text-align: center;font-size: 12px;">{{ 'Nom du vendeur'|trans() }}</th>
+                            <th style="text-align: center;font-size: 12px;">{{ 'Quantité vendue'|trans() }}</th>
+                            <th style="text-align: center;font-size: 12px;">{{ 'Date effectuée'|trans() }}</th>
+                            <th style="text-align: center;font-size: 12px;">{{ 'Etat'|trans() }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Corps du tableau -->
+                        {% set nbre=0%}
+
+                        {% for souscrptions in demande.supplies %}
+                            {% if souscrptions.canceled==0 and souscrptions.deleted==0 %}
+                                {% set nbre=nbre+1 %}
+                                <tr>
+                                    <td style="text-align: left;"> {{ souscrptions.user.lastName }}</td>
+                                    <td> {{ souscrptions.quantite|number_format(0, ',', '.') }}</td>
+                                    <td> {{ souscrptions.createAt|date('d M y') }}</td>
+                                    <td> 
+                                        {% if souscrptions.accepted==1 %} Acceptée 
+                                        {% else %}  
+                                         <a class="btn btn-default round-xl btn-xs" data-toggle="modal" data-target="#approuver{{ souscrptions.id }}" href="#" title="Approuver la souscription"> <i class="fa fa-share-alt"> </i>  </a>
+                                         {% include 'dashboard/demand/actions/dashboard_approuversous.html.twig'  %}        
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if  nbre==0 %}
+                            <tr>
+                                <td colspan="4"> {{ "AUCUNE SOUSCRIPTION N'EXISTE DANS LA TABLE"|trans() }}  !!!</td>
+                            </tr>
+                        {% endif %}
+
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock  corps %}

@@ -8,46 +8,48 @@
  *
  */
 
-require(['jquery.ui'], function() {  
+require(['jquery.ui', 'select2'], function () {
     'use strict';
 
-    $(function() {
+    $(function () {
 
         /**
          * Register.
-         * 
+         *
          * @version 1.0 [17 Mai 2016]
          * @author Jacques ADJAHOUNGBO
          */
 
-            function Register() {
+        function Register() {
 
-                this.init();
-            }
+            this.init();
+            $('.form-group>select').select2({
+                theme: "bootstrap"
+            });
+            $('#ben_user_registration_profil').trigger('change');
+        }
 
-            Register.prototype = {
-
-                init: function() {
-                    $('#ben_user_registration_profil').change( function() {
-                        $.ajax({
-                            type: "GET",
-                            data: "data=" + $(this).val(),
-                            url: Routing.generate('ben_user_render_form'),
-                            success: function(response){
-                                if (response !== ''){
-                                   $('#rendered').html(response);
-                                }
-                                else
-                                {
-                                    $('#rendered').html('<em>No item result</em>');
-                                }
+        Register.prototype = {
+            init: function () {
+                $('#ben_user_registration_profil').change(function () {
+                    $.ajax({
+                        type: "GET",
+                        data: "data=" + $(this).val(),
+                        url: Routing.generate('ben_user_render_form'),
+                        success: function (response) {
+                            if (response !== '') {
+                                $('#rendered').html(response);
+                            } else
+                            {
+                                $('#rendered').html('<em>No item result</em>');
                             }
-                        });
-                      });
-                }
+                        }
+                    });
+                });
             }
+        }
 
-            new Register();
+        new Register();
 
     });
 

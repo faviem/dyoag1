@@ -1,0 +1,10 @@
+{% import "market/macro_list.html.twig" as macroList %}
+
+{{ macroList.list(pagination, 'demand') }}
+<div class="container">
+    <div class="col-inset-2 text-center btn-group" role="group" aria-label="First group">
+        <div id="pagination" class="navigation">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+    </div>
+</div>

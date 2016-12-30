@@ -8,8 +8,7 @@
  *
  */
 
-requirejs.config({  
-    
+requirejs.config({
     baseUrl: '/js/app',
     paths: {
         'jquery': '/assets/js/jquery',
@@ -23,9 +22,16 @@ requirejs.config({
         'backbone.localStorage': '/assets/js/backbone.localStorage',
         'twig': 'vendor/twig',
         'backbone.nested': '/assets/js/backbone-nested',
-        'backbone.associations': '/assets/js/backbone-associations'
+        'backbone.associations': '/assets/js/backbone-associations',
+        'jquery.spin': 'vendor/jquery.spin',
+        'spin': 'vendor/spin',
+        //dashboard
+        'jquery.nicescroll': 'vendor/jquery.nicescroll',
+        'canvasjs': 'vendor/canvasjs.min',
+        'datatable': '/assets/js/datatable',
+        'datapicker': 'vendor/bootstrap-datepicker.min',
+        'select2': '/assets/js/select2',
     },
-    
     shim: {
         'underscore': {
             exports: '_'
@@ -35,16 +41,25 @@ requirejs.config({
             exports: 'Backbone'
         },
         'jquery.ui': {
-            deps:    ['jquery'],
+            deps: ['jquery'],
             exports: '$'
         },
         'bootstrap': {
-            deps:    ['jquery'],
+            deps: ['jquery'],
         },
-        
-        'backbone.nested':{
-            deps:    ['backbone', 'backbone.associations']
-        }
+        'backbone.nested': {
+            deps: ['backbone', 'backbone.associations']
+        },
+        'chosen': {
+            deps: ['jquery'],
+        },
+        'jquery.spin': {
+            deps: ['spin'],
+        },
+        'datatable': {
+            deps: ['jquery'],
+            export: 'DataTable',
+        },
     }
 });
 
@@ -56,7 +71,7 @@ require([
 
     /**
      * Entry point of web application builder.
-     * 
+     *
      * @author Jacques Adjahoungbo <jtocson@gmail.com>
      */
     var initialize = function () {
